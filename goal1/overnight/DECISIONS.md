@@ -97,3 +97,25 @@ Format: time / situation / alternatives / choice and reason / original criterion
   checked offline (torso cost share) like WP3. The hand rests 1.5 s at each end: on the human side 3 cm from the off sweep, on the far side inside it
   (-3 to -4 cm), so the robot meets a hand that sits in its path. This is the intended "crossing" task, kept for both conditions.
 - Runs: M1, M2 x 0.25, 0.5 m/s x uniform / ours x seeds 0-2 (seed 2 = reserve item 1) + M1 0.5 m/s with P (WP1 best variant, D1-3) seeds 0-1.
+
+## D6-0 01:52 WP6 tuning goals (written before any tuning run)
+- Problem chosen (1 of <= 2): near-human robot speed p99 above the 0.52 m/s must-limit in single passes: WP3 uniform P6_tipfront25 s1 0.546,
+  P3_tipfront s2 0.518 (2 of 54 WP3 runs; R1 / WP4 round trips stayed <= 0.493). This is a must-criterion, so it outranks the gap/eta goal.
+  gap/eta was considered as a second problem but the seed-0 means are already at the target (tune set uniform 0.948, ours 0.983); its seed spread
+  (0.056-0.094 between seeds, seed 2 always lowest) is larger than any plausible setting effect, so it is not tuned.
+- Must (all scenes): infeasible 0, arrival 100 %, shape penetration 0, near-human speed p99 <= 0.52 m/s, RTF >= 1.0.
+  Then: gap/eta near 0.95 with small spread across scenes, pass time <= +20 % vs uniform under t1, same passing side across seeds.
+- Shared settings only, one change each: c1 speed_cap_w 3e5 -> 1e6; c2 speed_cap_dist 0.4 -> 0.5 m. k_gain, mu_ref, eta_max untouched.
+- Split (WP3 scenes, torso-confounded P6_top18 left out): tune = P2_tipfront, P4_top, P6_tipfront25, P3_top25; check = P3_tipfront, P4_tipfront, P2_top, P6_forearmside18.
+- Runs (<= 25): each candidate on the tune set, uniform and ours, seed 1 (the seed of the 0.546 case) = 16; the better candidate on the check set,
+  seed 2 (the seed of the 0.518 case) = 8. Total 24.
+- Improvement must exceed the WP3 seed spread of the 4-scene mean: gap 0.57-0.75 cm (tune), 0.54-0.59 cm (check); ratio 0.056-0.094.
+  A candidate is dropped if the check set gets worse beyond that spread on any must item or on gap / pass time.
+- Original-setting reference = the WP3 runs with t1 (same scenes, same seeds).
+
+## D5-1 02:12 WP5 worst two and extension levels
+- Worst two (pre-set rule: largest critical-window max deficit or lowest min gap vs the base seed range, either condition): lag100 (ours max deficit
+  11.1 cm vs base 6.1-7.8) and jit2 (ours min gap 4.9 vs base 5.4-6.4; uniform 1.8; highest jerk). Both rerun with seed 1 (4 runs).
+- Every planned level (lag 50-150 ms, jitter 1-2 cm, drop 30 %) stayed without penetration and mostly inside the base seed range, so the plan's
+  levels give only a lower bound of tolerance. WP5 purpose (added rule 3): a tolerance level for each of lag, jitter, dropout. Added levels
+  lag 300 ms, jitter 4 cm, drop 60 % (uniform and ours, seed 0; 6 runs) to look for the level where it breaks. Within the WP5 time budget.

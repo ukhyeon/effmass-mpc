@@ -128,3 +128,33 @@ of that seed fell in the window.) Near-human speed p99 max 0.472-0.493 m/s in ev
   rather than squeeze past; not checked frame by frame.
 Figure: goal1/overnight/wp4_phase_gap.png. Numbers: logs/meff_isaac/on_wp4_summary.json, on_wp4_runs.json, on_wp4_passes.json, on_wp4_motion_check.json.
 
+## WP5 Perception imperfection rehearsal (01:52-02:26, 26 runs, all RTF >= 1.160, infeasible 0, recapture 0)
+R1 0.5 m/s scene (60 s round trips), seed 0 (worst two also seed 1). Replay options (all 0 = bit-equal, checked in WP0): lag (frame of t - lag),
+jitter (per frame, per segment Gaussian offset of COM and shapes, velocity consistent, noise seed 7 for both conditions), dropout (frames missing,
+last frame kept). Base = R1 runs, seeds 0-2. Measured against the true human. Extension levels lag 300 ms, jitter 4 cm, drop 60 % added (D5-1).
+| variant | uniform min gap (cm) | uniform crit max deficit | ours min gap | ours crit max deficit | ours hold gap | jerk RMS u / o (rad/s^3) | penetration |
+|---|---|---|---|---|---|---|---|
+| base (s0-s2) | 1.6-3.7 | 2.8-4.9 | 5.4-6.4 | 6.1-7.8 | 10.3-11.8 | 21.4-22.7 / 22.3-23.6 | 0 |
+| lag 50 ms | 2.8 | 3.7 | 5.6 | 7.9 | 10.7 | 22.6 / 23.0 | 0 |
+| lag 100 ms (s0, s1) | 3.5, 1.7 | 3.0, 4.8 | 5.4, 4.6 | 11.1, 10.6 | 11.0, 11.4 | 24.0, 22.5 / 22.3, 22.1 | 0 |
+| lag 150 ms | 2.1 | 4.4 | 5.2 | 6.4 | 10.7 | 22.4 / 25.0 | 0 |
+| lag 300 ms | 3.3 | 3.2 | 3.2 | 14.8 | 10.4 | 22.5 / 25.0 | 0 |
+| jitter 1 cm | 2.1 | 4.4 | 6.0 | 6.9 | 11.3 | 22.9 / 24.1 | 0 |
+| jitter 2 cm (s0, s1) | 1.8, 2.6 | 4.7, 3.9 | 4.9, 6.6 | 8.2, 7.6 | 10.2, 11.4 | 26.7, 34.8 / 25.3, 24.3 | 0 |
+| jitter 4 cm | 2.0 | 4.5 | 5.4 | 8.9 | 10.1 | 33.4 / 37.6 | 0 |
+| drop 30 % | 1.6 | 4.9 | 6.5 | 7.4 | 10.8 | 22.4 / 23.8 | 0 |
+| drop 60 % | 1.4 | 5.1 | 6.2 | 8.1 | 10.4 | 22.3 / 23.5 | 0 |
+| lag 100 + lead 0.1 s | 2.1 | 4.4 | 7.7 | 7.2 | 10.8 | 22.0 / 24.5 | 0 |
+| lag 100 + P (cv) | 5.6 | -0.5 | 8.3 | 3.9 | 10.9 | 24.8 / 27.1 | 0 |
+Near-human speed p99 0.464-0.493 m/s in every run.
+Tolerated levels (no penetration, min gap within or near the base seed range):
+- Lag: up to 50 ms no measurable change. At 100 ms ours' critical deficit grows to 10.6-11.1 cm (2 seeds, base 6.1-7.8) while the min gap stays
+  4.6-5.4 cm; at 300 ms ours' min gap drops to 3.2 cm (deficit 14.8). Uniform shows no clear trend (its base range is wide, 1.6-3.7 cm).
+  lag 150 ms (single seed) did not follow the trend (deficit 6.4); treat single-seed lag values as +-2 cm.
+- Jitter: gaps stay in range up to 4 cm (ours min 4.9-6.6); the joint command jerk rises from ~22 to 25-35 (2 cm) and 33-38 (4 cm) rad/s^3.
+- Dropout: up to 60 % (effective 12 fps with holds) no change beyond the seed range.
+- P (--meff-motion cv) with 100 ms lag: ours min gap 8.3 cm, deficit 3.9 cm, better than the lag-free base (1 seed); uniform 5.6 cm.
+Notes for the live Kinect stage: keep the end-to-end delay of the human data <= ~50-100 ms or use P; P absorbs 100 ms here. Filter the skeleton
+(jitter mostly costs command smoothness, not distance). Frame drops up to 60 % with hold-last are harmless at 0.5 m/s. Single seeds except lag100 / jit2.
+Figure: goal1/overnight/wp5_perception.png. Numbers: logs/meff_isaac/on_wp5_summary.json, on_wp5_runs.json, on_wp5_passes.json.
+

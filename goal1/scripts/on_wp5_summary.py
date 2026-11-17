@@ -7,7 +7,7 @@ import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
 H = os.path.expanduser("~"); O = f"{H}/effmass_mpc/goal1/logs/meff_isaac"; OV = f"{H}/effmass_mpc/goal1/overnight"; TR = 1.24
 P = [p for p in json.load(open(f"{O}/on_wp1_r1_passes.json")) if p["speed"] == "v050"] + json.load(open(f"{O}/on_wp5_passes.json"))
 R = [r for r in json.load(open(f"{O}/on_wp1_r1_runs.json")) if r["speed"] == "v050"] + json.load(open(f"{O}/on_wp5_runs.json"))
-ORDER = ["base", "lag050", "lag100", "lag150", "jit1", "jit2", "drop30", "lag100+L01"]
+ORDER = ["base", "lag050", "lag100", "lag150", "lag300", "jit1", "jit2", "jit4", "drop30", "drop60", "lag100+L01", "lag100+P"]
 
 
 def st(ps, r):

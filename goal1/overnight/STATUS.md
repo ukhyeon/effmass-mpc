@@ -9,7 +9,7 @@ Started 2026-11-17 23:18 KST. Disk free at start: 1.4 TB (/dev/sda6, 19% used).
 | 2 posture zone maps | 0.75 h | done | 00:16 | 00:32 | 0 (no MPC) |
 | 3 static scene matrix | 1.75 h | done | 00:30 | 01:10 | 65 |
 | 4 moving collab scenes | 1.5 h | done | 01:10 | 01:52 | 28 |
-| 5 perception imperfection | 1.0 h | in progress | 01:52 | | |
+| 5 perception imperfection | 1.0 h | done | 01:52 | 02:26 | 26 |
 | 6 tuning | 1.0 h | waiting | | | |
 | 7 wrap-up | 1.25 h | waiting | | | |
 
