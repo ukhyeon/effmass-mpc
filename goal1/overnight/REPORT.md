@@ -118,7 +118,7 @@ seeds 0-2 (seed 2 = reserve item 1); M1 0.5 m/s also with P (--meff-motion cv), 
 | M2 0.5 | ours | 6.4 / 6.7 / 3.8 | - / - / 3.1 | - | 0 / 0 | 18 / 19 / 18 | 3, 5.0 s |
 (critical window: M1 robot crosses within [-T_reach, +0.25 s] of hold onset; M2 within +-T_sweep/2 of the hand reaching the TCP line. "-" = no pass
 of that seed fell in the window.) Near-human speed p99 max 0.472-0.493 m/s in every group.
-- M1 hand-over: ours keeps the larger distance in every seed at both speeds (min gap +1.7 to +3.8 cm over uniform's seed range; hold gap 10.1 vs 5.8-5.9 cm)
+- M1 hand-over: ours keeps the larger distance at both speeds (min gap mean +3.2 cm at 0.25 m/s, +2.9 cm at 0.5 m/s; every ours seed above every uniform seed; hold gap 10.1 vs 5.8-5.9 cm)
   with no loss of throughput (25-27 vs 26-28 passes). With P the critical deficit drops to <= 0.9 cm in both conditions and ours' min gap rises to 9.0-10.0 cm (2 seeds).
 - M1 torso: the hand-over placement has the torso 0.26 m from the sweep; ours had torso cost on 0-55 steps per run, 0-1.4 % of the summed per-step
   maximum cost. Small; the hand dominates.
