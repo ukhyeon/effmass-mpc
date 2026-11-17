@@ -29,7 +29,7 @@ json.dump(out, open(f"{O}/on_wp5_summary.json", "w"), indent=1)
 for k, x in out.items():
     print(f"{k:22s} min {100*x['min_gap']:5.1f} crit {100*x['crit_min_gap']:5.1f} maxdef {100*x['crit_max_deficit']:5.1f} meandef {100*x['crit_mean_deficit']:5.1f} hold {100*(x['hold_mean_gap'] or np.nan):5.1f} "
           f"pen {x['pen_shape']}/{x['pen_mesh']} acc {x['acc_rms']:.3f} jerk {x['jerk_rms']:.1f} rtf {x['rtf']:.3f} v99 {x['v99']:.3f} passes {x['passes']}")
-fig, ax = plt.subplots(1, 3, figsize=(17, 5)); cols = {"gk000": "#2a78d6", "gain": "#d1495b"}
+fig, ax = plt.subplots(3, 1, figsize=(16, 13)); cols = {"gk000": "#2a78d6", "gain": "#d1495b"}
 for j, (m, lab) in enumerate((("min_gap", "all-pass minimum gap (cm)"), ("crit_max_deficit", "critical-window max deficit eta - gap (cm)"), ("jerk_rms", "joint command jerk RMS (rad/s^3)"))):
     a = ax[j]
     for i, c in enumerate(("gk000", "gain")):
@@ -40,5 +40,5 @@ for j, (m, lab) in enumerate((("min_gap", "all-pass minimum gap (cm)"), ("crit_m
                 if k in out:
                     xs.append(n + (i - 0.5) * 0.25); ys.append(out[k][m] * (100 if m != "jerk_rms" else 1))
         a.scatter(xs, ys, color=cols[c], s=24, label="uniform" if c == "gk000" else "ours")
-    a.set_xticks(range(len(ORDER))); a.set_xticklabels(ORDER, rotation=30); a.set_title(lab, fontsize=10); a.grid(alpha=0.3); a.legend(frameon=False, fontsize=8)
+    a.set_xticks(range(len(ORDER))); a.set_xticklabels(ORDER, rotation=35, ha="right", fontsize=9); a.set_title(lab, fontsize=10); a.grid(alpha=0.3); a.legend(frameon=False, fontsize=8)
 fig.suptitle("WP5 perception imperfection on the R1 0.5 m/s scene (base = R1, seeds as dots)"); fig.tight_layout(); fig.savefig(f"{OV}/wp5_perception.png", dpi=125)

@@ -155,6 +155,52 @@
    }
   }
  },
+ "M1/v050/gain/P+F+C2": {
+  "seeds": [
+   0,
+   1
+  ],
+  "min_gap": 0.09011305436699318,
+  "min_gap_mesh": 0.0920080696431254,
+  "n_crit": 9,
+  "crit_min_gap": 0.09011305436699318,
+  "crit_max_deficit": 0.018064907081534298,
+  "crit_mean_deficit": -0.012427767497714667,
+  "hold_mean_gap": 0.10471558627076051,
+  "n_hold": 11,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   26,
+   24
+  ],
+  "stalls_front": 0,
+  "stall_time_front_s": 0.0,
+  "torso_cost_steps": [
+   13,
+   34
+  ],
+  "torso_share": [
+   0.0020574799052091148,
+   0.006147496155395242
+  ],
+  "rtf_min": 1.179,
+  "v99_max": 0.47431605114190745,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.09011305436699318,
+    "crit_min": 0.09011305436699318,
+    "crit_max_def": 0.018064907081534298
+   },
+   "1": {
+    "min_gap": 0.09892071218726071,
+    "crit_min": 0.10608974433873786,
+    "crit_max_def": -0.004439601389137959
+   }
+  }
+ },
  "M1/v050/gain/base": {
   "seeds": [
    0,
@@ -253,6 +299,52 @@
     "min_gap": 0.05463140626154808,
     "crit_min": 0.05608337789933972,
     "crit_max_def": 0.008916622100660285
+   }
+  }
+ },
+ "M1/v050/gk000/P+F+C2": {
+  "seeds": [
+   0,
+   1
+  ],
+  "min_gap": 0.05535195327150057,
+  "min_gap_mesh": 0.052506584585611346,
+  "n_crit": 11,
+  "crit_min_gap": 0.0661045120087965,
+  "crit_max_deficit": -0.0011045120087964932,
+  "crit_mean_deficit": -0.024295566063220964,
+  "hold_mean_gap": 0.06042885296486596,
+  "n_hold": 12,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   26,
+   24
+  ],
+  "stalls_front": 0,
+  "stall_time_front_s": 0.0,
+  "torso_cost_steps": [
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.171,
+  "v99_max": 0.4779481076528927,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.05651257581055463,
+    "crit_min": 0.0661045120087965,
+    "crit_max_def": -0.0011045120087964932
+   },
+   "1": {
+    "min_gap": 0.05535195327150057,
+    "crit_min": 0.06745618090924356,
+    "crit_max_def": -0.0024561809092435577
    }
   }
  },
@@ -586,6 +678,52 @@
    }
   }
  },
+ "M2/v050/gain/P+F+C2": {
+  "seeds": [
+   0,
+   1
+  ],
+  "min_gap": 0.06423517906351911,
+  "min_gap_mesh": 0.06307397748016857,
+  "n_crit": 1,
+  "crit_min_gap": 0.06476918729400832,
+  "crit_max_deficit": 0.01226870434197,
+  "crit_mean_deficit": 0.01226870434197,
+  "hold_mean_gap": null,
+  "n_hold": 0,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   19,
+   19
+  ],
+  "stalls_front": 2,
+  "stall_time_front_s": 3.166666666666667,
+  "torso_cost_steps": [
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.166,
+  "v99_max": 0.4699793661183453,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.06476918729400832,
+    "crit_min": 0.06476918729400832,
+    "crit_max_def": 0.01226870434197
+   },
+   "1": {
+    "min_gap": 0.06423517906351911,
+    "crit_min": null,
+    "crit_max_def": null
+   }
+  }
+ },
  "M2/v050/gain/base": {
   "seeds": [
    0,
@@ -693,6 +831,52 @@
     "min_gap": 0.028518162687389853,
     "crit_min": 0.028518162687389853,
     "crit_max_def": 0.03648183731261015
+   }
+  }
+ },
+ "M2/v050/gk000/P+F+C2": {
+  "seeds": [
+   0,
+   1
+  ],
+  "min_gap": 0.02503380496976762,
+  "min_gap_mesh": 0.03532024156321559,
+  "n_crit": 20,
+  "crit_min_gap": 0.02503380496976762,
+  "crit_max_deficit": 0.03996619503023238,
+  "crit_mean_deficit": 0.021344620709071633,
+  "hold_mean_gap": null,
+  "n_hold": 0,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   21,
+   21
+  ],
+  "stalls_front": 12,
+  "stall_time_front_s": 8.733333333333334,
+  "torso_cost_steps": [
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.155,
+  "v99_max": 0.4736448712218815,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.02567571845277919,
+    "crit_min": 0.02567571845277919,
+    "crit_max_def": 0.03932428154722081
+   },
+   "1": {
+    "min_gap": 0.02503380496976762,
+    "crit_min": 0.02503380496976762,
+    "crit_max_def": 0.03996619503023238
    }
   }
  },

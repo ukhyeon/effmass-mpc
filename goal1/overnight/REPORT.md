@@ -1,6 +1,78 @@
 # Overnight report (2026-11-17 to 2026-11-18)
 
-(Front page is written at the end, in WP7.)
+## 첫 쪽 (05:40 작성)
+
+### 1. 한 것과 못 한 것
+| 묶음 | 상태 | 실행 | 시각 |
+|---|---|---|---|
+| 0 준비 | 완료. 기준 실행이 V2 기록과 비트 단위로 같음 | 7 (비트 재확인 4 포함) | 23:18~23:25 |
+| 1 빠른 손 원인 | 완료 | 28 | 23:25~00:20 |
+| 2 자세별 구역 지도 | 완료 (자세 7개) | 0 | 00:16~00:32 |
+| 3 정지 장면 모음 | 부분 완료: 12개 중 9개, 3개 제외 (D3-1~3) | 65 | 00:30~01:10 |
+| 4 움직이는 협업 장면 | 완료 (건네기, 가로지르기) | 28 | 01:10~01:52 |
+| 5 인지 불완전성 | 완료 (지연, 떨림, 누락 + 확장 단계) | 26 | 01:52~02:26 |
+| 6 튜닝 | 완료. 규칙상 쓸 만한 후보 없음 | 24 | 02:25~02:38 |
+| 7 정리 | 완료 (영상 3개, 문서, 커밋) | 표시용 8 | 03:39~05:40 |
+| 예비 1 seed 2 추가 | 묶음 3·4 안에서 함 | - | |
+| 예비 2 이득 손잡이 | 완료 | 12 | 02:38~02:44 |
+| 예비 3 굽힌 팔 M3 | 완료 | 6 | 02:44~02:55 |
+| 예비 4 ROS 재생 경로 | 하지 않음 (기존 스크립트로는 R1 동작을 재생할 수 없음) | 0 | |
+| 후속 F1~F8 | 완료 | 64 | 02:57~05:26 |
+합계 268회 실행, 시간 초과와 재시도 0. 분석한 실행 253회(표시용 녹화·묶음 0 제외) 모두 실시간 비율 1.0 이상이다. 최저는 묶음 3 단일 패스 1회의 1.02(P2_tipfront 균일 seed 2)이고, 나머지는 1.136 이상이다. infeasible 0, recapture 0. 침투가 생긴 실행은 V100 진단 변형, 떨림 + 무필터 예측, 지연 + 떨림 1.0 m/s 정지뿐이다(아래 표).
+
+### 2. 핵심 결과
+1. **빠른 손의 간격 부족은 예측이 없어서다.** 1.0 m/s 에서 손이 뻗는 중 로봇이 지나갈 때 제안의 최대 간격 부족(η − 간격)은 11.7~13.8 cm 다. 등속 예측(--meff-motion cv)을 쓰면 4.3~5.0 cm 로 줄었다(seed 3개). 속도 상한을 0.75 / 1.0 m/s 로 올려도 12.3 cm 그대로였다. 근거: `logs/meff_isaac/on_wp1_summary.json`, `goal1/overnight/wp1_phase_gap.png`.
+2. **제안이 더 멀리 가는 곳은 손끝 앞과 전완 옆이다.** 정지 장면 9개(seed 3개)에서 손끝 앞 4개 자세 모두 +2.7~+5.6 cm, 옆 팔 자세의 손 위 +3.7 cm, 전완 옆(P6) +5.6 cm 였다. 굽힌 팔의 손 위 3개는 차이가 없었다. 그 방향 μ 가 0.54~0.59 kg 로 μ_ref 근처라 정상이다. 경로가 바뀐 장면과 도달 실패는 없다. 근거: `on_wp3_summary.json`, `wp3_effect_table.png`.
+3. **협업 동작에서도 제안이 더 멀리 간다.** 건네기 머묾 간격은 10.1 대 5.8~5.9 cm, 최소 간격은 seed 마다 제안이 위다(seed 3개, 0.25·0.5 m/s). 가로지르기 0.5 m/s 최소 간격은 3.8~6.7 대 0.0~1.2 cm 다. 대신 0.25 m/s 에서 제안은 쉬고 있는 손 앞에서 더 기다려 통과 수가 12~14 대 16~18 이다. 침투는 0 이다. 근거: `on_wp4_summary.json`.
+4. **인지 불완전성은 지연이 가장 문제다.** 지연 300 ms, 떨림 4 cm, 누락 60% 까지 침투는 0 이었다. 지연 100 ms 부터 제안의 간격 부족이 커졌다(10.6~11.1 대 기준 6.1~7.8 cm, seed 2개). 떨림은 주로 명령 저크를 키웠다. 근거: `on_wp5_summary.json`.
+5. **실시간 Kinect 설정 후보: 등속 예측 + 속도 필터(EMA 0.2) + 속도 상한 반경 0.5 m (t2a_c2).** 필터 없는 예측은 떨림이 있으면 위험하다. 떨림 4 cm 에서 균일이 손을 62 스텝 침투했다. 필터를 넣으면 침투가 0 이 된다. 지연 100 ms + 떨림 2 cm 에서 이 후보는 정지보다 간격이 크고(0.5 m/s 제안 7.2~7.7 대 3.9~4.8 cm), 사람 근처 속도 p99 는 0.467~0.478 m/s 다. 깨끗한 데이터와 협업 동작에서도 손해가 없었다(seed 2개). 근거: REPORT 의 F2~F8 절, `on_wp1_var_runs.json`, `on_wp5_runs.json`.
+
+### 3. 스스로 내린 결정
+| 번호 | 원래 기준 | 판정 | 바꾼 내용 | 이유 |
+|---|---|---|---|---|
+| D1-1 | 위상 = 로봇이 손 앞을 지나는 시각 − 손이 다 뻗은 시각 | - | 로봇 TCP 가 머묾 자세 손끝 위치를 지나는 시각으로 정의 | 간격 자체에 기대지 않는 정의 |
+| D1-2 | 변형 L·P·V, 합친 변형 | L02 가 사람 근처 속도 상한을 넘김 | P+L02 조합과 P 의 seed 1 추가 | 단일 seed 결과 보강 |
+| D2-1 | 형상끼리 겹치지 않을 것 | 기준 자세까지 모두 불통과 | 어깨 붙은 위팔-가슴 쌍 제외, 손목을 비틂·굽힘으로 나눔, P3·P6 위팔 14도 벌림 | 측정 방법의 문제 (나) |
+| D2-1 | P6 손바닥 위 | 30도 남음 | 가중치 2회 시도 후 0.5 유지 | 더 올리면 팔꿈치가 펴짐 |
+| D3-1~3 | 몸통 거리 0.35 m, 12장면 | 5장면만 가능 | 사용자 지시 0.25 m, 추가 규칙에 따라 0.18 m 까지 완화, 사람이 경로 바깥쪽에 서는 조건 추가 | 전완 옆 방향 확보. 몸통 비용은 오프라인으로 확인(P6 손 위만 있음) |
+| D4-1, D4-2 | (묶음 4 에 몸통 기준 없음, 내 출발값 0.35 m) | 건네기·가로지르기 불가 | 0.25 m, 가로지르기 각도 40도 | 동작 2개 결과 확보 |
+| D5-1 | 지연 50~150 ms, 떨림 1~2 cm, 누락 30% | 모두 견딤 (하한만 앎) | 지연 300 ms, 떨림 4 cm, 누락 60% 추가 | 견디는 수준 확보 |
+| D6-0, D6-1 | 개선 폭 > seed 차이 | c1 은 0.015 < 0.031 이라 불통과 | tuned_t2a.yml 로 저장, 채택 안 함 | 규칙 그대로 적용 |
+| D7-1 | V2 카메라 | M1 에서 사람이 로봇을 가림 | M1 만 반대편 카메라로 다시 녹화 | 보이는 영상 |
+| F1~F8 | - | - | 재생 옵션 추가: 앞당김, 지연, 떨림, 누락, 속도 필터. 모두 기본 꺼짐이고 기준 실행 비트 일치를 3번 확인 | 후속 질문 |
+
+### 4. 내 결정이 필요한 것
+- tuned_t2a.yml(속도 상한 가중치 1e6)의 채택 여부. 규칙상 개선은 아니지만 must 위반 2건이 0건이 됐다.
+- Kinect 단계 설정: 등속 예측 + 속도 필터 + 반경 0.5 m(t2a_c2)를 쓸지. 필터 계수 0.2 는 재생 데이터 기준이라 실데이터로 다시 정해야 한다.
+- 묶음 3 의 몸통 거리 완화(0.25 m 는 지시, 0.18 m 는 내 판단)를 받아들일지. 전완 옆은 P6 한 자세뿐이다.
+- 예비 4(ROS 경로로 R1 동작 재생)를 하려면 g1_meff_run.sh 의 재생 파일과 장면 인자를 바꿔야 한다. 하지 않았다.
+- 가로지르기 0.25 m/s 에서 제안이 손 앞에서 더 기다리는 것(통과 수 −25%)을 허용할지.
+
+### 5. 눈으로 확인할 것 (순서대로)
+1. `goal1/overnight/postures_preview.png`
+2. `goal1/overnight/wp3_effect_table.png`, `goal1/overnight/wp3_scene_gap.png`
+3. `goal1/b2a/demo/overnight/on_static_P4_tipfront.mp4` (8.5 s, 한 번 지나감)
+4. `goal1/b2a/demo/overnight/on_M1_handover.mp4` (21.5 s)
+5. `goal1/b2a/demo/overnight/on_M2_crossing.mp4` (21.5 s)
+6. `goal1/overnight/wp1_phase_gap.png`
+7. `goal1/overnight/wp4_phase_gap.png`
+8. `goal1/overnight/wp5_perception.png`
+9. `goal1/overnight/wp2_zone_thickness.png`
+
+### 6. 미해결과 (해석)
+- 미해결: 1.0 m/s 손 + 지연 100 ms 에서 제안이 균일보다 낫다는 것은 확인되지 않았다(최소 간격 1.9~5.0 대 0.6~6.2 cm, seed 2개). 간격과 속도 상한을 함께 지키는 설정도 찾지 못했다.
+- 미해결: 전완 옆 장면은 P6 하나뿐이다. 굽힌 팔 P2·P3 와 옆 팔 P4 의 전완 옆은 직선 경로에서 몸통이 0.09 m 안까지 와서 만들지 못했다.
+- 미해결: 단일 패스에서 균일의 사람 근처 속도 p99 가 0.546 / 0.518 m/s 로 한도를 넘은 2건. 왕복에서는 넘지 않았다.
+- (해석) 예측 후 남는 1.0 m/s 간격 부족 약 5 cm 는 머묾에서도 보이는 정상 상태 부족(간격/η 약 0.85)과 0.5 m/s 로 비키는 시간 때문으로 보인다.
+- (해석) 전완 옆에서 제안의 간격이 η 보다 큰 것(간격/η 1.48)은 더 무거운 손의 구역이 먼저 로봇을 막기 때문으로 보인다.
+- (해석) 가로지르기 0.25 m/s 에서 제안이 더 기다리는 것은 손이 경로 안에 쉬고 있어 큰 구역이 비켜 지나가기를 막기 때문으로 보인다.
+- (해석) 지연 + 떨림 + 예측에서 속도 p99 가 오르는 것은 속도 상한의 거리 판정이 실제 손과 다른 예측 형상을 쓰기 때문으로 보인다.
+- 단일 seed 결과: 묶음 5 의 대부분 변형, F3, F5.
+
+
+---
+# 묶음별 상세 (English, written as each package finished)
+
 
 ## WP0 Preparation (23:18-23:25)
 - Deleted the 6 frame / recording folders (r1/rec, r1/frames_r1_main, r1/frames_r1_fast, v2/rec, v2/frames_v2_main, v2/frames_v2_gain_knob, about 5.1 GB) after
@@ -65,7 +137,7 @@ Ours zone thickness by direction (cm; uniform is 6.5-10.2 cm everywhere, the upp
 - Picked for WP3 (D2-2): P3_bend90, P6_handover, P4_side, P2_bend45.
 Files: logs/meff_isaac/on_wp2_postures.json, on_wp2_zone.json; figures goal1/overnight/postures_preview.png, wp2_zone_thickness.png.
 
-## WP3 Static scene matrix (00:30-01:10, 65 runs, all wall-time ok, RTF 1.15-1.25, infeasible 0, recapture 0)
+## WP3 Static scene matrix (00:30-01:10, 65 runs, all wall-time ok, RTF 1.02-1.25 (1.02 = one run, P2_tipfront uniform s2; next lowest 1.142), infeasible 0, recapture 0)
 Robot path fixed (front scene, single pass, 420 steps); each WP2 posture placed by a rigid yaw + translation so that the off path passes 2.5 cm from the
 target part on the intended side (search: on_wp3_scenes.py). Calibration on off and uniform only; every built scene passed on the first try
 (off gap 2.5 cm, uniform arrives, infeasible 0) except P4 forearmside18 (D3-3). Uniform and ours, seeds 0-2 (seed 2 = reserve item 1).
@@ -278,4 +350,24 @@ New replay option --human-vel-alpha (EMA of the delivered segment velocity, 0 = 
 - Ours at 1.0 m/s under lag + jitter is not consistently better than uniform (min gap 1.9-5.0 vs 0.6-6.2 cm over the four runs); the zone advantage
   seen without perturbation (WP1, F2) is not established under this combination. (interpretation) 100 ms of lag at 1 m/s is a 10 cm position error,
   larger than the ours - uniform zone difference in the critical window; not checked.
+
+## Follow-up F7 Full Kinect candidate on clean R1 data (05:03-05:14, 8 runs)
+Candidate = P (--meff-motion cv) + velocity filter EMA 0.2 (--human-vel-alpha 0.2) + profile t2a_c2 (t1 with speed_cap_dist 0.5 m). Seeds 0-1.
+| speed / cond | base (t1, static) min gap / crit max deficit / hold gap | candidate min gap / crit max deficit / hold gap | jerk base -> cand | passes base -> cand |
+|---|---|---|---|---|
+| 0.25 uniform | 3.3, 3.2 / 3.2, 3.3 / 6.0, 5.9 | 5.6, 5.3 / 0.5, 1.2 / 5.7, 5.8 | 23.0, 23.3 -> 22.4, 20.2 | 27, 26 -> 27, 24 |
+| 0.25 ours | 8.9, 8.5 / 7.0, 5.1 / 11.6, 11.8 | 9.4, 8.4 / 3.4, 3.0 / 11.0, 10.9 | 22.1, 23.4 -> 22.0, 20.7 | 26, 24 -> 26, 24 |
+| 0.5 uniform | 3.7, 1.6 / 2.8, 4.9 / 5.9, 6.1 | 5.5, 5.5 / 0.1, -0.5 / 6.0, 6.0 | 22.7, 21.4 -> 22.6, 20.8 | 27, 24 -> 26, 25 |
+| 0.5 ours | 5.9, 5.4 / 7.8, 7.2 / 10.8, 11.8 | 8.9, 8.4 / 3.7, 3.9 / 10.6, 10.6 | 22.4, 22.3 -> 21.5, 21.8 | 27, 24 -> 27, 25 |
+(values = seed 0, seed 1; near-human speed p99 0.467-0.475 m/s everywhere; no penetration.)
+- On clean data the candidate does not cost anything: minimum gaps equal or larger, critical deficits halved, hold gaps and jerk unchanged.
+
+## Follow-up F8 Full Kinect candidate on the collaboration motions at 0.5 m/s (05:15-05:26, 8 runs, seeds 0-1)
+| motion / cond | base (t1, static) min gap per seed (cm) | candidate (P + filter + radius 0.5) min gap per seed | crit max deficit base -> cand | passes base -> cand |
+|---|---|---|---|---|
+| M1 hand-over uniform | 3.0 / 3.5 / 3.9 | 5.7 / 5.5 | 3.5 -> -0.1 | 26-28 -> 24-26 |
+| M1 hand-over ours | 4.7 / 7.7 / 6.5 | 9.0 / 9.9 | 6.7 -> 1.8 | 25-27 -> 24-26 |
+| M2 crossing uniform | 0.6 / 1.2 / 0.0 | 2.6 / 2.5 | 6.5 -> 4.0 | 21 -> 21 |
+| M2 crossing ours | 6.4 / 6.7 / 3.8 | 6.5 / 6.4 | 3.1 -> 1.2 | 18-19 -> 19 |
+- Same picture as P alone (WP4, F1): larger gaps, no penetration, near-human speed p99 <= 0.478 m/s, hold gap unchanged (M1 ours 10.5 cm).
 

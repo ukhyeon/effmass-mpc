@@ -198,3 +198,8 @@ Format: time / situation / alternatives / choice and reason / original criterion
 - Question: does the full Kinect candidate (P + velocity filter 0.2 + speed-cap radius 0.5 m) keep the R1 results on clean data (no lag, no jitter)?
 - Expected: at 0.25 / 0.5 m/s the min gaps are equal or larger than R1 base, hold gaps unchanged, p99 < 0.5, jerk near base.
 - Runs (8): R1 0.25 and 0.5 m/s, uniform / ours, seeds 0-1 with P+F+C2 (0.25 m/s via on_wp1.sh).
+
+## DF8 05:15 follow-up F8 (question first)
+- Question: does the full Kinect candidate also hold in the collaboration motions (M1 hand-over, M2 crossing) at 0.5 m/s?
+- Expected: M1 like R1 (gaps up, no cost); M2 gaps up as in F1, waiting in front of the resting hand unchanged.
+- Runs (8): M1, M2 0.5 m/s x uniform / ours x seeds 0-1 with P+F+C2.
