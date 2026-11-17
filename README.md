@@ -10,6 +10,10 @@
 
 *왼쪽: 균일 회피 (η 6.5 cm 고정), 오른쪽: 제안 (k_gain 0.10). 위 줄 = 정면 접근, 아래 줄 = 위 접근. 같은 장면·같은 MPC 설정·seed 0. 원본 영상: [media/v2_main.mp4](media/v2_main.mp4)*
 
+> **이전 연구**
+> - 석사 연구 [human-robot-safety-system](https://github.com/ukhyeon/human-robot-safety-system): SMPL 기반 개인별·방향별 사람 유효질량을 실시간으로 추정해 Indy7 의 충돌 위험 평가와 속도 조절에 적용했다. 이 저장소의 사람 유효질량 계산은 이 연구에서 이어진다.
+> - [franka-depth-mppi](https://github.com/ukhyeon/franka-depth-mppi): Isaac Sim Franka 의 cuRobo MPPI 에 손 ROI 근접 비용을 더하고, 가정한 손 유효질량에 따라 활성 거리를 바꿔 비교했다. 이 저장소의 비용 채널 구조는 이 프로젝트에서 이어진다.
+
 ## 1. 목표
 
 - 사람의 체형, 자세, 충돌 방향에 따라 달라지는 유효질량으로 회피 구역의 모양을 바꾸는 사람 회피 MPC를 Isaac Sim에서 설계하고, 실물 Franka FR3에 적용한다.
