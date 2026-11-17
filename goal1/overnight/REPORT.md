@@ -220,3 +220,18 @@ P6_handover (elbow 48 deg) at the P6_forearmside18 placement (DR3-1), forearm st
   (ours max deficit 4.3-5.0 vs base 11.7-13.8 cm; uniform 0.9-1.8 vs 4.9-6.8 cm).
 - Consequence for the Kinect stage: P only with a filtered human velocity (or a smoothed skeleton). Static is the safer default for raw skeletons.
 
+## Follow-up F3 Velocity filter for P under jitter (03:26-03:38, 6 runs + 2 baseline bit-check runs)
+New replay option --human-vel-alpha (EMA of the delivered segment velocity, 0 = off). V2 baselines bit-equal after the change (on_base_*_s0_p2).
+| R1 scene, seed 0 | uniform min gap / penetration | ours min gap | ours crit max deficit | jerk RMS u / o | passes u / o | v99 max |
+|---|---|---|---|---|---|---|
+| 0.5 m/s jitter 2 cm + P | 1.1 / 0 | 12.1 | 3.4 | 60.4 / 100.5 | 23 / 16 | 0.518 |
+| 0.5 m/s jitter 2 cm + P + filter 0.2 | 3.6 / 0 | 8.3 | 0.7 | 36.7 / 40.9 | 26 / 26 | 0.482 |
+| 0.5 m/s jitter 4 cm + P | -4.3 / 62 shape, 34 mesh steps | 13.1 | 5.4 | 89.9 / 137.9 | 20 / 9 | 0.515 |
+| 0.5 m/s jitter 4 cm + P + filter 0.2 | 3.8 / 0 | 6.8 | 3.1 | 45.5 / 54.5 | 26 / 24 | 0.520 |
+| 1.0 m/s no jitter, P | 4.7 / 0 (crit min) | 6.1 (crit min) | 5.0 | - | 56 / 54 | 0.477 |
+| 1.0 m/s no jitter, P + filter 0.2 | 3.2 / 0 (crit min) | 5.3 (crit min) | 6.1 | - | 56 / 56 | 0.478 |
+| 1.0 m/s base (static) | 0.9 / 0 (crit min) | 2.0 (crit min) | 13.3 | - | 56 / 55 | 0.478 |
+- The filter removes the penetration and most of the extra jerk (still 1.6-2.4x the no-jitter 22) and restores throughput (24-26 passes).
+- It keeps most of P's fast-hand benefit: at 1.0 m/s ours' max deficit 6.1 cm with filter vs 5.0 without and 13.3 static (single seed).
+- Kinect candidate revised: P with a filtered human velocity (EMA 0.2 here; to be tuned on real data), not P on raw frame differences. Single seeds.
+

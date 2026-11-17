@@ -784,6 +784,26 @@
    "v_near_p99_max": 0.4768279901335762,
    "passes": 56
   },
+  "v100/gk000/P+F": {
+   "n_crit": 11,
+   "crit_min_gap": 0.03198325619889461,
+   "crit_mean_gap": 0.06956770476719765,
+   "crit_min_gap_mesh": 0.045465222402316735,
+   "crit_max_deficit": 0.03301674380110539,
+   "crit_mean_deficit": -0.0045677047671976575,
+   "n_hold": 8,
+   "hold_mean_gap": 0.06460437710693895,
+   "all_min_gap": 0.03198325619889461,
+   "pen_shape_hand": 0,
+   "pen_mesh_hand": 0,
+   "rtf_min": 1.18,
+   "solver_mean": 9.62972407510431,
+   "solver_p99_max": 10.592976,
+   "recapture": 0,
+   "infeasible": 0,
+   "v_near_p99_max": 0.47817658452232575,
+   "passes": 56
+  },
   "v100/gk000/P+L02": {
    "n_crit": 6,
    "crit_min_gap": 0.06354576980698964,
@@ -923,6 +943,26 @@
    "infeasible": 0,
    "v_near_p99_max": 0.4761193384642947,
    "passes": 54
+  },
+  "v100/gain/P+F": {
+   "n_crit": 11,
+   "crit_min_gap": 0.05337893574213329,
+   "crit_mean_gap": 0.08628355227148038,
+   "crit_min_gap_mesh": 0.05947111765123653,
+   "crit_max_deficit": 0.061434300817682086,
+   "crit_mean_deficit": 0.02539479220850578,
+   "n_hold": 9,
+   "hold_mean_gap": 0.1075261011250838,
+   "all_min_gap": 0.05337893574213329,
+   "pen_shape_hand": 0,
+   "pen_mesh_hand": 0,
+   "rtf_min": 1.181,
+   "solver_mean": 9.576871682892907,
+   "solver_p99_max": 10.504317999999998,
+   "recapture": 0,
+   "infeasible": 0,
+   "v_near_p99_max": 0.47762716853659476,
+   "passes": 56
   },
   "v100/gain/P+L02": {
    "n_crit": 6,

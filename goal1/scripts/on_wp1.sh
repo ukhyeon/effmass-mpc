@@ -8,7 +8,7 @@ for spec in "$@"; do
   extra=""; prof="--profile t1"
   for part in ${var//+/ }; do
     case $part in
-      base) ;; L01) extra+=" --human-lead-s 0.1" ;; L02) extra+=" --human-lead-s 0.2" ;; P) extra+=" --meff-motion cv" ;;
+      base) ;; F) extra+=" --human-vel-alpha 0.2" ;; L01) extra+=" --human-lead-s 0.1" ;; L02) extra+=" --human-lead-s 0.2" ;; P) extra+=" --meff-motion cv" ;;
       V075) prof="--profile d1v075" ;; V100) prof="--profile d1v100" ;; *) echo "bad variant $part"; exit 2 ;;
     esac
   done

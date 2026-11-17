@@ -9,6 +9,7 @@ for spec in "$@"; do
     case $part in
       lag050) extra+=" --human-lag-s 0.05" ;; lag100) extra+=" --human-lag-s 0.10" ;; lag150) extra+=" --human-lag-s 0.15" ;;
       jit1) extra+=" --human-jitter-m 0.01 --human-noise-seed 7" ;; jit2) extra+=" --human-jitter-m 0.02 --human-noise-seed 7" ;;
+      F) extra+=" --human-vel-alpha 0.2" ;;
       drop30) extra+=" --human-drop-frac 0.3 --human-noise-seed 7" ;; drop60) extra+=" --human-drop-frac 0.6 --human-noise-seed 7" ;;
       lag300) extra+=" --human-lag-s 0.30" ;; jit4) extra+=" --human-jitter-m 0.04 --human-noise-seed 7" ;; L01) extra+=" --human-lead-s 0.1" ;; P) extra+=" --meff-motion cv" ;;
       *) echo "bad variant $part"; exit 2 ;;

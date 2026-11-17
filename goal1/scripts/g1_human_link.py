@@ -199,7 +199,7 @@ class PrecomputedHumanLink(HumanInertiaLink):
     pump(-1) = t_sim 0 (예열 전 첫 프레임)."""
 
     def __init__(self, pre_npz, physics_dt, transform_json, inputs, delay_frames=0, stage=None, display=("instancer",), shapes_viz=False, root="/World/human",
-                 mesh_npz=None, lead_s=0.0, lag_s=0.0, jitter_m=0.0, drop_frac=0.0, noise_seed=0):
+                 mesh_npz=None, lead_s=0.0, lag_s=0.0, jitter_m=0.0, drop_frac=0.0, noise_seed=0, vel_alpha=0.0):
         super().__init__(None, transform_json, inputs, stage=stage, display=display, shapes_viz=shapes_viz, root=root)
         # (B2a) display-only mesh: vertices precomputed with the node body model (b2a_mesh.py), separate file, not used by the cost path
         self.mesh_V = None; self.mesh_ms = []
@@ -218,7 +218,9 @@ class PrecomputedHumanLink(HumanInertiaLink):
         # jitter_m: per frame, per segment Gaussian offset (std jitter_m, seeded) added to the segment COM and its shapes; vel gets the matching difference.
         # lead_s: shapes and COM moved ahead by vel[segment] * lead_s (file velocity = backward difference, causal).
         self.lead_s, self.lag_s, self.jitter_m, self.drop_frac = float(lead_s), float(lag_s), float(jitter_m), float(drop_frac)
-        self.pert = bool(self.lead_s or self.lag_s or self.jitter_m or self.drop_frac)
+        # vel_alpha: exponential moving average of the delivered segment velocity (v_f = a v + (1 - a) v_f_prev, per new frame); 0 = off.
+        self.vel_alpha = float(vel_alpha); self.vf = None
+        self.pert = bool(self.lead_s or self.lag_s or self.jitter_m or self.drop_frac or self.vel_alpha)
         if self.pert:
             rng = np.random.default_rng(int(noise_seed))
             keep = np.ones(self.F, bool)
@@ -235,6 +237,9 @@ class PrecomputedHumanLink(HumanInertiaLink):
         if self.jit is not None:
             o = self.jit[fc]; com = com + o; p0 = p0 + o[sg]; p1 = p1 + o[sg]
             vel = vel + (o - self.jit[max(fc - 1, 0)]) * self.rate
+        if self.vel_alpha:
+            self.vf = vel.copy() if self.vf is None else self.vel_alpha * vel + (1.0 - self.vel_alpha) * self.vf
+            vel = self.vf
         if self.lead_s:
             com = com + vel * self.lead_s; p0 = p0 + vel[sg] * self.lead_s; p1 = p1 + vel[sg] * self.lead_s
         d = dict(d); d.update(com=com.reshape(-1), vel=vel.reshape(-1), p0=p0.reshape(-1), p1=p1.reshape(-1)); return d

@@ -40,4 +40,4 @@ Seeds are not reduced: everything fits the budgets.
 |---|---|---|---|---|
 | F1 P (cv) in the crossing task M2 | done | 02:57 | 03:12 | 12 |
 | F2 P (cv) under jitter / lag, and R1 1.0 m/s P seed 2 | done | 03:12 | 03:25 | 8 |
-| F3 velocity filter for P under jitter | in progress | 03:26 | | |
+| F3 velocity filter for P under jitter | done | 03:26 | 03:38 | 6 + 2 bit-check |

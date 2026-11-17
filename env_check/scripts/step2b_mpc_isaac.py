@@ -58,6 +58,7 @@ ap.add_argument("--human-lag-s", type=float, default=0.0, help="(overnight) prec
 ap.add_argument("--human-jitter-m", type=float, default=0.0, help="(overnight) precomputed: per frame per segment Gaussian position noise std (m); 0 = off")
 ap.add_argument("--human-drop-frac", type=float, default=0.0, help="(overnight) precomputed: fraction of frames missing, last frame kept; 0 = off")
 ap.add_argument("--human-noise-seed", type=int, default=0, help="(overnight) seed for jitter and dropout")
+ap.add_argument("--human-vel-alpha", type=float, default=0.0, help="(overnight) precomputed: EMA factor for the delivered segment velocity (0 = off)")
 ap.add_argument("--shapes", default="v1", choices=["v1", "v2"], help="(shapes v2) precomputed source: v2 uses <human-pre>_v2.npz (21 shapes + 3 inactive). v1 = previous results")
 ap.add_argument("--human-viz", default="both", choices=["none", "mesh", "shapes", "both"], help="(B2a) precomputed source display: body mesh and/or one-colour capsules")
 ap.add_argument("--human-mesh-pre", default="", help="(B2a) display-only vertex file; empty = <human-pre>_verts.npz if it exists")
@@ -415,8 +416,8 @@ if args.ros:
                                          delay_frames=args.human_delay_frames, stage=stage, display=("instancer",) if args.human_mode == "full" else (),
                                          shapes_viz=args.meff_viz in ("shapes", "both") or args.human_viz in ("shapes", "both"), mesh_npz=_mp,
                                          lead_s=args.human_lead_s, lag_s=args.human_lag_s, jitter_m=args.human_jitter_m, drop_frac=args.human_drop_frac,
-                                         noise_seed=args.human_noise_seed)
-        log(f"(overnight) human perturbation: lead {args.human_lead_s} s, lag {args.human_lag_s} s, jitter {args.human_jitter_m} m, drop {args.human_drop_frac}, seed {args.human_noise_seed}")
+                                         noise_seed=args.human_noise_seed, vel_alpha=args.human_vel_alpha)
+        log(f"(overnight) human perturbation: lead {args.human_lead_s} s, lag {args.human_lag_s} s, jitter {args.human_jitter_m} m, drop {args.human_drop_frac}, seed {args.human_noise_seed}, vel alpha {args.human_vel_alpha}")
         log(f"(B2a) human display: viz {args.human_viz}, mesh file {_mp}, capsules {HUMAN.shapes_viz}; shapes {args.shapes}, file {_hp}, active shapes {int((HUMAN.pre_static['rad'] > 0).sum())}")
         HUMAN.pump(-1)      # 예열 전 첫 프레임 (t_sim 0)
         log(f"사람(1-3): 미리 계산한 프레임 {args.human_pre} ({HUMAN.F}개, {HUMAN.rate} Hz), delay_frames {args.human_delay_frames}, 물리 dt {S.PHYSICS_DT}, "
