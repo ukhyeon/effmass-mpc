@@ -1,0 +1,70 @@
+{
+ "sphere_buffer_m": 0.02,
+ "dumps": [
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/g1d_dump_dump_0100.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/g1d_dump_dump_0200.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/g1d_dump_dump_0300.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/g1d_dump_dump_0400.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/g1d_dump_dump_0500.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/g1d_dump_dump_0600.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/g1d_dump_dump_0700.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/g1d_dump_dump_0800.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/g1d_dump_dump_0900.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/g1d_dump_dump_1000.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/g1d_dump_dump_1100.npz"
+ ],
+ "dir": "com",
+ "motion": "static",
+ "samples": 201300,
+ "shape_match": 1.0,
+ "seg_match": 1.0,
+ "shape_mismatch": 0,
+ "center_abs_m": {
+  "n": 3300,
+  "max": 4.92043844502188e-07,
+  "p99": 3.7109000970259017e-07,
+  "median": 1.954157338376894e-07
+ },
+ "inv_r_rel": 9.973840885493318e-16,
+ "dist_ref_min_m": 0.07210538882515484,
+ "dist_n_negative": 0,
+ "dist_abs_m": {
+  "n": 201300,
+  "max": 3.7326010968175005e-07,
+  "p99": 2.181576851723044e-07,
+  "median": 4.916388052222942e-08
+ },
+ "dist_rel_where_ref_ge_1cm": {
+  "n": 201300,
+  "max": 4.940920985778668e-06,
+  "p99": 1.22216327495214e-06,
+  "median": 1.2338600352781416e-07
+ },
+ "dist_n_ref_lt_1cm": 0,
+ "u_abs": {
+  "n": 201300,
+  "max": 1.64146847675406e-06,
+  "p99": 6.828804396971644e-07,
+  "median": 1.8606033225232466e-07
+ },
+ "mh_rel": {
+  "n": 201300,
+  "max": 1.4691894786716459e-06,
+  "p99": 3.308814929814756e-07,
+  "median": 7.905054828830658e-08
+ },
+ "mr_rel_finite": {
+  "n": 188100,
+  "max": 2.955724042829432e-06,
+  "p99": 8.770784753863399e-07,
+  "median": 1.1167615901688646e-07
+ },
+ "mu_rel": {
+  "n": 201300,
+  "max": 1.4799691939845957e-06,
+  "p99": 5.945541968912384e-07,
+  "median": 8.930023716875543e-08
+ },
+ "mr_inf_both": 13200,
+ "mr_inf_mismatch": 0
+}

@@ -1,0 +1,11 @@
+{
+ "update_ms_mean": 3.599977772682905,
+ "update_ms_p95": 4.292463324964046,
+ "capture_ms_mean": 275.34087998198066,
+ "n_updates": 235,
+ "mp4": [
+  "/home/robotics/effmass_mpc/goal1/b2a/demo/rec_v2/block_0.47hc_iso_s0_cam0.mp4",
+  "/home/robotics/effmass_mpc/goal1/b2a/demo/rec_v2/block_0.47hc_iso_s0_cam1.mp4"
+ ],
+ "mp4_note": "raw camera clips, 30 fps for 60 Hz steps (0.5x)"
+}

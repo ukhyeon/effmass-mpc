@@ -1,0 +1,244 @@
+{
+ "pinocchio": "3.9.0",
+ "pinocchio_file": "/opt/ros/humble/lib/python3.10/site-packages/pinocchio/__init__.py",
+ "n_spheres": 61,
+ "spheres_per_link": {
+  "fr3v2_1_link0": 2,
+  "fr3v2_1_link1": 4,
+  "fr3v2_1_link2": 4,
+  "fr3v2_1_link3": 4,
+  "fr3v2_1_link4": 4,
+  "fr3v2_1_link5": 13,
+  "fr3v2_1_link6": 3,
+  "fr3v2_1_link7": 5,
+  "fr3v2_1_hand": 18,
+  "fr3v2_1_leftfinger": 2,
+  "fr3v2_1_rightfinger": 2
+ },
+ "gear_ratio": [
+  120.0,
+  120.0,
+  120.0,
+  120.0,
+  80.0,
+  80.0,
+  80.0
+ ],
+ "motor_inertia": [
+  4.206399e-05,
+  4.206399e-05,
+  3.211626e-05,
+  3.211626e-05,
+  3.211626e-05,
+  3.211626e-05,
+  3.211626e-05
+ ],
+ "rotor_diag": [
+  0.605721456,
+  0.605721456,
+  0.462474144,
+  0.462474144,
+  0.205544064,
+  0.205544064,
+  0.205544064
+ ],
+ "n_states": 201,
+ "vs_numpy": {
+  "states": 50,
+  "center_max_abs_m": 4.440892098500626e-16,
+  "M_rel_max": 7.847664801133331e-16,
+  "inv_inertia_rel_max": 3.2312261610155385e-14,
+  "link0_spheres": 2,
+  "link0_inv_inertia_all_zero": true
+ },
+ "rotor_onoff": {
+  "points": {
+   "hand_tcp": {
+    "off_median": 1.1075612645274417,
+    "on_median": 4.147507016860007,
+    "off_p5": 0.6602053406990336,
+    "on_p5": 2.825800805003471,
+    "off_p95": 4.81341112115475,
+    "on_p95": 12.248963639028469,
+    "ratio_median": 3.602291828179351,
+    "ratio_min": 1.2497870519123413
+   },
+   "elbow_link4_origin": {
+    "off_median": 12.439882594011067,
+    "on_median": 36.949111723156946,
+    "off_p5": 6.923664688752408,
+    "on_p5": 16.31776132888887,
+    "off_p95": 90.8063426549655,
+    "on_p95": 350.91094506626183,
+    "ratio_median": 2.6614450803590355,
+    "ratio_min": 1.4146366563243904
+   }
+  },
+  "per_link_spheres": {
+   "fr3v2_1_link1": {
+    "n": 2040,
+    "n_infinite": 1020,
+    "off_median": 561.6057915480395,
+    "on_median": 2960.590734840067,
+    "ratio_median": 4.733858285750191
+   },
+   "fr3v2_1_link2": {
+    "n": 2040,
+    "n_infinite": 0,
+    "off_median": 104.72071997623583,
+    "on_median": 567.3799241245035,
+    "ratio_median": 4.2008698816038805
+   },
+   "fr3v2_1_link3": {
+    "n": 2040,
+    "n_infinite": 0,
+    "off_median": 15.701226360503199,
+    "on_median": 56.506519496590144,
+    "ratio_median": 3.3319997604465605
+   },
+   "fr3v2_1_link4": {
+    "n": 2040,
+    "n_infinite": 0,
+    "off_median": 12.177652120927299,
+    "on_median": 33.574757611756624,
+    "ratio_median": 2.5626989911623874
+   },
+   "fr3v2_1_link5": {
+    "n": 6630,
+    "n_infinite": 0,
+    "off_median": 6.103829053468331,
+    "on_median": 13.43693864692769,
+    "ratio_median": 2.3847814957011164
+   },
+   "fr3v2_1_link6": {
+    "n": 1530,
+    "n_infinite": 0,
+    "off_median": 4.430437299140834,
+    "on_median": 9.022972513479154,
+    "ratio_median": 1.9725801984834428
+   },
+   "fr3v2_1_link7": {
+    "n": 2550,
+    "n_infinite": 0,
+    "off_median": 2.1095238066828017,
+    "on_median": 6.964055810005082,
+    "ratio_median": 3.5006855994232495
+   },
+   "fr3v2_1_hand": {
+    "n": 9180,
+    "n_infinite": 0,
+    "off_median": 1.5408532735784513,
+    "on_median": 5.615669255253388,
+    "ratio_median": 3.821188917243967
+   },
+   "fr3v2_1_leftfinger": {
+    "n": 1020,
+    "n_infinite": 0,
+    "off_median": 0.922606466032982,
+    "on_median": 4.302622170236466,
+    "ratio_median": 4.688418429883906
+   },
+   "fr3v2_1_rightfinger": {
+    "n": 1020,
+    "n_infinite": 0,
+    "off_median": 0.8391866693557294,
+    "on_median": 4.200553593486285,
+    "ratio_median": 5.05468761149146
+   }
+  }
+ },
+ "indy_definition": {
+  "fr3v2_1_link1": {
+   "rel_max": 7.838014375002425e-16,
+   "frame_vs_parent_joint_origin_m": 0.0
+  },
+  "fr3v2_1_link2": {
+   "rel_max": 6.921704274957557e-16,
+   "frame_vs_parent_joint_origin_m": 0.0
+  },
+  "fr3v2_1_link3": {
+   "rel_max": 5.100356491808903e-16,
+   "frame_vs_parent_joint_origin_m": 0.0
+  },
+  "fr3v2_1_link4": {
+   "rel_max": 4.691367477633462e-16,
+   "frame_vs_parent_joint_origin_m": 0.0
+  },
+  "fr3v2_1_link5": {
+   "rel_max": 4.539987756724075e-16,
+   "frame_vs_parent_joint_origin_m": 0.0
+  },
+  "fr3v2_1_link6": {
+   "rel_max": 3.721346594463595e-16,
+   "frame_vs_parent_joint_origin_m": 0.0
+  },
+  "fr3v2_1_link7": {
+   "rel_max": 5.847840829343169e-16,
+   "frame_vs_parent_joint_origin_m": 0.0
+  },
+  "fr3v2_1_hand": {
+   "rel_max": 3.9972552627610726e-16,
+   "frame_vs_parent_joint_origin_m": 0.10700000000000005
+  }
+ },
+ "time_us_per_state_rotor_on": {
+  "min": 198.493157953617,
+  "median": 200.3772744899662
+ },
+ "time_us_per_state_rotor_off": {
+  "min": 194.83826822828297,
+  "median": 196.32087353227743
+ },
+ "time_us_crba": 1.64774339646101,
+ "mu_tcp": {
+  "right_hand": {
+   "m_h_median": 0.7803623988806063,
+   "mu_off_median": 0.48230202250284665,
+   "mu_on_median": 0.6644783735254408,
+   "mu_over_mh_off_median": 0.5651129421922227,
+   "mu_over_mh_on_median": 0.8360564003166798
+  },
+  "left_hand": {
+   "m_h_median": 0.7785601824845199,
+   "mu_off_median": 0.47456246104546784,
+   "mu_on_median": 0.6589507715289178,
+   "mu_over_mh_off_median": 0.5739611773622603,
+   "mu_over_mh_on_median": 0.8398265185471581
+  },
+  "right_lower_arm": {
+   "m_h_median": 2.913457379666446,
+   "mu_off_median": 0.8151203151927593,
+   "mu_on_median": 1.7769468720812154,
+   "mu_over_mh_off_median": 0.26317697771566895,
+   "mu_over_mh_on_median": 0.578789786253302
+  },
+  "head": {
+   "m_h_median": 6.642852953271944,
+   "mu_off_median": 0.9692869660822814,
+   "mu_on_median": 2.6223881136614295,
+   "mu_over_mh_off_median": 0.13597896737088686,
+   "mu_over_mh_on_median": 0.3728887917621371
+  },
+  "chest": {
+   "m_h_median": 24.614668295078594,
+   "mu_off_median": 1.0685263472010298,
+   "mu_on_median": 3.6188696498321837,
+   "mu_over_mh_off_median": 0.041452152427974745,
+   "mu_over_mh_on_median": 0.14011756940556402
+  },
+  "abdomen": {
+   "m_h_median": 36.73834960542422,
+   "mu_off_median": 1.0656465107048811,
+   "mu_on_median": 3.699491364830633,
+   "mu_over_mh_off_median": 0.029061381436666707,
+   "mu_over_mh_on_median": 0.10132454343500741
+  },
+  "pelvis": {
+   "m_h_median": 30.175475935473912,
+   "mu_off_median": 1.0540249567751712,
+   "mu_on_median": 3.6799925667983038,
+   "mu_over_mh_off_median": 0.03350641645074003,
+   "mu_over_mh_on_median": 0.1180661922338663
+  }
+ }
+}

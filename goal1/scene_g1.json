@@ -1,0 +1,65 @@
+{
+ "goals_wxyz": [
+  [
+   0.35,
+   -0.2,
+   0.2,
+   0.0,
+   1.0,
+   0.0,
+   0.0
+  ],
+  [
+   0.5,
+   0.4,
+   0.3,
+   0.0,
+   1.0,
+   0.0,
+   0.0
+  ]
+ ],
+ "rule": "\uc190 \ubc29\ud5a5 (0,1,0,0); \uc0ac\ub78c(4\ub2e8\uacc4 \uc7ac\uc0dd\u00b7\uc784\uc2dc \ubcc0\ud658) \uc804 \ud504\ub808\uc784 \ubd84\uc808 \ud45c\uba74\uae4c\uc9c0 \u2265 0.15 m; cuRobo IK(fr3v2_1 \uc881\uc740 \ud55c\uacc4, \ud0c1\uc790\u00b7\ubc14\ub2e5) \uc131\uacf5; \uc88c\uc6b0 \uac01\uac01 \uc0ac\ub78c\uc5d0 \uac00\uc7a5 \uac00\uae4c\uc6b4 \uc810",
+ "detail": {
+  "right(y<0)": {
+   "pos": [
+    0.35,
+    -0.2,
+    0.2
+   ],
+   "human_surface_min_m": 0.1504,
+   "q": [
+    -0.06620000302791595,
+    0.0925000011920929,
+    -0.4287000000476837,
+    -2.7147998809814453,
+    0.11389999836683273,
+    2.7969000339508057,
+    0.18479999899864197
+   ],
+   "n_feasible_side": 562,
+   "closest_segment": "L_lowerarm",
+   "retract_ee_dist_m": null
+  },
+  "left(y>0)": {
+   "pos": [
+    0.5,
+    0.4,
+    0.3
+   ],
+   "human_surface_min_m": 0.1502,
+   "q": [
+    0.6848999857902527,
+    0.4187000095844269,
+    -0.011099999770522118,
+    -1.8431999683380127,
+    0.005799999926239252,
+    2.261899948120117,
+    1.4564000368118286
+   ],
+   "n_feasible_side": 655,
+   "closest_segment": "head",
+   "retract_ee_dist_m": null
+  }
+ }
+}

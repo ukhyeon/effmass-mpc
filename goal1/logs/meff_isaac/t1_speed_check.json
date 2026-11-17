@@ -1,0 +1,26 @@
+[
+ {
+  "file": "t1_chk_front_0.31h1_massA_s0_on_dump_0020.npz",
+  "n": 600,
+  "n_pos_ref": 328,
+  "n_pos_gpu": 328,
+  "max_abs": 0.00033646997465552886,
+  "max_rel_on_pos": 9.203165455506e-05,
+  "inv_dt_maxrel": 7.43865966712498e-07,
+  "max_cost": 219.36326924353347,
+  "v_max": 0.9683623268832939,
+  "frac_near": 0.5582532504239683
+ },
+ {
+  "file": "t1_chk_front_0.31h1_massA_s0_on_dump_0040.npz",
+  "n": 600,
+  "n_pos_ref": 0,
+  "n_pos_gpu": 0,
+  "max_abs": 0.0,
+  "max_rel_on_pos": null,
+  "inv_dt_maxrel": 7.43865966712498e-07,
+  "max_cost": 0.0,
+  "v_max": 0.4436983028162954,
+  "frac_near": 0.5336065573770492
+ }
+]

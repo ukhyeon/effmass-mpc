@@ -1,0 +1,70 @@
+# Allowlist: ignore everything, then re-include only what is published.
+# Not published: SMPL models, human data (npz, Kinect recordings), third-party code (curobo, ref/, ws/),
+# robot assets / USD, Isaac Sim, CUDA, caches, frame/rec folders, large videos, R1 work in progress.
+/*
+!/.gitignore
+!/README.md
+!/docs/
+!/media/
+
+!/goal1/
+/goal1/*
+
+# my code and config
+!/goal1/scripts/
+/goal1/scripts/*
+!/goal1/scripts/*.py
+!/goal1/scripts/*.sh
+/goal1/scripts/r1_*
+!/goal1/config/
+!/goal1/scene_g1.json
+
+# reports
+!/goal1/step1_2_report.md
+!/goal1/step1_3_report.md
+
+# summary logs (static stages only)
+!/goal1/logs/
+/goal1/logs/*
+!/goal1/logs/meff_isaac/
+/goal1/logs/meff_isaac/*
+!/goal1/logs/meff_isaac/b2a4_*.json
+!/goal1/logs/meff_isaac/b2a5_*.json
+!/goal1/logs/meff_isaac/t1_*.json
+!/goal1/logs/meff_isaac/v1_*.json
+!/goal1/logs/meff_isaac/v2_*.json
+!/goal1/logs/meff_isaac/g13_*.json
+!/goal1/logs/meff_isaac/g1d_*.json
+!/goal1/logs/*.json
+
+# MPC run node and environment-check scripts (my code)
+!/env_check/
+/env_check/*
+!/env_check/scripts/
+/env_check/scripts/*
+!/env_check/scripts/*.py
+!/env_check/scripts/*.sh
+
+# figures and scene files
+!/goal1/b2a/
+/goal1/b2a/*
+!/goal1/b2a/b2a5_fig*.png
+!/goal1/b2a/g2/
+/goal1/b2a/g2/*
+!/goal1/b2a/g2/scene_*.json
+!/goal1/zone/
+/goal1/zone/*
+!/goal1/zone/*.png
+
+# never, even if matched above
+*.npz
+*.npy
+*.pkl
+*.usd
+*.usda
+*.usdc
+__pycache__/
+*.pyc
+r1_*
+**/r1/
+human_r1_*

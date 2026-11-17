@@ -1,0 +1,33 @@
+{
+ "eta_uniform_large": 0.16542874439440644,
+ "thickness_m": {
+  "uniform_small": {
+   "front 0 deg (toward robot)": 0.066,
+   "45 deg (front-up)": 0.07700000000000001,
+   "up 90 deg (back of hand)": 0.1005,
+   "outer side 90 deg (+y)": 0.132,
+   "down 90 deg (palm)": 0.095,
+   "forearm mid, up": 0.065,
+   "forearm mid, outer side": 0.065
+  },
+  "uniform_large": {
+   "front 0 deg (toward robot)": 0.167,
+   "45 deg (front-up)": 0.18,
+   "up 90 deg (back of hand)": 0.20750000000000002,
+   "outer side 90 deg (+y)": 0.23800000000000002,
+   "down 90 deg (palm)": 0.202,
+   "forearm mid, up": 0.16549999999999998,
+   "forearm mid, outer side": 0.16549999999999998
+  },
+  "ours": {
+   "front 0 deg (toward robot)": 0.2035,
+   "45 deg (front-up)": 0.11399999999999999,
+   "up 90 deg (back of hand)": 0.168,
+   "outer side 90 deg (+y)": 0.14400000000000002,
+   "down 90 deg (palm)": 0.1395,
+   "forearm mid, up": 0.146,
+   "forearm mid, outer side": 0.13399999999999998
+  }
+ },
+ "note": "margin beyond the arm surface (shape-based): along the ray from the hand COM (or forearm mid), zone exit minus the last exit from the arm shapes before it"
+}

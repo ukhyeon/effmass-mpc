@@ -1,0 +1,1 @@
+{"npz": "/home/robotics/hrc_ws/pose_npz/human_state_1781524848.npz", "n": 1262, "rate": 30.0, "actual_hz": 30.023674354364147, "late": 0, "betas": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "vertices": false, "vert_ms_mean": null}

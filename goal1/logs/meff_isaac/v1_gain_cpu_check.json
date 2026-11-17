@@ -1,0 +1,99 @@
+{
+ "sphere_buffer_m": 0.02,
+ "dumps": [
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/v1_front_0.38h1_gain_s0_dump_dump_0030.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/v1_front_0.38h1_gain_s0_dump_dump_0045.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/v1_front_0.38h1_gain_s0_dump_dump_0060.npz"
+ ],
+ "dir": "closest",
+ "motion": "static",
+ "samples": 54900,
+ "shape_match": 1.0,
+ "seg_match": 1.0,
+ "shape_mismatch": 0,
+ "center_abs_m": {
+  "n": 900,
+  "max": 3.2242744807398083e-07,
+  "p99": 2.9258971602136305e-07,
+  "median": 1.6081514445098755e-07
+ },
+ "inv_r_rel": 8.851244910494731e-16,
+ "dist_ref_min_m": 0.11431417221463794,
+ "dist_n_negative": 0,
+ "dist_abs_m": {
+  "n": 54900,
+  "max": 3.042770048145016e-07,
+  "p99": 1.9310431779273614e-07,
+  "median": 3.962448391625628e-08
+ },
+ "dist_rel_where_ref_ge_1cm": {
+  "n": 54900,
+  "max": 2.1166316924270757e-06,
+  "p99": 1.0310227847942867e-06,
+  "median": 1.25637064557655e-07
+ },
+ "dist_n_ref_lt_1cm": 0,
+ "u_abs": {
+  "n": 54900,
+  "max": 2.1544560705188953e-06,
+  "p99": 1.6759252278238103e-06,
+  "median": 1.9979519478284004e-07
+ },
+ "mh_rel": {
+  "n": 54900,
+  "max": 4.821830108448741e-06,
+  "p99": 1.4993234145732332e-06,
+  "median": 1.758675360615932e-07
+ },
+ "mr_rel_finite": {
+  "n": 51300,
+  "max": 1.966558824543594e-06,
+  "p99": 7.735945477394597e-07,
+  "median": 9.549607463167429e-08
+ },
+ "mu_rel": {
+  "n": 54900,
+  "max": 4.153076771694061e-06,
+  "p99": 1.2607701807242408e-06,
+  "median": 1.5723426607143146e-07
+ },
+ "mr_inf_both": 3600,
+ "mr_inf_mismatch": 0,
+ "cost": {
+  "n_positive": 292,
+  "rel": {
+   "n": 292,
+   "max": 0.01184564498187064,
+   "p99": 0.0032205702499957037,
+   "median": 4.527907186157273e-05
+  },
+  "abs_all_max": 0.0040979134500958025,
+  "shape_match_positive": 1.0,
+  "eta_rel": {
+   "n": 292,
+   "max": 1.4878153493352767e-06,
+   "p99": 1.2281417099712075e-06,
+   "median": 3.0271603263882146e-07
+  },
+  "sum_bh_rel": {
+   "n": 290,
+   "max": 0.01184564498187064,
+   "p99": 0.002853975737190067,
+   "median": 4.482766363972893e-05
+  },
+  "sum_bh_worst": {
+   "rel": 0.01184564498187064,
+   "ref_sum": 0.0003966799117921048,
+   "rel_where_sum_ge_10": 0.00011346695387918238
+  },
+  "rel_where_cost_ge_1": {
+   "n": 223,
+   "max": 0.00034924537883045353,
+   "p99": 0.0002376799294896928,
+   "median": 2.9510528817660018e-05
+  },
+  "cost_ref_max": 208.66888175864784,
+  "n_rel_gt_1e4": 83,
+  "ref_cost_of_rel_gt_1e4_max": 18.684694220947645
+ }
+}

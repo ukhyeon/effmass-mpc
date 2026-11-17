@@ -1,0 +1,100 @@
+{
+ "path": "/home/robotics/effmass_mpc/ref/franka_simulation_release_v0.1.0/fr3v2_1/fr3v2_1.usda",
+ "open_ok": true,
+ "articulation_root": [
+  "/World/fr3v2_1/Geometry/base"
+ ],
+ "joints": [
+  {
+   "name": "fr3v2_1_joint1",
+   "kind": "angular",
+   "lower": -166.20016479492188,
+   "upper": 166.20016479492188,
+   "stiffness": 0.0,
+   "damping": 0.003000000026077032,
+   "max_force": 87.0,
+   "max_vel": 150.1149444580078
+  },
+  {
+   "name": "fr3v2_1_joint2",
+   "kind": "angular",
+   "lower": -105.20021057128906,
+   "upper": 105.20021057128906,
+   "stiffness": 0.0,
+   "damping": 0.003000000026077032,
+   "max_force": 87.0,
+   "max_vel": 150.1149444580078
+  },
+  {
+   "name": "fr3v2_1_joint3",
+   "kind": "angular",
+   "lower": -166.20016479492188,
+   "upper": 166.20016479492188,
+   "stiffness": 0.0,
+   "damping": 0.003000000026077032,
+   "max_force": 87.0,
+   "max_vel": 150.1149444580078
+  },
+  {
+   "name": "fr3v2_1_joint4",
+   "kind": "angular",
+   "lower": -176.30026245117188,
+   "upper": -6.700001239776611,
+   "stiffness": 0.0,
+   "damping": 0.003000000026077032,
+   "max_force": 87.0,
+   "max_vel": 150.1149444580078
+  },
+  {
+   "name": "fr3v2_1_joint5",
+   "kind": "angular",
+   "lower": -164.800048828125,
+   "upper": 164.800048828125,
+   "stiffness": 0.0,
+   "damping": 0.003000000026077032,
+   "max_force": 12.0,
+   "max_vel": 301.3758239746094
+  },
+  {
+   "name": "fr3v2_1_joint6",
+   "kind": "angular",
+   "lower": 25.199981689453125,
+   "upper": 264.8000793457031,
+   "stiffness": 0.0,
+   "damping": 0.003000000026077032,
+   "max_force": 12.0,
+   "max_vel": 239.49635314941406
+  },
+  {
+   "name": "fr3v2_1_joint7",
+   "kind": "angular",
+   "lower": -174.7998809814453,
+   "upper": 174.7998809814453,
+   "stiffness": 0.0,
+   "damping": 0.003000000026077032,
+   "max_force": 12.0,
+   "max_vel": 301.3758239746094
+  }
+ ],
+ "rigid_bodies": [
+  "/World/fr3v2_1/Geometry/base/fr3v2_1_link0",
+  "/World/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1",
+  "/World/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2",
+  "/World/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3",
+  "/World/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3/fr3v2_1_link4",
+  "/World/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3/fr3v2_1_link4/fr3v2_1_link5",
+  "/World/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3/fr3v2_1_link4/fr3v2_1_link5/fr3v2_1_link6",
+  "/World/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3/fr3v2_1_link4/fr3v2_1_link5/fr3v2_1_link6/fr3v2_1_link7"
+ ],
+ "masses": {
+  "fr3v2_1_link0": 2.3966000080108643,
+  "fr3v2_1_link1": 2.437700033187866,
+  "fr3v2_1_link2": 2.237499952316284,
+  "fr3v2_1_link3": 2.1963820457458496,
+  "fr3v2_1_link4": 2.186422109603882,
+  "fr3v2_1_link5": 2.1907830238342285,
+  "fr3v2_1_link6": 1.5835829973220825,
+  "fr3v2_1_link7": 0.6986860036849976
+ },
+ "articulation_error": "AttributeError(\"'NoneType' object has no attribute 'is_homogeneous'\")"
+}

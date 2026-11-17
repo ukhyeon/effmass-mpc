@@ -1,0 +1,34 @@
+{
+ "rec_front_u065": {
+  "bit_equal_first_n": true,
+  "n": 160
+ },
+ "rec_front_gain": {
+  "bit_equal_first_n": true,
+  "n": 150
+ },
+ "rec_top_u065": {
+  "bit_equal_first_n": true,
+  "n": 238
+ },
+ "rec_top_gain": {
+  "bit_equal_first_n": true,
+  "n": 320
+ },
+ "rec_knob_gk000": {
+  "bit_equal_first_n": true,
+  "n": 160
+ },
+ "rec_knob_gk005": {
+  "bit_equal_first_n": true,
+  "n": 168
+ },
+ "rec_knob_gain": {
+  "bit_equal_first_n": true,
+  "n": 150
+ },
+ "rec_knob_gk015": {
+  "bit_equal_first_n": true,
+  "n": 164
+ }
+}

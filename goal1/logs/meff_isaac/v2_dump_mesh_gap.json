@@ -1,0 +1,51 @@
+{
+ "tag": "v2_dump",
+ "human_pre": "/home/robotics/effmass_mpc/goal1/data/human_precomputed_1781524848_v2.npz",
+ "verts": "/home/robotics/effmass_mpc/goal1/data/human_precomputed_1781524848_verts.npz",
+ "human_dir": "~/effmass_mpc/env_check/step4",
+ "sphere_radius": "yml + 0.02 (MPC)",
+ "summary": {
+  "hand": {
+   "min_gap_m": 0.12297801758606129,
+   "min_gap_no_buffer_m": 0.1429780175860613,
+   "step": 306,
+   "sphere": "fr3v2_1_hand",
+   "steps_negative": 0
+  },
+  "forearm": {
+   "min_gap_m": 0.20804918782292997,
+   "min_gap_no_buffer_m": 0.22804918782292996,
+   "step": 304,
+   "sphere": "fr3v2_1_hand",
+   "steps_negative": 0
+  },
+  "upperarm": {
+   "min_gap_m": 0.25670590120112874,
+   "min_gap_no_buffer_m": 0.27670590120112876,
+   "step": 302,
+   "sphere": "fr3v2_1_link6",
+   "steps_negative": 0
+  },
+  "torso": {
+   "min_gap_m": 0.16828420798535587,
+   "min_gap_no_buffer_m": 0.18828420798535586,
+   "step": 158,
+   "sphere": "fr3v2_1_hand",
+   "steps_negative": 0
+  },
+  "head": null,
+  "legs": null,
+  "neck_shoulder": {
+   "min_gap_m": 0.26965367628609965,
+   "min_gap_no_buffer_m": 0.28965367628609967,
+   "step": 302,
+   "sphere": "fr3v2_1_link6",
+   "steps_negative": 0
+  },
+  "overall": {
+   "min_gap_m": 0.12297801758606129,
+   "step": 306,
+   "steps_negative": 0
+  }
+ }
+}

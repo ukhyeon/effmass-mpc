@@ -1,0 +1,53 @@
+{
+ "order": "isaac_first",
+ "python": "/home/robotics/effmass_mpc/isaacsim/kit/python/bin/python3",
+ "added": [
+  "/home/robotics/hrc_ws/install/hrc_interfaces/local/lib/python3.10/dist-packages",
+  "/opt/ros/humble/lib/python3.10/site-packages",
+  "/opt/ros/humble/local/lib/python3.10/dist-packages",
+  "/home/robotics/effmass_mpc/ws/install/effmass_robot/lib/python3.10/site-packages"
+ ],
+ "unchanged": true,
+ "modules": {
+  "numpy": {
+   "file": "/home/robotics/effmass_mpc/isaacsim/extscache/omni.kit.pip_archive-0.0.0+d02c707b.lx64.cp310/pip_prebundle/numpy/__init__.py",
+   "version": "1.26.0"
+  },
+  "torch": {
+   "file": "/home/robotics/effmass_mpc/isaacsim/exts/omni.isaac.ml_archive/pip_prebundle/torch/__init__.py",
+   "version": "2.5.1+cu118"
+  },
+  "warp": {
+   "file": "/home/robotics/effmass_mpc/isaacsim/kit/python/lib/python3.10/site-packages/warp/__init__.py",
+   "version": "1.5.0"
+  },
+  "curobo": {
+   "file": "/home/robotics/effmass_mpc/curobo/src/curobo/__init__.py",
+   "version": "0.7.7"
+  },
+  "yaml": {
+   "file": "/home/robotics/effmass_mpc/isaacsim/exts/omni.pip.compute/pip_prebundle/yaml/__init__.py",
+   "version": "6.0.1"
+  }
+ },
+ "all_isaac": false,
+ "pinocchio": {
+  "version": "3.9.0",
+  "file": "/opt/ros/humble/lib/python3.10/site-packages/pinocchio/__init__.py"
+ },
+ "effmass_robot_file": "/home/robotics/effmass_mpc/ws/install/effmass_robot/lib/python3.10/site-packages/effmass_robot/robot_inertia.py",
+ "curobo_dof": 7,
+ "curobo_joint_names": [
+  "fr3v2_1_joint1",
+  "fr3v2_1_joint2",
+  "fr3v2_1_joint3",
+  "fr3v2_1_joint4",
+  "fr3v2_1_joint5",
+  "fr3v2_1_joint6",
+  "fr3v2_1_joint7"
+ ],
+ "curobo_spheres_total": 65,
+ "curobo_spheres_r_pos": 61,
+ "center_vs_curobo_max_m": 4.095283855365395e-07,
+ "radius_vs_yml_max_m": 0.004000003039836886
+}

@@ -1,0 +1,28 @@
+{
+ "pre": "/home/robotics/effmass_mpc/goal1/data/human_b2a_reach_v2.npz",
+ "mesh": "/home/robotics/effmass_mpc/goal1/data/human_b2a_reach_verts.npz",
+ "viz": "mesh",
+ "steps": 30,
+ "prims_under_world_human": {
+  "": 1,
+  "PointInstancer": 1,
+  "Sphere": 1,
+  "Mesh": 1
+ },
+ "mesh_points": 6890,
+ "mesh_update_ms": [
+  0.5490239709615707
+ ],
+ "mesh_updates": 1,
+ "pump_ms_first": 1.2308103032410145,
+ "pump_ms_mean_after_first": 0.046204839800966194,
+ "loop_ms_mean": 2.107761800289154,
+ "loop_ms_p95": 2.188244345597923,
+ "frames": 1,
+ "clamped": 29,
+ "zone": {
+  "verts": 42911,
+  "faces": 85412,
+  "file": "/home/robotics/effmass_mpc/goal1/zone/zone_ours_mesh.npz"
+ }
+}

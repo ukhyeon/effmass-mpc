@@ -1,0 +1,10 @@
+{
+ "update_ms_mean": 0.3596653106311957,
+ "update_ms_p95": 0.7751099066808816,
+ "capture_ms_mean": 142.87672458216548,
+ "n_updates": 150,
+ "mp4": [
+  "/home/robotics/effmass_mpc/goal1/b2a/demo/v2/rec/rec_knob_gain_cam0.mp4"
+ ],
+ "mp4_note": "raw camera clips, 30 fps for 60 Hz steps (0.5x)"
+}

@@ -1,0 +1,125 @@
+{
+ "url": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/4.5/Isaac/Robots/Franka/FR3/fr3.usd",
+ "articulation_root": [
+  "/World/fr3"
+ ],
+ "joints": [
+  {
+   "path": "/World/fr3/fr3_link0/fr3_joint1",
+   "kind": "angular",
+   "lower": -157.20242309570312,
+   "upper": 157.20242309570312,
+   "stiffness": 60000.0,
+   "damping": 6000.0,
+   "max_force": 87.0,
+   "max_vel": 150.11492919921875
+  },
+  {
+   "path": "/World/fr3/fr3_link1/fr3_joint2",
+   "kind": "angular",
+   "lower": -102.19847869873047,
+   "upper": 102.19847869873047,
+   "stiffness": 60000.0,
+   "damping": 6000.0,
+   "max_force": 87.0,
+   "max_vel": 150.11492919921875
+  },
+  {
+   "path": "/World/fr3/fr3_link2/fr3_joint3",
+   "kind": "angular",
+   "lower": -166.19786071777344,
+   "upper": 166.19786071777344,
+   "stiffness": 60000.0,
+   "damping": 6000.0,
+   "max_force": 87.0,
+   "max_vel": 150.11492919921875
+  },
+  {
+   "path": "/World/fr3/fr3_link3/fr3_joint4",
+   "kind": "angular",
+   "lower": -174.2994842529297,
+   "upper": -8.69749927520752,
+   "stiffness": 60000.0,
+   "damping": 6000.0,
+   "max_force": 87.0,
+   "max_vel": 150.11492919921875
+  },
+  {
+   "path": "/World/fr3/fr3_link4/fr3_joint5",
+   "kind": "angular",
+   "lower": -160.80059814453125,
+   "upper": 160.80059814453125,
+   "stiffness": 60000.0,
+   "damping": 6000.0,
+   "max_force": 12.0,
+   "max_vel": 301.3758239746094
+  },
+  {
+   "path": "/World/fr3/fr3_link5/fr3_joint6",
+   "kind": "angular",
+   "lower": 31.19754981994629,
+   "upper": 258.7992858886719,
+   "stiffness": 60000.0,
+   "damping": 6000.0,
+   "max_force": 12.0,
+   "max_vel": 239.49635314941406
+  },
+  {
+   "path": "/World/fr3/fr3_link6/fr3_joint7",
+   "kind": "angular",
+   "lower": -172.79832458496094,
+   "upper": 172.79832458496094,
+   "stiffness": 60000.0,
+   "damping": 6000.0,
+   "max_force": 12.0,
+   "max_vel": 301.3758239746094
+  },
+  {
+   "path": "/World/fr3/fr3_hand/fr3_finger_joint1",
+   "kind": "linear",
+   "lower": 0.0,
+   "upper": 0.03999999910593033,
+   "stiffness": 60000.0,
+   "damping": 6000.0,
+   "max_force": 100.0,
+   "max_vel": 0.20000000298023224
+  },
+  {
+   "path": "/World/fr3/fr3_hand/fr3_finger_joint2",
+   "kind": "linear",
+   "lower": 0.0,
+   "upper": 0.03999999910593033,
+   "stiffness": 0.0,
+   "damping": 0.0,
+   "max_force": Infinity,
+   "max_vel": 0.20000000298023224
+  }
+ ],
+ "rigid_bodies": [
+  "/World/fr3/fr3_link0",
+  "/World/fr3/fr3_link1",
+  "/World/fr3/fr3_link2",
+  "/World/fr3/fr3_link3",
+  "/World/fr3/fr3_link4",
+  "/World/fr3/fr3_link5",
+  "/World/fr3/fr3_link6",
+  "/World/fr3/fr3_link7",
+  "/World/fr3/fr3_link8",
+  "/World/fr3/fr3_hand",
+  "/World/fr3/fr3_leftfinger",
+  "/World/fr3/fr3_rightfinger",
+  "/World/fr3/fr3_hand_tcp"
+ ],
+ "dof_names": [
+  "fr3_joint1",
+  "fr3_joint2",
+  "fr3_joint3",
+  "fr3_joint4",
+  "fr3_joint5",
+  "fr3_joint6",
+  "fr3_joint7",
+  "fr3_finger_joint1",
+  "fr3_finger_joint2"
+ ],
+ "hand_fk_err_mm_max": 0.0007208220137624636
+}

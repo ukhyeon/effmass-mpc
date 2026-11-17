@@ -1,0 +1,102 @@
+{
+ "sphere_buffer_m": 0.02,
+ "dumps": [
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/v2_dump_dump_0300.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/v2_dump_dump_0305.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/v2_dump_dump_0310.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/v2_dump_dump_0315.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/v2_dump_dump_0320.npz",
+  "/home/robotics/effmass_mpc/goal1/logs/meff_isaac/v2_dump_dump_0330.npz"
+ ],
+ "dir": "com",
+ "motion": "static",
+ "samples": 109800,
+ "shape_match": 1.0,
+ "seg_match": 1.0,
+ "shape_mismatch": 0,
+ "center_abs_m": {
+  "n": 1800,
+  "max": 3.795225394231938e-07,
+  "p99": 3.248234552721829e-07,
+  "median": 2.0438992202886919e-07
+ },
+ "inv_r_rel": 9.502538470851798e-16,
+ "dist_ref_min_m": 0.12194273190451481,
+ "dist_n_negative": 0,
+ "dist_abs_m": {
+  "n": 109800,
+  "max": 3.357604433373851e-07,
+  "p99": 2.3069160342614744e-07,
+  "median": 7.159253731514603e-08
+ },
+ "dist_rel_where_ref_ge_1cm": {
+  "n": 109800,
+  "max": 2.641485582655357e-06,
+  "p99": 1.1513983544745232e-06,
+  "median": 1.8201250392110121e-07
+ },
+ "dist_n_ref_lt_1cm": 0,
+ "u_abs": {
+  "n": 109800,
+  "max": 1.1840060832324362e-06,
+  "p99": 5.977678969593114e-07,
+  "median": 1.499974209978605e-07
+ },
+ "mh_rel": {
+  "n": 109800,
+  "max": 1.339527940799243e-06,
+  "p99": 4.777954977441081e-07,
+  "median": 8.69731521089666e-08
+ },
+ "mr_rel_finite": {
+  "n": 102600,
+  "max": 1.8640268877285225e-06,
+  "p99": 7.930362865089165e-07,
+  "median": 1.47185526535244e-07
+ },
+ "mu_rel": {
+  "n": 109800,
+  "max": 1.0077403534135163e-06,
+  "p99": 4.390006242260167e-07,
+  "median": 8.833065810600063e-08
+ },
+ "mr_inf_both": 7200,
+ "mr_inf_mismatch": 0,
+ "cost": {
+  "n_positive": 642,
+  "rel": {
+   "n": 642,
+   "max": 0.004906590309896161,
+   "p99": 0.0009963112147343698,
+   "median": 1.3854914076459858e-05
+  },
+  "abs_all_max": 0.003416318307159827,
+  "shape_match_positive": 1.0,
+  "eta_rel": {
+   "n": 642,
+   "max": 3.5546547588313396e-07,
+   "p99": 3.016668324320268e-07,
+   "median": 0.0
+  },
+  "sum_bh_rel": {
+   "n": 290,
+   "max": 0.004906590309896161,
+   "p99": 0.0018417143521016921,
+   "median": 1.5186025562666042e-05
+  },
+  "sum_bh_worst": {
+   "rel": 0.004906590309896161,
+   "ref_sum": 0.0012160854771577226,
+   "rel_where_sum_ge_10": 7.125378879183684e-05
+  },
+  "rel_where_cost_ge_1": {
+   "n": 617,
+   "max": 0.00016069389061092472,
+   "p99": 0.00010990378215089401,
+   "median": 1.3119317162533315e-05
+  },
+  "cost_ref_max": 305.9914103075926,
+  "n_rel_gt_1e4": 34,
+  "ref_cost_of_rel_gt_1e4_max": 3.185037321677364
+ }
+}

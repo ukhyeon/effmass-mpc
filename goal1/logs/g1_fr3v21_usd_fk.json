@@ -1,0 +1,96 @@
+{
+ "joints": {
+  "fr3v2_1_base_joint": {
+   "type": "PhysicsFixedJoint",
+   "body0": "[]",
+   "body1": "['/fr3v2_1/Geometry/base/fr3v2_1_link0']",
+   "axis": "None",
+   "lp0": "(0, 0, 0)",
+   "lr0": "(1, 0, 0, 0)",
+   "lp1": "(0, 0, 0)",
+   "lr1": "(1, 0, 0, 0)"
+  },
+  "fr3v2_1_joint1": {
+   "type": "PhysicsRevoluteJoint",
+   "body0": "['/fr3v2_1/Geometry/base/fr3v2_1_link0']",
+   "body1": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1']",
+   "axis": "Z",
+   "lp0": "(0, 0, 0.333)",
+   "lr0": "(1, 0, 0, 0)",
+   "lp1": "(0, 0, 0)",
+   "lr1": "(1, 0, 0, 0)"
+  },
+  "fr3v2_1_joint2": {
+   "type": "PhysicsRevoluteJoint",
+   "body0": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1']",
+   "body1": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2']",
+   "axis": "Z",
+   "lp0": "(0, 0, 0)",
+   "lr0": "(-0.70710677, 0.70710677, 0, 0)",
+   "lp1": "(0, 0, 0)",
+   "lr1": "(1, 0, 0, 0)"
+  },
+  "fr3v2_1_joint3": {
+   "type": "PhysicsRevoluteJoint",
+   "body0": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2']",
+   "body1": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3']",
+   "axis": "Z",
+   "lp0": "(0, -0.316, 1.6543612e-24)",
+   "lr0": "(-0.70710677, -0.70710677, 0, 0)",
+   "lp1": "(0, 0, 0)",
+   "lr1": "(1, 0, 0, 0)"
+  },
+  "fr3v2_1_joint4": {
+   "type": "PhysicsRevoluteJoint",
+   "body0": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3']",
+   "body1": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3/fr3v2_1_link4']",
+   "axis": "Z",
+   "lp0": "(0.0825, 0, 0)",
+   "lr0": "(0.70710677, 0.70710677, 0, 0)",
+   "lp1": "(0, 0, 0)",
+   "lr1": "(1, 0, 0, 0)"
+  },
+  "fr3v2_1_joint5": {
+   "type": "PhysicsRevoluteJoint",
+   "body0": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3/fr3v2_1_link4']",
+   "body1": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3/fr3v2_1_link4/fr3v2_1_link5']",
+   "axis": "Z",
+   "lp0": "(-0.0825, 0.384, 6.617445e-24)",
+   "lr0": "(0.70710677, -0.70710677, 0, 0)",
+   "lp1": "(0, 0, 0)",
+   "lr1": "(1, 0, 0, 0)"
+  },
+  "fr3v2_1_joint6": {
+   "type": "PhysicsRevoluteJoint",
+   "body0": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3/fr3v2_1_link4/fr3v2_1_link5']",
+   "body1": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3/fr3v2_1_link4/fr3v2_1_link5/fr3v2_1_link6']",
+   "axis": "Z",
+   "lp0": "(0, 0, 0)",
+   "lr0": "(0.70710677, 0.70710677, 0, 0)",
+   "lp1": "(0, 0, 0)",
+   "lr1": "(1, 0, 0, 0)"
+  },
+  "fr3v2_1_joint7": {
+   "type": "PhysicsRevoluteJoint",
+   "body0": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3/fr3v2_1_link4/fr3v2_1_link5/fr3v2_1_link6']",
+   "body1": "['/fr3v2_1/Geometry/base/fr3v2_1_link0/fr3v2_1_link1/fr3v2_1_link2/fr3v2_1_link3/fr3v2_1_link4/fr3v2_1_link5/fr3v2_1_link6/fr3v2_1_link7']",
+   "axis": "Z",
+   "lp0": "(0.088, 0, 0)",
+   "lr0": "(0.70710677, 0.70710677, 0, 0)",
+   "lp1": "(0, 0, 0)",
+   "lr1": "(1, 0, 0, 0)"
+  }
+ },
+ "link7_fk_err_mm": [
+  3.8407525421895296e-05,
+  2.927498912625649e-05,
+  3.580369655816243e-05,
+  1.1176759823093073e-05,
+  3.442020823718461e-05,
+  4.2521531188546404e-05,
+  2.8409987337116296e-05,
+  3.4843373092763144e-05,
+  5.513082069480097e-05,
+  5.6013306845650404e-05
+ ]
+}

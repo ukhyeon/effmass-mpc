@@ -1,0 +1,104 @@
+{
+ "e00": {
+  "requested_deg": 0.0,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_b2a_reach_v2.npz",
+  "elbow_angle_deg": 0.10133091023240759,
+  "forearm_dir": [
+   -1.0,
+   -0.0,
+   0.009
+  ],
+  "upper_arm_dir": [
+   -1.0,
+   -0.0,
+   0.007
+  ],
+  "hand_com": [
+   0.596,
+   -0.012,
+   0.436
+  ],
+  "front_thickness_m": {
+   "uniform": 0.0655,
+   "ours": 0.1995
+  },
+  "front_protrusion_vs_uniform_m": 0.134,
+  "up_thickness_m": {
+   "uniform": 0.0655,
+   "ours": 0.08700000000000001
+  },
+  "tip_dir_thickness_m": {
+   "uniform": 0.065,
+   "ours": 0.1995
+  },
+  "tip_dir_protrusion_vs_uniform_m": 0.1345
+ },
+ "e30": {
+  "requested_deg": 30.0,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_posture_e30_v2.npz",
+  "elbow_angle_deg": 33.52714225180484,
+  "forearm_dir": [
+   -0.833,
+   -0.551,
+   0.044
+  ],
+  "upper_arm_dir": [
+   -1.0,
+   -0.0,
+   0.007
+  ],
+  "hand_com": [
+   0.662,
+   -0.213,
+   0.448
+  ],
+  "front_thickness_m": {
+   "uniform": 0.0655,
+   "ours": 0.1075
+  },
+  "front_protrusion_vs_uniform_m": 0.041999999999999996,
+  "up_thickness_m": {
+   "uniform": 0.0655,
+   "ours": 0.07050000000000001
+  },
+  "tip_dir_thickness_m": {
+   "uniform": 0.0655,
+   "ours": 0.178
+  },
+  "tip_dir_protrusion_vs_uniform_m": 0.11249999999999999
+ },
+ "e90": {
+  "requested_deg": 90.0,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_posture_e90_v2.npz",
+  "elbow_angle_deg": 93.32040236784253,
+  "forearm_dir": [
+   0.058,
+   -0.998,
+   -0.033
+  ],
+  "upper_arm_dir": [
+   -1.0,
+   -0.0,
+   0.007
+  ],
+  "hand_com": [
+   0.995,
+   -0.37,
+   0.42
+  ],
+  "front_thickness_m": {
+   "uniform": 0.0655,
+   "ours": 0.0695
+  },
+  "front_protrusion_vs_uniform_m": 0.0040000000000000036,
+  "up_thickness_m": {
+   "uniform": 0.0655,
+   "ours": 0.0675
+  },
+  "tip_dir_thickness_m": {
+   "uniform": 0.0655,
+   "ours": 0.14100000000000001
+  },
+  "tip_dir_protrusion_vs_uniform_m": 0.07550000000000001
+ }
+}

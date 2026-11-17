@@ -1,0 +1,51 @@
+{
+ "rotor_on": {
+  "states": 201,
+  "inv_inertia_rel_max": 1.938893655151697e-15,
+  "center_abs_max_m": 4.440892098500626e-16,
+  "M_rel_max": 7.641627313694491e-16,
+  "zero_spheres_same": true,
+  "zero_spheres": [
+   0,
+   1,
+   4,
+   5
+  ]
+ },
+ "rotor_off": {
+  "states": 201,
+  "inv_inertia_rel_max": 7.65432264960214e-14,
+  "center_abs_max_m": 4.440892098500626e-16,
+  "M_rel_max": 1.0882364510640907e-15,
+  "zero_spheres_same": true,
+  "zero_spheres": [
+   0,
+   1,
+   4,
+   5
+  ]
+ },
+ "time_us_median": {
+  "fk": 32.1,
+  "mass_matrix": 71.0,
+  "inverse": 63.9,
+  "point_jacobian": 46.8,
+  "inv_inertia": 10.8,
+  "total": 226.0
+ },
+ "time_us_p99": {
+  "fk": 56.1,
+  "mass_matrix": 119.6,
+  "inverse": 110.4,
+  "point_jacobian": 79.1,
+  "inv_inertia": 19.7,
+  "total": 359.7
+ },
+ "time_us_untimed_per_state": {
+  "min": 231.5,
+  "median": 234.1
+ },
+ "pinocchio_module_us_per_state": 194.3,
+ "spd_inv_vs_np_inv_rel_max_rotor_on": 5.554073592329422e-16,
+ "spd_inv_vs_np_inv_rel_max_rotor_off": 5.5549172730462665e-15
+}

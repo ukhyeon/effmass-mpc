@@ -1,0 +1,3 @@
+[{"name": "A", "eta0": 0.10, "muref": 2.0, "p": 0.5, "eta_min": 0.05, "eta_max": 0.20},
+ {"name": "B", "eta0": 0.10, "muref": 2.0, "p": 0.7, "eta_min": 0.04, "eta_max": 0.20},
+ {"name": "C", "eta0": 0.05, "muref": 0.66, "p": 0.5, "eta_min": 0.05, "eta_max": 0.15}]

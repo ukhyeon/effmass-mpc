@@ -1,0 +1,48 @@
+{
+ "v2_main": {
+  "file": "/home/robotics/effmass_mpc/goal1/b2a/demo/v2/v2_main.mp4",
+  "frames": 236,
+  "seconds": 7.866666666666666,
+  "min_gap_cm": {
+   "rec_front_u065": 6.26,
+   "rec_front_gain": 12.48,
+   "rec_top_u065": 5.8,
+   "rec_top_gain": 7.61
+  },
+  "closest_step": {
+   "rec_front_u065": 44,
+   "rec_front_gain": 41,
+   "rec_top_u065": 76,
+   "rec_top_gain": 97
+  },
+  "cut_end_step": {
+   "rec_front_u065": 158,
+   "rec_front_gain": 148,
+   "rec_top_u065": 236,
+   "rec_top_gain": 318
+  }
+ },
+ "v2_gain_knob": {
+  "file": "/home/robotics/effmass_mpc/goal1/b2a/demo/v2/v2_gain_knob.mp4",
+  "frames": 172,
+  "seconds": 5.733333333333333,
+  "min_gap_cm": {
+   "rec_knob_gk000": 6.26,
+   "rec_knob_gk005": 9.74,
+   "rec_knob_gain": 12.48,
+   "rec_knob_gk015": 13.54
+  },
+  "closest_step": {
+   "rec_knob_gk000": 44,
+   "rec_knob_gk005": 43,
+   "rec_knob_gain": 41,
+   "rec_knob_gk015": 67
+  },
+  "cut_end_step": {
+   "rec_knob_gk000": 158,
+   "rec_knob_gk005": 166,
+   "rec_knob_gain": 148,
+   "rec_knob_gk015": 162
+  }
+ }
+}

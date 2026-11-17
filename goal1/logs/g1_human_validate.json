@@ -1,0 +1,266 @@
+{
+ "frames": 1082,
+ "pos_vs_orig_max_m": 0.0,
+ "pos_vs_ref_max_m": 8.325371794964237e-07,
+ "within_1mm": 1082,
+ "t_ours_ms": {
+  "n": 1082,
+  "mean": 5.086948893716397,
+  "p95": 5.141579150222242,
+  "max": 447.3878750577569
+ },
+ "t_orig_ms": {
+  "n": 1082,
+  "mean": 4.924088177252251,
+  "p95": 5.416515003889799,
+  "max": 31.30196500569582
+ },
+ "blocked": [],
+ "vel_ratio_gap1": {
+  "pairs": 901,
+  "ours_median": 0.9999765103673952,
+  "ours_p5": 0.9873340307040414,
+  "ours_p95": 1.0108530998728265,
+  "orig_median": 0.9999765103673952
+ },
+ "vel_ratio_gap2": {
+  "pairs": 180,
+  "ours_median": 0.9999330932295918,
+  "ours_p5": 0.9800436084264436,
+  "ours_p95": 1.0172223018591147,
+  "orig_median": 1.9998661864591836
+ },
+ "meff_ours_vs_orig_rom_off": {
+  "n": 6156,
+  "rel_max": 7.8138133388549e-07,
+  "rel_p95": 2.3783245839741497e-07,
+  "abs_max_kg": 0.03164673486026004
+ },
+ "meff_rom_on_vs_off": {
+  "changed_frac": 0.16894087069525665,
+  "rel_mean": 0.02654172673755092,
+  "rel_min": -0.017336903548942743,
+  "rel_max": 2.6967937479596955,
+  "per_segment_mean": {
+   "pelvis": 0.0002898130611008053,
+   "left_thigh": 0.10932969889097388,
+   "right_thigh": 0.08333964323662225,
+   "abdomen": 0.0002899600659864185,
+   "left_calf": 0.10183611273776794,
+   "right_calf": 0.06711415601521871,
+   "left_foot": -0.00024337584291682005,
+   "right_foot": -0.0001379318106748972,
+   "chest": 0.0036594033063998294,
+   "neck": 0.04887770037015095,
+   "left_shoulder": 0.0014013439650405904,
+   "right_shoulder": 0.0002777638982432384,
+   "head": 0.017882805903877527,
+   "left_upper_arm": 0.04409457894462366,
+   "right_upper_arm": 0.0007283220312323958,
+   "left_lower_arm": 0.007485169762958751,
+   "right_lower_arm": 0.002019309205906987,
+   "left_hand": 0.015707344328233265,
+   "right_hand": 0.00034098994272204527
+  }
+ },
+ "shape_fit": {
+  "pelvis": {
+   "n_shapes": 2,
+   "n_vertices": 399,
+   "radius_m": [
+    0.1935,
+    0.1862
+   ],
+   "outside_frac": 0.05012531328320802,
+   "outside_excess_p95_m": 0.010195410394513518,
+   "outside_excess_max_m": 0.012011533210973813
+  },
+  "left_thigh": {
+   "n_shapes": 1,
+   "n_vertices": 237,
+   "radius_m": [
+    0.1145
+   ],
+   "outside_frac": 0.05063291139240506,
+   "outside_excess_p95_m": 0.003630257150139462,
+   "outside_excess_max_m": 0.003864127941971482
+  },
+  "right_thigh": {
+   "n_shapes": 1,
+   "n_vertices": 234,
+   "radius_m": [
+    0.1131
+   ],
+   "outside_frac": 0.05128205128205128,
+   "outside_excess_p95_m": 0.007240721532813331,
+   "outside_excess_max_m": 0.007428912668498988
+  },
+  "abdomen": {
+   "n_shapes": 2,
+   "n_vertices": 200,
+   "radius_m": [
+    0.1628,
+    0.1609
+   ],
+   "outside_frac": 0.05,
+   "outside_excess_p95_m": 0.005762096963277605,
+   "outside_excess_max_m": 0.005897965784984693
+  },
+  "left_calf": {
+   "n_shapes": 1,
+   "n_vertices": 199,
+   "radius_m": [
+    0.0877
+   ],
+   "outside_frac": 0.05025125628140704,
+   "outside_excess_p95_m": 0.00607171496275508,
+   "outside_excess_max_m": 0.006145471676745784
+  },
+  "right_calf": {
+   "n_shapes": 1,
+   "n_vertices": 199,
+   "radius_m": [
+    0.0882
+   ],
+   "outside_frac": 0.05025125628140704,
+   "outside_excess_p95_m": 0.005659231471303769,
+   "outside_excess_max_m": 0.005829011870023618
+  },
+  "left_foot": {
+   "n_shapes": 1,
+   "n_vertices": 253,
+   "radius_m": [
+    0.0905
+   ],
+   "outside_frac": 0.05138339920948617,
+   "outside_excess_p95_m": 0.011305317287181229,
+   "outside_excess_max_m": 0.01151442538321236
+  },
+  "right_foot": {
+   "n_shapes": 1,
+   "n_vertices": 253,
+   "radius_m": [
+    0.0808
+   ],
+   "outside_frac": 0.05138339920948617,
+   "outside_excess_p95_m": 0.011896752663776239,
+   "outside_excess_max_m": 0.012248193642680566
+  },
+  "chest": {
+   "n_shapes": 2,
+   "n_vertices": 808,
+   "radius_m": [
+    0.1479,
+    0.1463
+   ],
+   "outside_frac": 0.05198019801980198,
+   "outside_excess_p95_m": 0.0133662420565895,
+   "outside_excess_max_m": 0.02293131100697593
+  },
+  "neck": {
+   "n_shapes": 1,
+   "n_vertices": 118,
+   "radius_m": [
+    0.0695
+   ],
+   "outside_frac": 0.05084745762711865,
+   "outside_excess_p95_m": 0.00322324482837813,
+   "outside_excess_max_m": 0.0033517409355724587
+  },
+  "left_shoulder": {
+   "n_shapes": 1,
+   "n_vertices": 114,
+   "radius_m": [
+    0.1044
+   ],
+   "outside_frac": 0.05263157894736842,
+   "outside_excess_p95_m": 0.006587528286619713,
+   "outside_excess_max_m": 0.007360897143344855
+  },
+  "right_shoulder": {
+   "n_shapes": 1,
+   "n_vertices": 113,
+   "radius_m": [
+    0.0989
+   ],
+   "outside_frac": 0.05309734513274336,
+   "outside_excess_p95_m": 0.0045940997255343,
+   "outside_excess_max_m": 0.005180849434013091
+  },
+  "head": {
+   "n_shapes": 1,
+   "n_vertices": 1203,
+   "radius_m": [
+    0.1322
+   ],
+   "outside_frac": 0.05070656691604322,
+   "outside_excess_p95_m": 0.033593917718588356,
+   "outside_excess_max_m": 0.03591881947251771
+  },
+  "left_upper_arm": {
+   "n_shapes": 1,
+   "n_vertices": 271,
+   "radius_m": [
+    0.0756
+   ],
+   "outside_frac": 0.05166051660516605,
+   "outside_excess_p95_m": 0.014956219063470007,
+   "outside_excess_max_m": 0.01819562428142496
+  },
+  "right_upper_arm": {
+   "n_shapes": 1,
+   "n_vertices": 272,
+   "radius_m": [
+    0.0769
+   ],
+   "outside_frac": 0.051470588235294115,
+   "outside_excess_p95_m": 0.01330583828964833,
+   "outside_excess_max_m": 0.016746788617451352
+  },
+  "left_lower_arm": {
+   "n_shapes": 1,
+   "n_vertices": 230,
+   "radius_m": [
+    0.0548
+   ],
+   "outside_frac": 0.05217391304347826,
+   "outside_excess_p95_m": 0.006248078593143373,
+   "outside_excess_max_m": 0.006382063320015695
+  },
+  "right_lower_arm": {
+   "n_shapes": 1,
+   "n_vertices": 230,
+   "radius_m": [
+    0.0544
+   ],
+   "outside_frac": 0.05217391304347826,
+   "outside_excess_p95_m": 0.005250842782304791,
+   "outside_excess_max_m": 0.005510604554093121
+  },
+  "left_hand": {
+   "n_shapes": 1,
+   "n_vertices": 778,
+   "radius_m": [
+    0.104
+   ],
+   "outside_frac": 0.05012853470437018,
+   "outside_excess_p95_m": 0.010101288948167787,
+   "outside_excess_max_m": 0.010941914434266758
+  },
+  "right_hand": {
+   "n_shapes": 1,
+   "n_vertices": 778,
+   "radius_m": [
+    0.1004
+   ],
+   "outside_frac": 0.05012853470437018,
+   "outside_excess_p95_m": 0.014151184493989902,
+   "outside_excess_max_m": 0.015034553198881626
+  }
+ },
+ "m_ours_range_kg": {
+  "min": 0.5724360353855759,
+  "median": 12.376447366637608,
+  "max": 96600.30299871016
+ }
+}

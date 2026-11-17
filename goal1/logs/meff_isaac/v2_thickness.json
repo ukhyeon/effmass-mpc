@@ -1,0 +1,23 @@
+{
+ "thickness_m": {
+  "uniform": {
+   "front 0 deg": 0.0655,
+   "45 deg (front-up)": 0.065,
+   "up 90 deg (back of hand)": 0.0655,
+   "outer side 90 deg (+y)": 0.0655,
+   "down 90 deg (palm)": 0.0655,
+   "forearm up": 0.0655,
+   "forearm outer side": 0.0655
+  },
+  "ours": {
+   "front 0 deg": 0.1995,
+   "45 deg (front-up)": 0.117,
+   "up 90 deg (back of hand)": 0.08700000000000001,
+   "outer side 90 deg (+y)": 0.0655,
+   "down 90 deg (palm)": 0.08700000000000001,
+   "forearm up": 0.1465,
+   "forearm outer side": 0.196
+  }
+ },
+ "note": "normal-direction thickness from the support point of the hand (or forearm) shapes along the direction"
+}
