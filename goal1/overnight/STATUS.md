@@ -11,7 +11,7 @@ Started 2026-11-17 23:18 KST. Disk free at start: 1.4 TB (/dev/sda6, 19% used).
 | 4 moving collab scenes | 1.5 h | done | 01:10 | 01:52 | 28 |
 | 5 perception imperfection | 1.0 h | done | 01:52 | 02:26 | 26 |
 | 6 tuning | 1.0 h | done | 02:25 | 02:38 | 24 |
-| 7 wrap-up | 1.25 h | waiting | | | |
+| 7 wrap-up | 1.25 h | in progress (videos early) | 03:39 | | |
 
 ## Run time calibration (WP0, measured start to end of the wrapper)
 - single pass (V2 front, 304 steps): 27.4 s (both runs). Timeout 3x = 82 s, used 90 s.
@@ -41,3 +41,5 @@ Seeds are not reduced: everything fits the budgets.
 | F1 P (cv) in the crossing task M2 | done | 02:57 | 03:12 | 12 |
 | F2 P (cv) under jitter / lag, and R1 1.0 m/s P seed 2 | done | 03:12 | 03:25 | 8 |
 | F3 velocity filter for P under jitter | done | 03:26 | 03:38 | 6 + 2 bit-check |
+| F4 lag 100 ms + jitter 2 cm: static vs P + filter | done | 04:07 | 04:28 | 12 |
+| F5 speed cap under lag + jitter + P + filter at 1.0 m/s | in progress | 04:29 | | |

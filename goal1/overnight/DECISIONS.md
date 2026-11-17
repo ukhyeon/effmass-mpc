@@ -165,3 +165,21 @@ Format: time / situation / alternatives / choice and reason / original criterion
 - Expected: with a = 0.2 (time constant ~0.15 s at 30 Hz) the jitter velocity noise drops ~3x; uniform penetration disappears at 2 cm, maybe not at 4 cm;
   ours' jerk falls toward the no-jitter value. The fast-hand benefit of P may shrink (filter lag).
 - Runs: jit2+P+F, jit4+P+F x uniform / ours (4) + R1 1.0 m/s P+F (no jitter) x uniform / ours (2) = 6 runs + 2 baseline bit-check runs.
+
+## DF4 03:41 follow-up F4 (question first)
+- Question: is the revised Kinect candidate (P + velocity filter) still better than static when lag and jitter come together, as they will with
+  the live sensor (100 ms, 2 cm), and does it hold over 2 seeds at 0.5 m/s and at 1.0 m/s?
+- Expected: at 0.5 m/s P+F >= static on min gap with jerk ~1.5x static; at 1.0 m/s P+F clearly better on the critical deficit (prediction offsets lag).
+- Runs (12): R1 0.5 m/s lag100+jit2 {static, P+F} x uniform / ours x seeds 0, 1 (8); R1 1.0 m/s lag100+jit2 {static, P+F} x uniform / ours, seed 0 (4).
+
+## D7-1 04:10 WP7 M1 camera
+- The V2 camera (eye 0.58,-1.22,0.62) looks through the hand-over human, who stands between camera and robot in the P6_tipfront25 placement;
+  the first M1 recording shows mostly the forearm. Re-recorded M1 with a camera on the other side (eye 0.50,1.15,0.80 -> target 0.50,-0.15,0.48),
+  same for both conditions. Static P4 and M2 keep the V2 camera. Bit check repeated for the new M1 recordings.
+
+## DF5 04:29 follow-up F5 (question first)
+- Question (from F4): can the shared speed-cap settings tested in WP6 (c1 weight 1e6, c2 radius 0.5 m) bring the near-human speed p99 back under
+  0.52 m/s for lag 100 ms + jitter 2 cm + P + filter at 1.0 m/s, without losing the gap?
+- Expected: c1 lowers p99 by a few cm/s (WP6: -0.015 mean), probably not enough for 0.56-0.62; c2 may help more here because the hand is mispredicted
+  by up to ~0.1 m (1 m/s x 100 ms), which a larger radius covers.
+- Runs: R1 1.0 m/s seed 0, lag100+jit2+P+F with profile t2a_c1 and t2a_c2, uniform and ours = 4 runs.

@@ -235,3 +235,18 @@ New replay option --human-vel-alpha (EMA of the delivered segment velocity, 0 = 
 - It keeps most of P's fast-hand benefit: at 1.0 m/s ours' max deficit 6.1 cm with filter vs 5.0 without and 13.3 static (single seed).
 - Kinect candidate revised: P with a filtered human velocity (EMA 0.2 here; to be tuned on real data), not P on raw frame differences. Single seeds.
 
+## Follow-up F4 Lag 100 ms + jitter 2 cm: static vs P + filter (04:07-04:28, 12 runs)
+| scene | cond | static: min gap / crit max deficit / penetration / jerk | P + filter 0.2: min gap / crit max deficit / penetration / jerk | v99 static -> P+F |
+|---|---|---|---|---|
+| R1 0.5 m/s s0 | uniform | 3.7 / 2.8 / 0 / 27.1 | 4.7 / 1.7 / 0 / 44.5 | 0.478 -> 0.499 |
+| R1 0.5 m/s s1 | uniform | 1.3 / 5.2 / 0 / 23.1 | 2.9 / 1.4 / 0 / 40.4 | 0.463 -> 0.493 |
+| R1 0.5 m/s s0 | ours | 4.8 / 10.2 / 0 / 26.9 | 7.2 / 3.2 / 0 / 51.6 | 0.477 -> 0.503 |
+| R1 0.5 m/s s1 | ours | 3.9 / 11.4 / 0 / 33.5 | 7.7 / 5.1 / 0 / 44.6 | 0.475 -> 0.498 |
+| R1 1.0 m/s s0 | uniform | -0.4 / 6.9 / 4 shape, 2 mesh steps / 32.6 | 1.6 / 4.9 / 0 / 52.7 | 0.479 -> 0.623 |
+| R1 1.0 m/s s0 | ours | 2.3 / 15.5 / 0 / 26.3 | 5.0 / 4.6 / 0 / 52.4 | 0.478 -> 0.564 |
+(min gap = all passes; crit = critical window; jerk = joint command jerk RMS rad/s^3; 1.0 m/s ours P+F had only 2 passes in the critical window.)
+- With the realistic Kinect combination, P + filter is better than static on every gap measure (2 seeds at 0.5 m/s, 1 seed at 1.0 m/s) and removes the
+  only penetration (uniform, 1.0 m/s static). Costs: jerk about 1.7-2x, and at 1.0 m/s the near-human speed p99 rises to 0.56-0.62 m/s, above the
+  0.52 limit. (interpretation) with lag the controller sees the hand where it was; the speed cap's distance test uses the predicted shapes, which lag
+  less than static but still differ from the true hand, and with the faster commands the robot passes the true hand above 0.5 m/s; not checked.
+

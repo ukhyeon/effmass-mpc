@@ -1,0 +1,29 @@
+{
+ "on_static_P4_tipfront": {
+  "file": "/home/robotics/effmass_mpc/goal1/b2a/demo/overnight/on_static_P4_tipfront.mp4",
+  "frames": 255,
+  "seconds": 8.5,
+  "min_gap_cm": {
+   "gk000": 6.05,
+   "gain": 11.03
+  }
+ },
+ "on_M1_handover": {
+  "file": "/home/robotics/effmass_mpc/goal1/b2a/demo/overnight/on_M1_handover.mp4",
+  "frames": 645,
+  "seconds": 21.5,
+  "min_gap_cm": {
+   "gk000": 5.3,
+   "gain": 7.91
+  }
+ },
+ "on_M2_crossing": {
+  "file": "/home/robotics/effmass_mpc/goal1/b2a/demo/overnight/on_M2_crossing.mp4",
+  "frames": 645,
+  "seconds": 21.5,
+  "min_gap_cm": {
+   "gk000": 2.63,
+   "gain": 4.28
+  }
+ }
+}

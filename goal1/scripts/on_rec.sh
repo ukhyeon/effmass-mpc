@@ -3,8 +3,9 @@
 # runs plus display options; joint commands checked bit by bit against the original runs (first N steps) -> logs/meff_isaac/on_wp7_video_bitcheck.json.
 source $HOME/effmass_mpc/goal1/scripts/on_lib.sh
 REC=$HOME/effmass_mpc/goal1/b2a/demo/overnight/rec; Z=$HOME/effmass_mpc/goal1/zone/overnight; CAM="0.58,-1.22,0.62,0.58,0.0,0.47"; mkdir -p $REC
-V="--human-viz mesh --viz-hide-com on --viz-trail on --viz-cam $CAM --viz-record-res 960x540"
+V0="--human-viz mesh --viz-hide-com on --viz-trail on --viz-record-res 960x540"; CAM_M1="0.50,1.15,0.80,0.50,-0.15,0.48"   # M1: the V2 camera is blocked by the hand-over placement (human between camera and robot)
 for vid in ${@:-on_static_P4_tipfront on_M1_handover on_M2_crossing}; do
+  V="$V0 --viz-cam $CAM"; [[ $vid == on_M1_handover ]] && V="$V0 --viz-cam $CAM_M1"
   for c in gk000 gain; do
     cn=$([[ $c == gk000 ]] && echo uniform || echo ours)
     case $vid in

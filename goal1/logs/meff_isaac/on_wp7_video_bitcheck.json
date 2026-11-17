@@ -1,0 +1,56 @@
+{
+ "on3_P4_tipfront_gk000_s0_rec": {
+  "a": "on3_P4_tipfront_gk000_s0_rec",
+  "b": "on3_P4_tipfront_gk000_s0",
+  "n": 420,
+  "len_a": 420,
+  "len_b": 420,
+  "bit_equal": true,
+  "max_abs_diff": 0.0
+ },
+ "on3_P4_tipfront_gain_s0_rec": {
+  "a": "on3_P4_tipfront_gain_s0_rec",
+  "b": "on3_P4_tipfront_gain_s0",
+  "n": 420,
+  "len_a": 420,
+  "len_b": 420,
+  "bit_equal": true,
+  "max_abs_diff": 0.0
+ },
+ "on4_M1_v025_gk000_s0_rec": {
+  "a": "on4_M1_v025_gk000_s0_rec",
+  "b": "on4_M1_v025_gk000_s0",
+  "n": 1210,
+  "len_a": 1210,
+  "len_b": 3600,
+  "bit_equal": true,
+  "max_abs_diff": 0.0
+ },
+ "on4_M1_v025_gain_s0_rec": {
+  "a": "on4_M1_v025_gain_s0_rec",
+  "b": "on4_M1_v025_gain_s0",
+  "n": 1210,
+  "len_a": 1210,
+  "len_b": 3600,
+  "bit_equal": true,
+  "max_abs_diff": 0.0
+ },
+ "on4_M2_v025_gk000_s0_rec": {
+  "a": "on4_M2_v025_gk000_s0_rec",
+  "b": "on4_M2_v025_gk000_s0",
+  "n": 1210,
+  "len_a": 1210,
+  "len_b": 3600,
+  "bit_equal": true,
+  "max_abs_diff": 0.0
+ },
+ "on4_M2_v025_gain_s0_rec": {
+  "a": "on4_M2_v025_gain_s0_rec",
+  "b": "on4_M2_v025_gain_s0",
+  "n": 1210,
+  "len_a": 1210,
+  "len_b": 3600,
+  "bit_equal": true,
+  "max_abs_diff": 0.0
+ }
+}
