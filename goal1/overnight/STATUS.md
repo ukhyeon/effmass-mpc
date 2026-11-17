@@ -33,4 +33,11 @@ Seeds are not reduced: everything fits the budgets.
 | R1 seed 2 for WP3 / WP4 | done inside WP3 / WP4 | | | (counted there) |
 | R2 gain knob on 2 WP3 scenes | done | 02:38 | 02:44 | 12 |
 | R3 M3 bent-arm forearm task | done | 02:44 | 02:55 | 6 |
-| R4 ROS replay path RTF / delay | waiting | | | |
+| R4 ROS replay path RTF / delay | skipped (not possible with existing scripts only) | 02:56 | 02:56 | 0 |
+
+## Self-made follow-ups
+| item | state | start | end | runs |
+|---|---|---|---|---|
+| F1 P (cv) in the crossing task M2 | done | 02:57 | 03:12 | 12 |
+| F2 P (cv) under jitter / lag, and R1 1.0 m/s P seed 2 | done | 03:12 | 03:25 | 8 |
+| F3 velocity filter for P under jitter | in progress | 03:26 | | |

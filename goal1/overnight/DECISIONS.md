@@ -138,3 +138,30 @@ Format: time / situation / alternatives / choice and reason / original criterion
   fingertip moved +-5 cm along the forearm axis (10 cm stroke), min-jerk, peak 0.25 m/s, 0.5 s rest at each end, period 2.5 s, 60 s.
 - Measured part: forearm + hand (as in WP3). Uniform and ours, seeds 0-2 (6 runs). Expected: ours keeps the larger forearm/hand gap as in the static
   P6_forearmside18 scene (11.2 vs 5.6 cm), slightly lower because the hand moves along the path.
+
+## DR4-1 02:56 reserve 4 skipped
+- The ROS live path (g1_meff_run.sh) replays a fixed Kinect recording (NPZ hard-coded to ~/hrc_ws/pose_npz/human_state_1781524848.npz) in scene g1;
+  replaying the R1 motion would need a new pose file plus a script change (scene g2 / front path, round trip). Plan: "only with existing scripts".
+  Not done; listed under "needs your decision" only as an option for the Kinect stage.
+
+## DF1 02:57 follow-up F1 (question first)
+- Question: WP1 recommends P (--meff-motion cv) for the Kinect stage. Does P also help in the crossing task M2, where uniform came to 0.0-1.2 cm at
+  0.5 m/s and ours waited more in front of the hand at 0.25 m/s?
+- Expected: at 0.5 m/s P raises both conditions' minimum gaps (the hand crosses with a clear velocity); at 0.25 m/s the stalls stay because the hand
+  rests inside the path (velocity 0 there, P = static).
+- Runs: M2 0.5 and 0.25 m/s x uniform / ours x seeds 0-2 with P = 12 runs (limit 12).
+
+## DF2 02:57 follow-up F2 (question first)
+- Question: P extrapolates with the frame-to-frame velocity. Jitter makes that velocity noisy; does P then make things worse than static
+  (WP5 measured jitter only with static)? And does R1 1.0 m/s P hold for a third seed?
+- Expected: with 2 cm jitter the velocity noise is ~0.6 m/s per segment (2 cm x 30 Hz x sqrt 2), larger than the hand speed at 0.5 m/s; P could
+  push shapes around and raise jerk; gaps may still be fine because the zone grows rather than shrinks on average.
+- Runs: R1 0.5 m/s jit2+P, jit4+P, lag100+jit2+P x uniform / ours, seed 0 (6) + R1 1.0 m/s P seed 2 x uniform / ours (2) = 8 runs.
+
+## DF3 03:26 follow-up F3 (question first)
+- Question (from F2): does a simple low-pass filter on the human velocity make P safe under jitter?
+- Change: replay option --human-vel-alpha a (exponential moving average of the delivered segment velocity, v_f = a v + (1 - a) v_f_prev, per new frame;
+  0 = off, previous behaviour). Replay side only; the node itself is not changed. Baselines re-run for the bit check after the change.
+- Expected: with a = 0.2 (time constant ~0.15 s at 30 Hz) the jitter velocity noise drops ~3x; uniform penetration disappears at 2 cm, maybe not at 4 cm;
+  ours' jerk falls toward the no-jitter value. The fast-hand benefit of P may shrink (filter lag).
+- Runs: jit2+P+F, jit4+P+F x uniform / ours (4) + R1 1.0 m/s P+F (no jitter) x uniform / ours (2) = 6 runs + 2 baseline bit-check runs.

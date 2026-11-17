@@ -311,6 +311,61 @@
    }
   }
  },
+ "M2/v025/gain/P": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.05178465370069654,
+  "min_gap_mesh": 0.06359626553867864,
+  "n_crit": 22,
+  "crit_min_gap": 0.05178465370069654,
+  "crit_max_deficit": 0.017585482535428743,
+  "crit_mean_deficit": -0.003186910596074866,
+  "hold_mean_gap": null,
+  "n_hold": 0,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   12,
+   12,
+   14
+  ],
+  "stalls_front": 21,
+  "stall_time_front_s": 42.55,
+  "torso_cost_steps": [
+   0,
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.161,
+  "v99_max": 0.4739149555314805,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.06774837471925267,
+    "crit_min": 0.06901217091306132,
+    "crit_max_def": 0.0013674518760827814
+   },
+   "1": {
+    "min_gap": 0.05916365538756416,
+    "crit_min": 0.05916365538756416,
+    "crit_max_def": 0.009648653863701187
+   },
+   "2": {
+    "min_gap": 0.05178465370069654,
+    "crit_min": 0.05178465370069654,
+    "crit_max_def": 0.017585482535428743
+   }
+  }
+ },
  "M2/v025/gain/base": {
   "seeds": [
    0,
@@ -363,6 +418,61 @@
     "min_gap": 0.04298253930792505,
     "crit_min": 0.043720255755045845,
     "crit_max_def": 0.029673175621421577
+   }
+  }
+ },
+ "M2/v025/gk000/P": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.04132973858345232,
+  "min_gap_mesh": 0.045774416221418424,
+  "n_crit": 55,
+  "crit_min_gap": 0.04132973858345232,
+  "crit_max_deficit": 0.023670261416547683,
+  "crit_mean_deficit": 0.011568460354818505,
+  "hold_mean_gap": null,
+  "n_hold": 0,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   22,
+   20,
+   20
+  ],
+  "stalls_front": 8,
+  "stall_time_front_s": 18.78333333333333,
+  "torso_cost_steps": [
+   0,
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.165,
+  "v99_max": 0.4752549074711576,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.05006554313051434,
+    "crit_min": 0.05043023309033923,
+    "crit_max_def": 0.014569766909660775
+   },
+   "1": {
+    "min_gap": 0.04132973858345232,
+    "crit_min": 0.04132973858345232,
+    "crit_max_def": 0.023670261416547683
+   },
+   "2": {
+    "min_gap": 0.04672324474957834,
+    "crit_min": 0.04672324474957834,
+    "crit_max_def": 0.01827675525042166
    }
   }
  },
@@ -421,6 +531,61 @@
    }
   }
  },
+ "M2/v050/gain/P": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.05139310167819894,
+  "min_gap_mesh": 0.06323161873470072,
+  "n_crit": 3,
+  "crit_min_gap": 0.05139310167819894,
+  "crit_max_deficit": 0.01819921113552085,
+  "crit_mean_deficit": 0.012709235162970173,
+  "hold_mean_gap": null,
+  "n_hold": 0,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   19,
+   19,
+   19
+  ],
+  "stalls_front": 3,
+  "stall_time_front_s": 5.45,
+  "torso_cost_steps": [
+   0,
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.152,
+  "v99_max": 0.47224410198927713,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.06472146126449357,
+    "crit_min": 0.06472146126449357,
+    "crit_max_def": 0.011932695071244268
+   },
+   "1": {
+    "min_gap": 0.06968767267441023,
+    "crit_min": null,
+    "crit_max_def": null
+   },
+   "2": {
+    "min_gap": 0.05139310167819894,
+    "crit_min": 0.05139310167819894,
+    "crit_max_def": 0.01819921113552085
+   }
+  }
+ },
  "M2/v050/gain/base": {
   "seeds": [
    0,
@@ -473,6 +638,61 @@
     "min_gap": 0.037573594510471486,
     "crit_min": 0.037573594510471486,
     "crit_max_def": 0.030594456321781205
+   }
+  }
+ },
+ "M2/v050/gk000/P": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.027127043964466913,
+  "min_gap_mesh": 0.04046424871364898,
+  "n_crit": 25,
+  "crit_min_gap": 0.027127043964466913,
+  "crit_max_deficit": 0.03787295603553309,
+  "crit_mean_deficit": 0.01745536549057428,
+  "hold_mean_gap": null,
+  "n_hold": 0,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   21,
+   21,
+   21
+  ],
+  "stalls_front": 10,
+  "stall_time_front_s": 7.35,
+  "torso_cost_steps": [
+   0,
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.152,
+  "v99_max": 0.4735282413425736,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.035109961761665406,
+    "crit_min": 0.035109961761665406,
+    "crit_max_def": 0.029890038238334596
+   },
+   "1": {
+    "min_gap": 0.027127043964466913,
+    "crit_min": 0.027127043964466913,
+    "crit_max_def": 0.03787295603553309
+   },
+   "2": {
+    "min_gap": 0.028518162687389853,
+    "crit_min": 0.028518162687389853,
+    "crit_max_def": 0.03648183731261015
    }
   }
  },

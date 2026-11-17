@@ -6,5 +6,5 @@ for f in sorted(glob.glob(f"{O}/on5_*.log")):
     if not m:
         continue
     c, s, var = m.groups(); jobs.append(dict(tag=t, human="human_r1_reach_v050", k={"gk000": 0.0, "gain": 0.10}[c], scene=G, group="wp5", speed="v050", cond=c, seed=int(s),
-                                             variant=var.replace("_L01", "+L01").replace("_P", "+P")))
+                                             variant=var.replace("_", "+")))
 json.dump(jobs, open(sys.argv[1], "w")); print(len(jobs), "jobs")

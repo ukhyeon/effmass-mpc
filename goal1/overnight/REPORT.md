@@ -195,3 +195,28 @@ P6_handover (elbow 48 deg) at the P6_forearmside18 placement (DR3-1), forearm st
 - Ours keeps +3.4 to +4.6 cm more (every ours seed above every uniform seed) at a cost of about one pass per minute. Torso cost in ours on 0-8 steps
   per run, about 0 % of the cost. Near-human speed p99 <= 0.482 m/s. Numbers: logs/meff_isaac/on_wp4_summary.json (M3 rows), on_wp4_motion_check.json.
 
+## Follow-up F1 P (cv) in the crossing task M2 (02:57-03:12, 12 runs)
+| speed / cond | min gap per run, base -> P (cm, 3 seeds pooled) | passes per run base -> P | stalls in front of the hand (3 runs) base -> P |
+|---|---|---|---|
+| 0.25 uniform | 2.5 -> 4.1 | 16-18 -> 20-22 | 13, 32.5 s -> 8, 18.8 s |
+| 0.25 ours | 3.6 -> 5.2 | 12-14 -> 12-14 | 20, 38.9 s -> 21, 42.5 s |
+| 0.5 uniform | 0.0 -> 2.7 | 21 -> 21 | 17, 13.7 s -> 10, 7.3 s |
+| 0.5 ours | 3.8 -> 5.1 | 18-19 -> 19 | 3, 5.0 s -> 3, 5.5 s |
+- P raises the minimum gap in all four groups (+1.3 to +2.7 cm) without penetration. Uniform also gets through more often at 0.25 m/s.
+  Ours' waiting in front of the resting hand at 0.25 m/s is unchanged (as expected in DF1: the hand rests inside the path, velocity 0, P = static).
+
+## Follow-up F2 P (cv) under jitter and lag; R1 1.0 m/s P seed 2 (03:12-03:25, 8 runs)
+| R1 0.5 m/s, seed 0 | uniform min gap (cm) | uniform penetration shape / mesh steps | ours min gap | jerk RMS u / o | passes u / o | v99 max |
+|---|---|---|---|---|---|---|
+| base (s0) | 3.7 | 0 / 0 | 5.9 | 22.7 / 22.4 | 27 / 27 | 0.474 |
+| jitter 2 cm, static | 1.8 | 0 / 0 | 4.9 | 26.7 / 25.3 | 26 / 26 | 0.478 |
+| jitter 2 cm + P | 1.1 | 0 / 0 | 12.1 | 60.4 / 100.5 | 23 / 16 | 0.518 |
+| jitter 4 cm + P | -4.3 | 62 / 34 | 13.1 | 89.9 / 137.9 | 20 / 9 | 0.515 |
+| lag 100 ms + jitter 2 cm + P | -1.1 | 22 / 10 | 12.1 | 71.2 / 106.8 | 22 / 13 | 0.518 |
+- P with a jittery skeleton is harmful: the frame-to-frame velocity of a 2-4 cm jitter at 30 Hz (~0.6-1.2 m/s) is extrapolated over the horizon.
+  Uniform penetrates the hand (up to 62 shape steps, 34 mesh steps, min -4.3 cm); ours stays far but its commands get 4-6x more jerky and it
+  completes only 9-16 passes per minute (27 without jitter). Without P the same jitter caused no penetration (WP5).
+- R1 1.0 m/s with P, seed 2: uniform critical min gap 4.9, max deficit 1.6 cm; ours 7.9 / 4.3 cm. With seeds 0-1: P result holds over 3 seeds
+  (ours max deficit 4.3-5.0 vs base 11.7-13.8 cm; uniform 0.9-1.8 vs 4.9-6.8 cm).
+- Consequence for the Kinect stage: P only with a filtered human velocity (or a smoothed skeleton). Static is the safer default for raw skeletons.
+
