@@ -42,4 +42,4 @@ Seeds are not reduced: everything fits the budgets.
 | F2 P (cv) under jitter / lag, and R1 1.0 m/s P seed 2 | done | 03:12 | 03:25 | 8 |
 | F3 velocity filter for P under jitter | done | 03:26 | 03:38 | 6 + 2 bit-check |
 | F4 lag 100 ms + jitter 2 cm: static vs P + filter | done | 04:07 | 04:28 | 12 |
-| F5 speed cap under lag + jitter + P + filter at 1.0 m/s | in progress | 04:29 | | |
+| F5 speed cap under lag + jitter + P + filter at 1.0 m/s | done | 04:29 | 04:45 | 4 |

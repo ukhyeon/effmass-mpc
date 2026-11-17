@@ -250,3 +250,17 @@ New replay option --human-vel-alpha (EMA of the delivered segment velocity, 0 = 
   0.52 limit. (interpretation) with lag the controller sees the hand where it was; the speed cap's distance test uses the predicted shapes, which lag
   less than static but still differ from the true hand, and with the faster commands the robot passes the true hand above 0.5 m/s; not checked.
 
+## Follow-up F5 Speed cap settings under lag + jitter + P + filter at 1.0 m/s (04:29-04:45, 4 runs, seed 0)
+| profile | cond | all-pass min gap (cm) | crit max deficit (cm) | near-human speed p99 (m/s) | jerk RMS | passes |
+|---|---|---|---|---|---|---|
+| t1 | uniform | 1.6 | 4.9 | 0.623 | 52.7 | 54 |
+| t2a_c1 (speed_cap_w 1e6) | uniform | 1.3 | 5.2 | 0.541 | 48.8 | 53 |
+| t2a_c2 (speed_cap_dist 0.5 m) | uniform | 0.6 | 5.9 | 0.477 | 35.0 | 52 |
+| t1 | ours | 5.0 | 4.6 | 0.564 | 52.4 | 49 |
+| t2a_c1 | ours | 2.5 | 10.4 | 0.616 | 57.4 | 50 |
+| t2a_c2 | ours | 3.7 | 8.9 | 0.478 | 40.5 | 49 |
+- The larger speed-cap radius (c2) brings p99 back under 0.52 m/s and lowers jerk; the heavier weight (c1) does not. In this single seed both lower
+  the minimum gaps (ours 5.0 -> 2.5 / 3.7 cm); the critical window holds only 2-9 passes, so the gap changes are within single-seed noise
+  (WP1 spread up to 3.3 cm). No penetration in any of the 4 runs. Unresolved: one setting that keeps both the gap and the speed limit for a 1.0 m/s
+  hand under 100 ms lag; not settled tonight.
+
