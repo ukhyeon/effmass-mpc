@@ -33,6 +33,13 @@ class Viz:
                 log(f"(viz) zone {add_zone_cage(stage, os.path.expanduser(args.viz_zone), by_mu=_bm)}")
             else:
                 log(f"(viz) zone {add_zone(stage, os.path.expanduser(args.viz_zone), opacity=getattr(args, 'viz_zone_opacity', 0.35), by_mu=_bm)}")
+        self.zseq = None
+        if getattr(args, "viz_zone_seq", ""):   # (R1) zone cages along the retract motion; the one closest to the current frame's retract distance is shown
+            zs = json.load(open(os.path.expanduser(args.viz_zone_seq))); cond = args.viz_zone_seq_cond; hz = np.load(zs["human"] if "human" in zs else self.human.pre_path)["s_retract"]; prims = []   # retract distance per frame of the human file in use
+            for i, fn in enumerate(zs["files"][cond]):
+                add_zone_cage(stage, fn, path=f"/World/viz/zoneseq/c{i:02d}", by_mu=(cond != "uniform")); pr = stage.GetPrimAtPath(f"/World/viz/zoneseq/c{i:02d}")
+                UsdGeom.Imageable(pr).MakeInvisible(); prims.append(pr)
+            self.zseq = dict(S=np.array(zs["s"]), prims=prims, hs=hz, cur=-1); log(f"(viz) zone sequence {cond}: {len(prims)} cages")
         if getattr(args, "viz_hide_com", "off") == "on":   # hide the human segment COM markers (PointInstancer of the human link)
             pr = stage.GetPrimAtPath("/World/human/instancer")
             if pr.IsValid():
@@ -96,6 +103,12 @@ class Viz:
 
     def update(self, i, sph, ee):
         t0 = time.perf_counter(); Gf = self.Gf
+        if self.zseq is not None and self.human.cur_frame is not None:
+            z = self.zseq; j = int(np.argmin(np.abs(z["S"] - z["hs"][min(self.human.cur_frame, len(z["hs"]) - 1)])))
+            if j != z["cur"]:
+                if z["cur"] >= 0:
+                    self.UsdGeom.Imageable(z["prims"][z["cur"]]).MakeInvisible()
+                self.UsdGeom.Imageable(z["prims"][j]).MakeVisible(); z["cur"] = j
         if self.shells and self.mode != 0:
             qa = self.meff.query_all(sph); d = qa["dist"].cpu().numpy(); mu = qa["mu"].cpu().numpy(); mr = qa["mr"].cpu().numpy(); h = self.human.last_h
             for k, g, tr, ori, col, dcol in self.shells:

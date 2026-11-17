@@ -1,0 +1,18 @@
+{
+ "v025/gk000": {
+  "bit_equal_first_n": true,
+  "n": 1210
+ },
+ "v025/gain": {
+  "bit_equal_first_n": true,
+  "n": 1210
+ },
+ "v100/gk000": {
+  "bit_equal_first_n": true,
+  "n": 1210
+ },
+ "v100/gain": {
+  "bit_equal_first_n": true,
+  "n": 1210
+ }
+}

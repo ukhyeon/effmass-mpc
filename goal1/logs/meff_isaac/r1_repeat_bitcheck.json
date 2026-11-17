@@ -1,0 +1,8 @@
+{
+ "repeat_pair": {
+  "a": "r1_v025_gk000_s0",
+  "b": "r1_v025_gk000_s0_noagg",
+  "bit_equal": true,
+  "steps": 3600
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "r1_main": {
+  "file": "/home/robotics/effmass_mpc/goal1/b2a/demo/r1/r1_main.mp4",
+  "frames": 645,
+  "seconds": 21.5,
+  "min_gap_cm": {
+   "gk000": 4.79,
+   "gain": 8.94
+  }
+ },
+ "r1_fast": {
+  "file": "/home/robotics/effmass_mpc/goal1/b2a/demo/r1/r1_fast.mp4",
+  "frames": 645,
+  "seconds": 21.5,
+  "min_gap_cm": {
+   "gk000": 5.94,
+   "gain": 3.83
+  }
+ }
+}

@@ -1,6 +1,6 @@
 # Allowlist: ignore everything, then re-include only what is published.
 # Not published: SMPL models, human data (npz, Kinect recordings), third-party code (curobo, ref/, ws/),
-# robot assets / USD, Isaac Sim, CUDA, caches, frame/rec folders, large videos, R1 work in progress.
+# robot assets / USD, Isaac Sim, CUDA, caches, frame/rec folders, large videos.
 /*
 !/.gitignore
 !/README.md
@@ -15,7 +15,6 @@
 /goal1/scripts/*
 !/goal1/scripts/*.py
 !/goal1/scripts/*.sh
-/goal1/scripts/r1_*
 !/goal1/config/
 !/goal1/scene_g1.json
 
@@ -35,6 +34,13 @@
 !/goal1/logs/meff_isaac/v2_*.json
 !/goal1/logs/meff_isaac/g13_*.json
 !/goal1/logs/meff_isaac/g1d_*.json
+!/goal1/logs/meff_isaac/r1_motion_check.json
+!/goal1/logs/meff_isaac/r1_runs.json
+!/goal1/logs/meff_isaac/r1_passes.json
+!/goal1/logs/meff_isaac/r1_summary.json
+!/goal1/logs/meff_isaac/r1_*bitcheck.json
+!/goal1/logs/meff_isaac/r1_video_info.json
+!/goal1/logs/meff_isaac/on_*.json
 !/goal1/logs/*.json
 
 # MPC run node and environment-check scripts (my code)
@@ -55,6 +61,16 @@
 !/goal1/zone/
 /goal1/zone/*
 !/goal1/zone/*.png
+!/goal1/r1/
+/goal1/r1/*
+!/goal1/r1/*.png
+
+# overnight run notes, figures, summary json (<= 5 MB)
+!/goal1/overnight/
+/goal1/overnight/*
+!/goal1/overnight/*.md
+!/goal1/overnight/*.png
+!/goal1/overnight/*.json
 
 # never, even if matched above
 *.npz
@@ -65,6 +81,5 @@
 *.usdc
 __pycache__/
 *.pyc
-r1_*
-**/r1/
 human_r1_*
+/goal1/b2a/demo/

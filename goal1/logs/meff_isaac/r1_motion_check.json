@@ -1,0 +1,59 @@
+{
+ "D_retract_m": 0.33,
+ "reach_dir_node": [
+  -0.21054438453213484,
+  -0.9775037136494148,
+  -0.012551969709477499
+ ],
+ "speeds": {
+  "v025": {
+   "rest_s": 1.5,
+   "length_s": 60.0,
+   "reach_time_s": 2.4738753565930374,
+   "period_s": 7.947750713186075,
+   "tip_peak_speed_measured": 0.2504935508474781,
+   "tip_line_dev_max_m": 0.0006588623637418336,
+   "retracted_hand_path_gap_m": 0.3594399711734374,
+   "hold_shape_center_max_diff_m": 1.0165871122680414e-07,
+   "frames": 1802,
+   "compute_ms_mean": 5.076893139372142,
+   "file": "/home/robotics/effmass_mpc/goal1/data/human_r1_reach_v025.npz"
+  },
+  "v050": {
+   "rest_s": 1.5,
+   "length_s": 60.0,
+   "reach_time_s": 1.2364866276898738,
+   "period_s": 5.472973255379747,
+   "tip_peak_speed_measured": 0.5008645670501634,
+   "tip_line_dev_max_m": 0.0006585886992075105,
+   "retracted_hand_path_gap_m": 0.3594399711734374,
+   "hold_shape_center_max_diff_m": 1.0165871122680414e-07,
+   "frames": 1802,
+   "compute_ms_mean": 5.037675435178304,
+   "file": "/home/robotics/effmass_mpc/goal1/data/human_r1_reach_v050.npz"
+  },
+  "v100": {
+   "rest_s": 2.3,
+   "length_s": 120.0,
+   "reach_time_s": 0.6166641934382501,
+   "period_s": 5.0333283868765,
+   "tip_peak_speed_measured": 0.9993407114457522,
+   "tip_line_dev_max_m": 0.0005980058825196891,
+   "retracted_hand_path_gap_m": 0.3594399711734374,
+   "hold_shape_center_max_diff_m": 1.0165871122680414e-07,
+   "frames": 3602,
+   "compute_ms_mean": 5.418768057445564,
+   "file": "/home/robotics/effmass_mpc/goal1/data/human_r1_reach_v100.npz"
+  }
+ },
+ "round_trip_estimate": {
+  "source": "r1_v025_gk000_s0 (uniform, 0.25 m/s)",
+  "leg_mean_s": 2.180833333333333,
+  "round_trip_s": 4.361666666666666,
+  "ratios": {
+   "v025": 1.8221820511699065,
+   "v050": 1.2547894357003624,
+   "v100": 0.9705758624860146
+  }
+ }
+}

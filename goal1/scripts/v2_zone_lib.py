@@ -45,3 +45,12 @@ def support(D, dirv, shapes):
 def thick(D, dirv, cond="ours", k=0.10, shapes=None):
     dirv = np.asarray(dirv, float) / np.linalg.norm(dirv); p0, s = support(D, dirv, shapes or D["HAND"]); rr = np.arange(0, 0.6, 0.0005)
     f, mu, kb = field(D, p0[None] + rr[:, None] * dirv[None], cond, k); i = int(np.argmax(f > 0)); return float(rr[i]), p0, int(s)
+
+
+def load_frame(npz, f):
+    """same as load() for frame f of a multi-frame precomputed file"""
+    Z = np.load(npz); SEG = Z["shape_segment"]; RAD = Z["shape_radius"].astype(float)
+    D = dict(SEG=SEG, RAD=RAD, P0=Z["p0"][f].astype(float) @ R.T + t, P1=Z["p1"][f].astype(float) @ R.T + t, COM=Z["com"][f].astype(float) @ R.T + t,
+             LAM={g: R @ Z["inv"][f][g].astype(float) @ R.T for g in (14, 16, 18)})
+    D["SH"] = [k for k in range(len(RAD)) if RAD[k] > 0 and SEG[k] in (14, 16, 18)]; D["HAND"] = [k for k in D["SH"] if SEG[k] == 18]
+    return D
