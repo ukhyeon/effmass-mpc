@@ -183,3 +183,18 @@ Format: time / situation / alternatives / choice and reason / original criterion
 - Expected: c1 lowers p99 by a few cm/s (WP6: -0.015 mean), probably not enough for 0.56-0.62; c2 may help more here because the hand is mispredicted
   by up to ~0.1 m (1 m/s x 100 ms), which a larger radius covers.
 - Runs: R1 1.0 m/s seed 0, lag100+jit2+P+F with profile t2a_c1 and t2a_c2, uniform and ours = 4 runs.
+
+## DF6 04:49 follow-up F6 (question first)
+- Question (from F5, single seed): does the 0.5 m/s speed-cap radius (c2) systematically cost gap under lag 100 ms + jitter 2 cm + P + filter, or was
+  that seed noise; and does c2 change anything at 0.5 m/s hand speed?
+- Expected: at 1.0 m/s c2 keeps p99 <= 0.52 in seed 1 too; the gap loss is within the 2-3 cm seed spread. At 0.5 m/s c2 ~ t1 (p99 was already < 0.5).
+- Runs (6): R1 1.0 m/s seed 1 lag100+jit2+P+F with t1 and with c2, uniform / ours (4); R1 0.5 m/s seed 0 lag100+jit2+P+F with c2, uniform / ours (2).
+
+## D7-2 04:48 WP7 videos done early
+- WP7 videos recorded and composed at 03:39-04:48 (scenes fixed by then). Frame and recording folders of tonight (rec 3.1 GB, frames 1.5 GB) deleted
+  after ffprobe (645 / 645 / 255 frames, 1920x1080 h264) and the bit check (6 of 6 recordings bit-equal to the original runs).
+
+## DF7 05:03 follow-up F7 (question first)
+- Question: does the full Kinect candidate (P + velocity filter 0.2 + speed-cap radius 0.5 m) keep the R1 results on clean data (no lag, no jitter)?
+- Expected: at 0.25 / 0.5 m/s the min gaps are equal or larger than R1 base, hold gaps unchanged, p99 < 0.5, jerk near base.
+- Runs (8): R1 0.25 and 0.5 m/s, uniform / ours, seeds 0-1 with P+F+C2 (0.25 m/s via on_wp1.sh).

@@ -264,3 +264,18 @@ New replay option --human-vel-alpha (EMA of the delivered segment velocity, 0 = 
   (WP1 spread up to 3.3 cm). No penetration in any of the 4 runs. Unresolved: one setting that keeps both the gap and the speed limit for a 1.0 m/s
   hand under 100 ms lag; not settled tonight.
 
+## Follow-up F6 Seed 1 and 0.5 m/s check of the speed-cap radius under lag + jitter + P + filter (04:49-05:02, 6 runs)
+| scene | cond | t1: min gap / crit max deficit / v99 / jerk | t2a_c2 (radius 0.5 m): min gap / crit max deficit / v99 / jerk |
+|---|---|---|---|
+| 1.0 m/s s0 | uniform | 1.6 / 4.9 / 0.623 / 52.7 | 0.6 / 5.9 / 0.477 / 35.0 |
+| 1.0 m/s s1 | uniform | 2.3 / 4.2 / 0.628 / 50.4 | 6.2 / 0.3 / 0.467 / 29.5 |
+| 1.0 m/s s0 | ours | 5.0 / 4.6 / 0.564 / 52.4 | 3.7 / 8.9 / 0.478 / 40.5 |
+| 1.0 m/s s1 | ours | 1.9 / 12.0 / 0.539 / 48.3 | 3.8 / 9.4 / 0.473 / 36.1 |
+| 0.5 m/s s0 | uniform | 4.7 / 1.7 / 0.499 / 44.5 | 5.1 / 1.4 / 0.475 / 36.0 |
+| 0.5 m/s s0 | ours | 7.2 / 3.2 / 0.503 / 51.6 | 6.7 / 6.1 / 0.474 / 40.6 |
+- The 0.5 m radius keeps the near-human speed p99 at 0.467-0.478 m/s in all 6 runs (t1: up to 0.628) and lowers jerk by 20-40 %. Its effect on the
+  gap changes sign between seeds (uniform 1.0 m/s: -1.0 cm in s0, +3.9 cm in s1), i.e. no systematic gap cost. No penetration in any run.
+- Ours at 1.0 m/s under lag + jitter is not consistently better than uniform (min gap 1.9-5.0 vs 0.6-6.2 cm over the four runs); the zone advantage
+  seen without perturbation (WP1, F2) is not established under this combination. (interpretation) 100 ms of lag at 1 m/s is a 10 cm position error,
+  larger than the ours - uniform zone difference in the critical window; not checked.
+
