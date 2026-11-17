@@ -38,8 +38,30 @@ Conclusion:
 - (c) Remaining deficit with P at 1.0 m/s: ~5 cm for ours, ~1-2 cm for uniform. (interpretation) the residual is the steady-state shortfall seen
   in the hold window (ours gap/eta ~0.85) plus the time the robot needs to move away at <= 0.5 m/s; not checked.
 Required extra margin (= critical-window max deficit, cm), base -> P: uniform 0.5 m/s 2.8-4.9 -> ~0, 1.0 m/s 4.9-6.8 -> 0.9-1.8;
-ours 0.5 m/s 6.1-7.8 -> 2.9-3.3, 1.0 m/s 11.7-13.8 -> 4.7-5.0. (0.25 m/s base only: uniform 2.5-3.2, ours 5.6-7.0; P not run.)
+ours 0.5 m/s 6.1-7.8 -> 2.9-3.3, 1.0 m/s 11.7-13.8 -> 4.7-5.0. (0.25 m/s base only: uniform 2.4-3.3, ours 5.1-7.0; P not run.)
 Candidate for the live Kinect stage: --meff-motion cv (P), lead 0, speed cap 0.5 m/s kept. Lead (L) is not recommended because it lets the robot
 exceed the speed cap near the true hand at 1.0 m/s.
 Figure: goal1/overnight/wp1_phase_gap.png. Numbers: logs/meff_isaac/on_wp1_summary.json, on_wp1_r1_passes.json, on_wp1_var_passes.json, on_wp1_var_runs.json.
+
+## WP2 Zone maps by posture and direction (00:16-00:32, no MPC)
+Seven right-arm postures from the B2a pose (shoulder 3 + elbow hinge + wrist 3 optimised with the node body model; shapes and inertia recomputed
+with g13_human_precompute.py). All pass the checks after the fixes in D2-1. Preview: goal1/overnight/postures_preview.png (first figure to look at).
+Ours zone thickness by direction (cm; uniform is 6.5-10.2 cm everywhere, the upper value where shapes overlap); mu ranges (kg, robot 4.6 kg isotropic):
+| posture | elbow deg | tip front | hand back | palm | hand inner | hand outer | forearm top | forearm side | elbow | upper-arm side | hand mu | forearm mu | upper-arm mu |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1_reach (ref) | 5 | 20.3 | 9.1 | 8.8 | 13.3 | 6.5 | 14.8 | 12.7 | 24.6 | 20.6 | 0.52-2.99 | 1.36-2.87 | 2.90-3.28 |
+| P2_bend45 | 42 | 12.4 | 7.3 | 7.2 | 11.3 | 6.5 | 17.2 | 13.4 | 23.4 | 18.2 | 0.51-1.55 | 1.45-2.88 | 2.48-3.30 |
+| P3_bend90 | 89 | 9.5 | 7.0 | 8.1 | 6.6 | 10.8 | 37.3 | 13.9 | 21.9 | 19.1 | 0.50-1.08 | 1.46-3.06 | 2.35-3.27 |
+| P4_side | 4 | 21.1 | 9.3 | 8.8 | 6.5 | 13.4 | 15.9 | 14.1 | 24.9 | 19.1 | 0.52-3.72 | 1.35-3.30 | 2.70-3.76 |
+| P5_up | 5 | 17.5 | 9.5 | 9.3 | 13.6 | 6.5 | 14.7 | 14.5 | 23.9 | 21.8 | 0.52-3.13 | 1.37-3.16 | 2.77-3.53 |
+| P6_handover | 48 | 9.1 | 8.9 | 7.6 | 7.2 | 13.8 | 17.8 | 13.9 | 23.2 | 17.9 | 0.51-1.28 | 1.44-3.10 | 2.41-3.39 |
+| P7_down | 5 | 13.4 | 7.8 | 8.0 | 11.8 | 6.5 | 13.5 | 13.9 | 24.1 | 21.8 | 0.52-1.71 | 1.39-2.97 | 2.75-3.43 |
+- The fingertip-front thickness follows the arm: straight arms 17.5-21.1 cm, bent arms 9.1-12.4 cm (with a bent elbow the hand points along a light
+  direction: hand mu max 1.08-1.55 kg vs 2.99-3.72 kg straight).
+- Back of hand and palm stay near uniform (7.0-9.5 cm) in every posture. One hand side is always at the uniform value (6.5 cm).
+- Elbow and upper arm are thick in every posture (17.9-24.9 cm); no direction reaches eta_max (25 cm) at the surface, the elbow comes closest (24.9).
+- forearm_top of P3 (37.3 cm) is the hanging upper arm's zone above the forearm, not the forearm's own.
+- Limits: P6_handover palm is 30 deg from up and the elbow 48 deg (D2-1). Single static frame per posture; thickness is along one ray per direction.
+- Picked for WP3 (D2-2): P3_bend90, P6_handover, P4_side, P2_bend45.
+Files: logs/meff_isaac/on_wp2_postures.json, on_wp2_zone.json; figures goal1/overnight/postures_preview.png, wp2_zone_thickness.png.
 

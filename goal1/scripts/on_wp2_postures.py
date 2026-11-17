@@ -2,8 +2,9 @@
 (SMPL 17, 3 axis-angle), right elbow as a hinge (SMPL 19, local y only) and right wrist (SMPL 21, 3 axis-angle, regularised) optimised with the node body
 model (HumanInertiaCore) to target upper-arm / forearm directions (and palm-up for the hand-over posture), in the scene g2 (Isaac) frame where the human
 faces -x, right = +y, up = +z. Human data recomputed with the node code (g13_human_precompute.py --shapes v2 --pose66-from), base placement unchanged.
-Checks: elbow flexion 0-145 deg (from the joint positions), shoulder rotation < 160 deg, wrist < 60 deg, no overlap of right-arm shapes with other shapes
-(capsule distance > 0). Outputs goal1/data/human_on_<P>_v2.npz (+ _pose.npz), goal1/data/human_on_<P>_mesh.npz (vertices, display/figures),
+Checks: elbow flexion 0-145 deg (from the joint positions), hinge hyper-extension <= 0.10 rad (6 deg), shoulder rotation < 160 deg, wrist twist (pro/supination) <= 90 deg
+and swing <= 70 deg (optimiser penalises twist > 80, swing > 60), no overlap of forearm / hand shapes with non-arm shapes and of the upper arm with non-arm
+shapes other than the chest / right shoulder it attaches to (capsule distance > 0). Outputs goal1/data/human_on_<P>_v2.npz (+ _pose.npz), goal1/data/human_on_<P>_mesh.npz (vertices, display/figures),
 logs/meff_isaac/on_wp2_postures.json."""
 import json, os, subprocess, sys
 import numpy as np, torch
@@ -41,10 +42,10 @@ deg = np.radians
 TARGETS = {   # name: (upper-arm dir, forearm dir, palm target or None, description)
     "P1_reach": None,
     "P2_bend45": (nz(np.cos(deg(45)) * F_ - np.sin(deg(45)) * U_), F_, None, "elbow ~45 deg, forearm forward, upper arm forward-down"),
-    "P3_bend90": (-U_, F_, None, "elbow ~90 deg, forearm forward, upper arm down"),
+    "P3_bend90": (nz(-U_ + 0.25 * S_), F_, None, "elbow ~90 deg, forearm forward, upper arm down (14 deg abducted to clear the torso)"),
     "P4_side": (S_, S_, None, "arm straight to the right side"),
     "P5_up": (nz(F_ + U_), nz(F_ + U_), None, "arm straight, raised 45 deg forward-up"),
-    "P6_handover": (nz(np.cos(deg(60)) * F_ - np.sin(deg(60)) * U_), F_, U_, "hand-over: forearm forward, elbow ~60 deg, palm up"),
+    "P6_handover": (nz(np.cos(deg(60)) * F_ - np.sin(deg(60)) * U_ + 0.25 * S_), F_, U_, "hand-over: forearm forward, elbow ~60 deg, palm up (upper arm 14 deg abducted)"),
     "P7_down": (nz(np.cos(deg(40)) * F_ - np.sin(deg(40)) * U_), nz(np.cos(deg(40)) * F_ - np.sin(deg(40)) * U_), None, "arm straight, forward-down 40 deg toward a work table"),
 }
 
@@ -54,7 +55,8 @@ def solve(t):
     def obj(x):
         g = fk(x); c = ang(g["el"] - g["sh"], ua_t) ** 2 + ang(g["wr"] - g["el"], fa_t) ** 2 + 0.002 * np.sum(x[4:7] ** 2)
         c += (0.5 * ang(g["palm"], palm_t) ** 2) if palm_t is not None else 0.05 * ang(g["palm"], g0["palm"]) ** 2
-        return c + 10.0 * min(x[3], 0.0) ** 2   # hinge sign: positive local y = flexion (v2_posture.py convention)
+        tw, sw = wrist_twist_swing(x[4:7])
+        return c + 10.0 * min(x[3], 0.0) ** 2 + 0.01 * max(tw - 80.0, 0.0) ** 2 + 0.01 * max(sw - 60.0, 0.0) ** 2   # hinge sign: positive local y = flexion (v2_posture.py convention)
     best = None
     for th0 in (0.3, 0.8, 1.2, 1.6):
         x0 = np.r_[P66[RSH], th0, 0, 0, 0].astype(np.float64)
@@ -72,13 +74,31 @@ def verts(pose66):
 
 
 def overlaps(o):
+    """forearm and hand shapes vs every non-arm shape; upper arm vs non-arm shapes except the chest and right shoulder it is attached to"""
     sh = o["shapes"]; P0 = np.asarray(sh["p0"]); P1 = np.asarray(sh["p1"]); rad = np.asarray(sh["radius"]); seg = np.asarray(sh["segment"]); out = []
-    arm = [k for k in range(24) if rad[k] > 0 and seg[k] in (14, 16, 18)]; oth = [k for k in range(24) if rad[k] > 0 and seg[k] not in (14, 16, 18, 11)]
-    for a in arm:
+    oth = [k for k in range(24) if rad[k] > 0 and seg[k] not in (14, 16, 18)]
+    for a in [k for k in range(24) if rad[k] > 0 and seg[k] in (14, 16, 18)]:
         for b in oth:
+            if seg[a] == 14 and seg[b] in (8, 11):
+                continue
             d = seg_seg(P0[a], P1[a], P0[b], P1[b]) - rad[a] - rad[b]
             out.append((d, a, b))
     return min(out)
+
+
+def wrap_deg(v):
+    a = float(np.linalg.norm(v)) % (2 * np.pi); return float(np.degrees(min(a, 2 * np.pi - a)))
+
+
+def wrist_twist_swing(w):
+    """SMPL right wrist axis-angle -> (twist about the local forearm axis x, swing), degrees"""
+    a = float(np.linalg.norm(w))
+    if a < 1e-9:
+        return 0.0, 0.0
+    ax = w / a; qw, qx = np.cos(a / 2), ax[0] * np.sin(a / 2); tw = 2 * np.arctan2(qx, qw); tw = (tw + np.pi) % (2 * np.pi) - np.pi
+    qt = np.array([np.cos(tw / 2), np.sin(tw / 2), 0, 0]); q = np.r_[qw, ax * np.sin(a / 2)]
+    qs = np.array([q[0] * qt[0] + q[1] * qt[1], -q[0] * qt[1] + q[1] * qt[0], q[2] * qt[0] - q[3] * qt[1], q[3] * qt[0] + q[2] * qt[1]])   # q * conj(qt)
+    return float(np.degrees(abs(tw))), float(np.degrees(2 * np.arccos(np.clip(abs(qs[0]), -1, 1))))
 
 
 def seg_seg(p1, q1, p2, q2):
@@ -98,10 +118,10 @@ if __name__ == "__main__":
             subprocess.run([sys.executable, f"{H}/effmass_mpc/goal1/scripts/g13_human_precompute.py", "--shapes", "v2", "--pose66-from", f"{D_}/human_on_{name}_pose.npz", "--out", f],
                            check=True, capture_output=True)
         g = fk(x); ua, fa = g["el"] - g["sh"], g["wr"] - g["el"]; flex = np.degrees(ang(ua, fa))
-        ov = overlaps(g["o"]); sh_rot = float(np.degrees(np.linalg.norm(x[:3]))); wr_rot = float(np.degrees(np.linalg.norm(x[4:7])))
-        ok = (0 <= flex <= 145) and x[3] >= -1e-3 and sh_rot < 160 and wr_rot < 60 and ov[0] > 0
+        ov = overlaps(g["o"]); sh_rot = wrap_deg(x[:3]); wr_rot = wrap_deg(x[4:7]); wtw, wsw = wrist_twist_swing(x[4:7]); hg = (x[3] + np.pi) % (2 * np.pi) - np.pi
+        ok = (0 <= flex <= 145) and hg >= -0.10 and sh_rot < 160 and wtw <= 90 and wsw <= 70 and ov[0] > 0
         V = verts(P.reshape(-1)) @ Ri.T + ti; np.savez(f"{D_}/human_on_{name}_mesh.npz", verts=V.astype(np.float32), faces=FACES)
-        res[name] = dict(description=desc, file=f, fit_cost=float(fun), elbow_flexion_deg=float(flex), elbow_hinge_rad=float(x[3]), shoulder_rot_deg=sh_rot, wrist_rot_deg=wr_rot,
+        res[name] = dict(description=desc, file=f, fit_cost=float(fun), elbow_flexion_deg=float(flex), elbow_hinge_rad=float(x[3]), shoulder_rot_deg=sh_rot, wrist_rot_deg=wr_rot, wrist_twist_deg=wtw, wrist_swing_deg=wsw,
                          upper_arm_dir=nz(ua).round(3).tolist(), forearm_dir=nz(fa).round(3).tolist(), palm_normal=nz(g["palm"]).round(3).tolist(),
                          upper_arm_err_deg=float(np.degrees(ang(ua, t[0]))) if t else 0.0, forearm_err_deg=float(np.degrees(ang(fa, t[1]))) if t else 0.0,
                          palm_up_err_deg=float(np.degrees(ang(g["palm"], U_))) if (t and t[2] is not None) else None,

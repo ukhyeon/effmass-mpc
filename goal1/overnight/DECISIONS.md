@@ -30,3 +30,20 @@ Format: time / situation / alternatives / choice and reason / original criterion
 - Clearly better variant: P (--meff-motion cv), 2 seeds, keeps the speed cap. Used for WP4 (M1 0.5 m/s, both conditions, plan rule) and as the
   Kinect candidate. L01 was effective too (ours 1.0 m/s max deficit 13.3 -> 9.1 cm, beyond spread), so WP5 adds "lag 100 ms + lead 0.1 s" (plan rule).
 - Own addition for WP5: "lag 100 ms + P", because P is the recommended Kinect setting and its tolerance to lag is the practical question. 2 runs.
+
+## D2-1 00:20 WP2 posture checks
+- Situation: the first check flagged every posture, including the B2a reference, because the upper-arm capsule overlaps the chest capsule at the
+  shoulder (by construction) and the wrist axis-angle includes forearm twist. Class (nai) measurement method.
+- Choice: overlap test = forearm / hand shapes vs every non-arm shape, upper arm vs non-arm shapes except the chest and right shoulder it attaches to;
+  wrist split into twist (pro/supination, limit 90 deg) and swing (limit 70 deg); elbow hyper-extension <= 6 deg allowed (P4 has 3 deg).
+- P3_bend90 and P6_handover: the hanging upper arm overlapped the abdomen capsule by 0.9 / 1.4 cm. Fixed by 14 deg abduction of the upper-arm target.
+- P6_handover palm-up target: with twist <= 80 / swing <= 60 deg and the abducted upper arm the optimiser reaches palm 30 deg from up, elbow 48 deg
+  (target 60), forearm 13 deg off. Palm weight 1.0 and 2.0 were tried (2 tries): both collapsed the elbow to 4-5 deg. Kept weight 0.5 (palm 30 deg off). Recorded as a limit.
+- Zone thickness first run measured hand directions from the hand COM, which lies outside the thin hand capsules (class (nai)); fixed by starting from the
+  nearest capsule axis point. Only the corrected numbers are reported.
+
+## D2-2 00:30 WP3 posture pick
+- Rule (written before looking): greedy max-min distance of the 9-direction ours thickness vector, the reference reach pose counted as already present.
+- Result: P3_bend90, P6_handover, P4_side, P2_bend45. P3 is pulled far by forearm_top 37 cm (the ray above the forearm runs inside the hanging upper
+  arm's zone). P4_side is close to the reach pose once rotated toward the robot, but its hand is rolled 90 deg (inner / outer side thickness swapped).
+- Alternative considered: replace P4 with P7_down (light hand, mu max 1.7 kg) for a likely "no difference" case. Not done: the pre-set rule stands.

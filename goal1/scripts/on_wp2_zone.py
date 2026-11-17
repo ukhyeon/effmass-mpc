@@ -1,6 +1,6 @@
 """on_wp2_zone.py - WP2 direction-wise zone thickness per posture (system python via g1_run_human.sh py; no MPC). Same zone definition as v2_zone_lib
 (right-arm v2 shapes, robot point mass 4.6 kg isotropic, uniform eta 0.065, ours gain k 0.10, mu_ref 0.53, eta_max 0.25). Thickness along a direction from
-an anchor inside the arm: march from the anchor until the point leaves every arm shape (surface, r_s), continue until it leaves the zone (r_z);
+an anchor inside the arm (moved onto the nearest shape axis if it is outside every shape): march from the anchor until the point leaves every arm shape (surface, r_s), continue until it leaves the zone (r_z);
 thickness = r_z - r_s; mu and eta of the nearest shape at the surface point. Directions: tip front (hand pointing), back of hand, palm, hand inner
 (toward the body midline) / outer side, forearm top / outer side, elbow (point of the elbow; for a straight arm the downward perpendicular), upper arm
 outer side. mu range over 400 directions from the hand, forearm and upper-arm anchors; parts where eta reaches eta_max. Picks 4 postures for WP3 whose
@@ -25,8 +25,20 @@ def armd(D, P):
     return d
 
 
+def inside(D, anchor):
+    """anchor moved onto the axis of the nearest arm shape when it is not inside any arm shape (the hand COM lies outside the thin hand capsules)"""
+    if armd(D, anchor[None])[0] < 0:
+        return anchor
+    best = None
+    for s in D["SH"]:
+        a, b = D["P0"][s], D["P1"][s]; ab = b - a; tt = np.clip(((anchor - a) @ ab) / max(ab @ ab, 1e-12), 0, 1); q = a + tt * ab; d = np.linalg.norm(q - anchor) - D["RAD"][s]
+        if best is None or d < best[0]:
+            best = (d, q)
+    return best[1]
+
+
 def thick_from(D, anchor, dirv, cond):
-    dirv = nz(dirv); rr = np.arange(0, 0.8, 0.0005); P = anchor[None] + rr[:, None] * dirv[None]
+    dirv = nz(dirv); anchor = inside(D, np.asarray(anchor, float)); rr = np.arange(0, 0.8, 0.0005); P = anchor[None] + rr[:, None] * dirv[None]
     ds = armd(D, P); i_s = int(np.argmax(ds >= 0)); f, mu, kb = ZL.field(D, P, cond); out = f > 0; out[:i_s] = False; i_z = int(np.argmax(out))
     mu_s = float(mu[i_s]); eta = float(ZL.eta_of(np.array([mu_s]), cond, 0.10)[0]); return dict(t=float(rr[i_z] - rr[i_s]), mu=mu_s, eta=eta, shape=int(kb[i_s]), sat=bool(eta >= ZL.EM - 1e-9))
 
@@ -85,15 +97,15 @@ if __name__ == "__main__":
     ax.set_title("WP2 zone thickness by direction and posture (ours k 0.10; * = picked for WP3; 'max' = eta at eta_max 25 cm)"); ax.grid(axis="y", alpha=0.3)
     fig.tight_layout(); fig.savefig(f"{OV}/wp2_zone_thickness.png", dpi=130); plt.close(fig)
     # preview: every posture from the same viewpoint
-    n = len(names); fig = plt.figure(figsize=(4.6 * ((n + 1) // 2), 9.5))
+    n = len(names); fig = plt.figure(figsize=(5.2 * ((n + 1) // 2), 11))
     for j, nm in enumerate(names):
         M = np.load(f"{D_}/human_on_{nm}_mesh.npz"); V, F = M["verts"].astype(float), M["faces"]; ax = fig.add_subplot(2, (n + 1) // 2, j + 1, projection="3d")
-        arm = np.isin(LAB[F], [14, 16, 18]).all(1); keep = arm | (np.arange(len(F)) % 3 == 0)
-        ax.add_collection3d(Poly3DCollection(V[F[keep & ~arm]], facecolor="#c9c4bc", edgecolor="none", alpha=0.35))
+        arm = np.isin(LAB[F], [14, 16, 18]).all(1); keep = np.ones(len(F), bool)
+        ax.add_collection3d(Poly3DCollection(V[F[keep & ~arm]], facecolor="#bdb8b0", edgecolor="none", alpha=0.18))
         ax.add_collection3d(Poly3DCollection(V[F[arm]], facecolor="#d2691e", edgecolor="none", alpha=0.9))
         ax.plot([0.38, 0.38], [-0.37, 0.37], [0.45, 0.45], color="#2a78d6", lw=2)
-        ax.set_xlim(0.2, 1.5); ax.set_ylim(-0.75, 0.55); ax.set_zlim(-0.25, 1.05); ax.set_box_aspect((1.3, 1.3, 1.3)); ax.view_init(elev=18, azim=-140)
+        ax.set_xlim(0.3, 1.45); ax.set_ylim(-0.55, 0.8); ax.set_zlim(-0.35, 1.0); ax.set_box_aspect((1.15, 1.35, 1.35)); ax.view_init(elev=14, azim=-125)
         p = PO[nm]; ax.set_title(f"{nm}{' *' if nm in pick else ''}\nelbow {p['elbow_flexion_deg']:.0f} deg, {'ok' if p['plausible'] else 'CHECK'}", fontsize=10)
         ax.set_xticks([]); ax.set_yticks([]); ax.set_zticks([])
     fig.suptitle("WP2 postures, same viewpoint (blue line = robot TCP path of the front scene; orange = right arm; * = picked for WP3)", fontsize=12)
-    fig.tight_layout(); fig.savefig(f"{OV}/postures_preview.png", dpi=110); plt.close(fig)
+    fig.tight_layout(rect=[0, 0, 1, 0.95]); fig.savefig(f"{OV}/postures_preview.png", dpi=110); plt.close(fig)

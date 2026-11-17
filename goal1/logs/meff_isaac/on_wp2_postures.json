@@ -1,0 +1,450 @@
+{
+ "P1_reach": {
+  "description": "B2a static reach pose (reference)",
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_b2a_reach_v2.npz",
+  "fit_cost": 0.0,
+  "elbow_flexion_deg": 5.447405542717856,
+  "elbow_hinge_rad": 0.0,
+  "shoulder_rot_deg": 93.1317302346665,
+  "wrist_rot_deg": 0.0,
+  "wrist_twist_deg": 0.0,
+  "wrist_swing_deg": 0.0,
+  "upper_arm_dir": [
+   -1.0,
+   -0.0,
+   0.007
+  ],
+  "forearm_dir": [
+   -0.995,
+   -0.061,
+   0.08
+  ],
+  "palm_normal": [
+   -0.058,
+   0.054,
+   -0.997
+  ],
+  "upper_arm_err_deg": 0.0,
+  "forearm_err_deg": 0.0,
+  "palm_up_err_deg": null,
+  "min_arm_to_body_capsule_gap_m": 0.10695014056980949,
+  "closest_pair_shapes": [
+   12,
+   10
+  ],
+  "plausible": true,
+  "shoulder": [
+   1.23,
+   -0.003,
+   0.445
+  ],
+  "elbow": [
+   0.966,
+   -0.003,
+   0.446
+  ],
+  "wrist": [
+   0.699,
+   -0.019,
+   0.468
+  ],
+  "tip": [
+   0.502,
+   -0.014,
+   0.469
+  ],
+  "x": [
+   0.23498328030109406,
+   1.523374319076538,
+   -0.5159637331962585,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "P2_bend45": {
+  "description": "elbow ~45 deg, forearm forward, upper arm forward-down",
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on_P2_bend45_v2.npz",
+  "fit_cost": 0.07858555542163098,
+  "elbow_flexion_deg": 41.77736290199513,
+  "elbow_hinge_rad": 0.6686345632491049,
+  "shoulder_rot_deg": 73.34572328732247,
+  "wrist_rot_deg": 42.83597040603698,
+  "wrist_twist_deg": 19.084255584151247,
+  "wrist_swing_deg": 38.53007082779139,
+  "upper_arm_dir": [
+   -0.717,
+   0.07,
+   -0.693
+  ],
+  "forearm_dir": [
+   -0.998,
+   -0.045,
+   -0.048
+  ],
+  "palm_normal": [
+   -0.518,
+   -0.753,
+   -0.405
+  ],
+  "upper_arm_err_deg": 4.101867432915088,
+  "forearm_err_deg": 3.75376119048166,
+  "palm_up_err_deg": null,
+  "min_arm_to_body_capsule_gap_m": 0.04213871349188933,
+  "closest_pair_shapes": [
+   12,
+   3
+  ],
+  "plausible": true,
+  "shoulder": [
+   1.23,
+   -0.003,
+   0.445
+  ],
+  "elbow": [
+   1.04,
+   0.016,
+   0.261
+  ],
+  "wrist": [
+   0.773,
+   0.004,
+   0.248
+  ],
+  "tip": [
+   0.602,
+   0.069,
+   0.322
+  ],
+  "x": [
+   -0.5030038692023816,
+   0.8764967897218947,
+   0.7857855124073767,
+   0.6686345632491049,
+   0.3203895243436041,
+   0.33565527810698303,
+   -0.5862037126614421
+  ]
+ },
+ "P3_bend90": {
+  "description": "elbow ~90 deg, forearm forward, upper arm down (14 deg abducted to clear the torso)",
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on_P3_bend90_v2.npz",
+  "fit_cost": 0.009770907888699944,
+  "elbow_flexion_deg": 89.14377044218944,
+  "elbow_hinge_rad": 1.49778351577662,
+  "shoulder_rot_deg": 49.83729245764371,
+  "wrist_rot_deg": 80.49535503229731,
+  "wrist_twist_deg": 56.375038674835515,
+  "wrist_swing_deg": 60.016026836616554,
+  "upper_arm_dir": [
+   -0.0,
+   0.249,
+   -0.968
+  ],
+  "forearm_dir": [
+   -1.0,
+   0.001,
+   -0.015
+  ],
+  "palm_normal": [
+   -0.348,
+   -0.093,
+   -0.933
+  ],
+  "upper_arm_err_deg": 0.4077999023185239,
+  "forearm_err_deg": 0.8633158326888234,
+  "palm_up_err_deg": null,
+  "min_arm_to_body_capsule_gap_m": 0.04106813271807677,
+  "closest_pair_shapes": [
+   12,
+   3
+  ],
+  "plausible": true,
+  "shoulder": [
+   1.23,
+   -0.003,
+   0.445
+  ],
+  "elbow": [
+   1.23,
+   0.063,
+   0.188
+  ],
+  "wrist": [
+   0.962,
+   0.064,
+   0.184
+  ],
+  "tip": [
+   0.873,
+   0.24,
+   0.189
+  ],
+  "x": [
+   -0.19390958316334259,
+   0.09723648213840583,
+   0.8423416164217399,
+   1.49778351577662,
+   0.8894482280723933,
+   -0.674576261360224,
+   -0.8529935247720066
+  ]
+ },
+ "P4_side": {
+  "description": "arm straight to the right side",
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on_P4_side_v2.npz",
+  "fit_cost": 0.0030008277628231425,
+  "elbow_flexion_deg": 4.370985592760548,
+  "elbow_hinge_rad": 6.226437660709079,
+  "shoulder_rot_deg": 27.55250846823441,
+  "wrist_rot_deg": 0.9934723006888793,
+  "wrist_twist_deg": 0.575126417906137,
+  "wrist_swing_deg": 0.8100755061602904,
+  "upper_arm_dir": [
+   -0.003,
+   0.999,
+   -0.037
+  ],
+  "forearm_dir": [
+   0.003,
+   0.999,
+   0.039
+  ],
+  "palm_normal": [
+   -0.058,
+   0.013,
+   -0.998
+  ],
+  "upper_arm_err_deg": 2.12322925378221,
+  "forearm_err_deg": 2.247766229268561,
+  "palm_up_err_deg": null,
+  "min_arm_to_body_capsule_gap_m": 0.14004421950262408,
+  "closest_pair_shapes": [
+   12,
+   10
+  ],
+  "plausible": true,
+  "shoulder": [
+   1.23,
+   -0.003,
+   0.445
+  ],
+  "elbow": [
+   1.23,
+   0.262,
+   0.435
+  ],
+  "wrist": [
+   1.23,
+   0.53,
+   0.445
+  ],
+  "tip": [
+   1.249,
+   0.726,
+   0.436
+  ],
+  "x": [
+   -0.1931184369142922,
+   -0.006235429852964464,
+   -0.4403565339594115,
+   6.226437660709079,
+   0.010037682395416893,
+   -0.014016766286481783,
+   0.0018516730145220319
+  ]
+ },
+ "P5_up": {
+  "description": "arm straight, raised 45 deg forward-up",
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on_P5_up_v2.npz",
+  "fit_cost": 0.017471684876917446,
+  "elbow_flexion_deg": 5.390822762644525,
+  "elbow_hinge_rad": -0.0016718157357277085,
+  "shoulder_rot_deg": 113.65064558880513,
+  "wrist_rot_deg": 78.37158545032858,
+  "wrist_twist_deg": 77.28319769928791,
+  "wrist_swing_deg": 14.172493942890492,
+  "upper_arm_dir": [
+   -0.699,
+   0.043,
+   0.714
+  ],
+  "forearm_dir": [
+   -0.729,
+   -0.041,
+   0.684
+  ],
+  "palm_normal": [
+   -0.465,
+   0.063,
+   -0.883
+  ],
+  "upper_arm_err_deg": 2.5184786374113513,
+  "forearm_err_deg": 2.9848882769601808,
+  "palm_up_err_deg": null,
+  "min_arm_to_body_capsule_gap_m": 0.023304332432347127,
+  "closest_pair_shapes": [
+   12,
+   10
+  ],
+  "plausible": true,
+  "shoulder": [
+   1.23,
+   -0.003,
+   0.445
+  ],
+  "elbow": [
+   1.045,
+   0.009,
+   0.634
+  ],
+  "wrist": [
+   0.85,
+   -0.002,
+   0.817
+  ],
+  "tip": [
+   0.675,
+   0.034,
+   0.9
+  ],
+  "x": [
+   0.6848773371771821,
+   0.4920237931941157,
+   -1.7953933144115024,
+   -0.0016718157357277085,
+   -1.3415172965709043,
+   0.0977087604482964,
+   0.24854907355671568
+  ]
+ },
+ "P6_handover": {
+  "description": "hand-over: forearm forward, elbow ~60 deg, palm up (upper arm 14 deg abducted)",
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on_P6_handover_v2.npz",
+  "fit_cost": 0.2324521393393166,
+  "elbow_flexion_deg": 47.88961529184236,
+  "elbow_hinge_rad": 0.7758642154112534,
+  "shoulder_rot_deg": 69.83547105419612,
+  "wrist_rot_deg": 82.19147131220628,
+  "wrist_twist_deg": 58.560655563215946,
+  "wrist_swing_deg": 60.46274621831916,
+  "upper_arm_dir": [
+   -0.498,
+   0.061,
+   -0.865
+  ],
+  "forearm_dir": [
+   -0.974,
+   0.093,
+   -0.208
+  ],
+  "palm_normal": [
+   0.404,
+   -0.302,
+   0.864
+  ],
+  "upper_arm_err_deg": 10.551074645459392,
+  "forearm_err_deg": 13.15074145416384,
+  "palm_up_err_deg": 30.274996271250988,
+  "min_arm_to_body_capsule_gap_m": 0.01112250078776203,
+  "closest_pair_shapes": [
+   12,
+   3
+  ],
+  "plausible": true,
+  "shoulder": [
+   1.23,
+   -0.003,
+   0.445
+  ],
+  "elbow": [
+   1.098,
+   0.014,
+   0.216
+  ],
+  "wrist": [
+   0.837,
+   0.038,
+   0.16
+  ],
+  "tip": [
+   0.75,
+   -0.138,
+   0.151
+  ],
+  "x": [
+   -0.5388952696786438,
+   0.5430153442128431,
+   0.9488641913012803,
+   0.7758642154112534,
+   -0.9221971168196923,
+   -0.3684110445288542,
+   1.035205225946159
+  ]
+ },
+ "P7_down": {
+  "description": "arm straight, forward-down 40 deg toward a work table",
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on_P7_down_v2.npz",
+  "fit_cost": 0.0061571931138570445,
+  "elbow_flexion_deg": 5.3547917500138436,
+  "elbow_hinge_rad": -0.002753089270501556,
+  "shoulder_rot_deg": 106.45326928004069,
+  "wrist_rot_deg": 50.39450871300477,
+  "wrist_twist_deg": 19.697862243652462,
+  "wrist_swing_deg": 46.61852909687,
+  "upper_arm_dir": [
+   -0.756,
+   0.044,
+   -0.653
+  ],
+  "forearm_dir": [
+   -0.776,
+   -0.044,
+   -0.629
+  ],
+  "palm_normal": [
+   -0.001,
+   0.055,
+   -0.998
+  ],
+  "upper_arm_err_deg": 2.647007619591391,
+  "forearm_err_deg": 2.710013617815999,
+  "palm_up_err_deg": null,
+  "min_arm_to_body_capsule_gap_m": 0.04514282717866483,
+  "closest_pair_shapes": [
+   12,
+   3
+  ],
+  "plausible": true,
+  "shoulder": [
+   1.23,
+   -0.003,
+   0.445
+  ],
+  "elbow": [
+   1.03,
+   0.009,
+   0.272
+  ],
+  "wrist": [
+   0.822,
+   -0.003,
+   0.103
+  ],
+  "tip": [
+   0.643,
+   -0.085,
+   0.088
+  ],
+  "x": [
+   1.2206053016723717,
+   1.3786603111152016,
+   -0.24785880197617063,
+   -0.002753089270501556,
+   -0.32454088282715765,
+   0.22272042402937026,
+   -0.7865603663826042
+  ]
+ }
+}
