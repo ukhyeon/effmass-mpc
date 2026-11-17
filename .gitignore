@@ -40,7 +40,7 @@
 !/goal1/logs/meff_isaac/r1_summary.json
 !/goal1/logs/meff_isaac/r1_*bitcheck.json
 !/goal1/logs/meff_isaac/r1_video_info.json
-!/goal1/logs/meff_isaac/on_*.json
+!/goal1/logs/meff_isaac/on_wp*.json
 !/goal1/logs/*.json
 
 # MPC run node and environment-check scripts (my code)
@@ -71,6 +71,7 @@
 !/goal1/overnight/*.md
 !/goal1/overnight/*.png
 !/goal1/overnight/*.json
+!/goal1/overnight/*.tsv
 
 # never, even if matched above
 *.npz

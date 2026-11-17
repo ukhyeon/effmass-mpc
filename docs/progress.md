@@ -42,3 +42,11 @@
 - 수치: 손 간격(형상) 정면 균일 6.0 대 제안 12.0 cm, 방향 대비(정면 − 위) 균일 +0.5 대 제안 +3.8 cm (메시 기준 +1.2 대 +2.2 cm).
 - k_gain 별 손 간격 6.3 / 9.7 / 12.5 / 13.5 cm, 0.15 에서 손 위로 넘어가는 길. 정면 구역 두께 균일 6.6 대 제안 20.0 cm.
 - 근거: `goal1/logs/meff_isaac/v2_summary.json`, `v2_runs.json`, `v2_thickness.json`, `v2_posture.json`, 영상 `media/v2_main.gif`, `media/v2_gain_knob.gif`.
+
+## R1 움직이는 손 재생 (완료)
+
+- 확인: 정면 장면에서 손이 뻗기 → 머묾 1.5 s → 빼기 → 쉼을 반복할 때(손끝 최고 속도 0.25 / 0.5 / 1.0 m/s, 최소 저크) 균일(k_gain 0) 대 제안(k_gain 0.10). 로봇은 왕복, seed 3개, 프로파일 t1, 사람 움직임 예측 정지.
+- 수치 (손 최소 간격, 형상 기준): 0.25 m/s 균일 3.2 대 제안 7.3 cm, 0.5 m/s 1.6 대 5.4 cm, 1.0 m/s −0.3 대 2.0 cm. 머묾 간격 균일 5.8 대 제안 10.8 cm.
+- 실시간 배율 1.114~1.196 (rollout 비용 집계 끔), recapture 0, infeasible 0. 형상 침투는 1.0 m/s 균일 seed 1 의 3 스텝뿐 (메시 침투 0).
+- 기준 C("뻗는 중" 통과 평균이 seed 3개 모두 제안 > 균일)는 seed 1 에서 불통과. 이 평균은 손과 만나는 위상에 좌우돼 회피 성능을 재지 못한다고 판단해 overnight WP1 에서 위상 기준으로 다시 분석.
+- 근거: `goal1/logs/meff_isaac/r1_summary.json`, `r1_runs.json`, `r1_passes.json`, 그림 `goal1/r1/r1_*.png`.

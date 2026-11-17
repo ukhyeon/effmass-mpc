@@ -2,6 +2,7 @@
 Robot state at step i = executed joint q of the steps csv; TRUE human at the same simulation time = frame clip(floor((i + 1) dt 30), F - 1) of the
 precomputed file named in the job (perturbations such as lead, lag, jitter or dropout change only what the controller saw, never the measured human).
 Job dict: tag, human (file base name under goal1/data, needs <base>.npz and <base>_armverts.npz), k (gain, None = off), scene (scene json),
+target_segs (segments whose shapes / mesh define the measured gap, default [18] = right hand; WP3 uses [16, 18] = forearm and hand),
 ref_label (human phase label whose onsets are the reference event, default "hold"), plus free labels (group, speed, cond, seed, variant).
 Per pass (leg between goal switches; single-pass runs: one leg ending at arrival or run end): minimum hand shape gap and its time, mesh gap, hand state,
 approach speed, u vs front, mu, eta, deficit = eta - gap at the minimum, cost shape at the executed state (not the rollout aggregate), side, pass time,
@@ -22,15 +23,16 @@ HB, HT = BA.RI.body_of["fr3v2_1_hand"]; W_COST = 1e5; DT = 1 / 60.0
 _HC = {}
 
 
-def human(base):
-    if base in _HC:
-        return _HC[base]
+def human(base, segs=(18,)):
+    key = (base, tuple(segs))
+    if key in _HC:
+        return _HC[key]
     z = np.load(f"{DD}/{base}.npz"); a = np.load(f"{DD}/{base}_armverts.npz")
     D = dict(p0=z["p0"].astype(float) @ Rm.T + tv, p1=z["p1"].astype(float) @ Rm.T + tv, inv=np.einsum("ij,fsjk,lk->fsil", Rm, z["inv"].astype(float), Rm), tip=z["tip"].astype(float) @ Rm.T + tv,
              phase=z["phase"], rad=z["shape_radius"].astype(float), seg=z["shape_segment"], F=len(z["p0"]), av=a["verts"], vid=a["vid"], fl=a["faces_local"])
-    D["hand"] = [k for k in range(24) if D["seg"][k] == 18 and D["rad"][k] > 0]; D["all"] = [k for k in range(24) if D["rad"][k] > 0]
-    hv = np.nonzero(R1A.LABV[D["vid"]] == 18)[0]; D["hv"] = hv; hl = np.zeros(len(D["vid"]), bool); hl[hv] = True; D["hf"] = D["fl"][hl[D["fl"]].all(1)]
-    D["tipv"] = np.gradient(D["tip"], 1 / 30.0, axis=0); _HC[base] = D; return D
+    D["hand"] = [k for k in range(24) if D["seg"][k] in segs and D["rad"][k] > 0]; D["all"] = [k for k in range(24) if D["rad"][k] > 0]
+    hv = np.nonzero(np.isin(R1A.LABV[D["vid"]], segs))[0]; D["hv"] = hv; hl = np.zeros(len(D["vid"]), bool); hl[hv] = True; D["hf"] = D["fl"][hl[D["fl"]].all(1)]
+    D["tipv"] = np.gradient(D["tip"], 1 / 30.0, axis=0) if D["F"] > 1 else np.zeros_like(D["tip"]); _HC[key] = D; return D
 
 
 def eta_of(mu, k):
@@ -38,7 +40,7 @@ def eta_of(mu, k):
 
 
 def one(job):
-    tag = job["tag"]; D = human(job["human"]); k = job.get("k"); kk_ = 0.0 if k is None else k; sc = json.load(open(job["scene"])); ref = job.get("ref_label", "hold")
+    tag = job["tag"]; D = human(job["human"], tuple(job.get("target_segs", (18,)))); k = job.get("k"); kk_ = 0.0 if k is None else k; sc = json.load(open(job["scene"])); ref = job.get("ref_label", "hold")
     log = open(f"{O}/{tag}.log", errors="replace").read(); r = json.load(open(re.findall(r"saved (\S+_result_\S+\.json)", log)[-1])); rows = list(csv.DictReader(open(r["steps_csv"])))
     Q = np.array([[float(x[f"q{i}"]) for i in range(7)] for x in rows]); n = len(Q); sw = np.array([int(float(x.get("goal_switched", 0) or 0)) for x in rows]); solv = np.array([float(x["solver_ms"]) for x in rows])
     perr = np.array([float(x["pos_err_m"]) for x in rows])
@@ -82,7 +84,7 @@ def one(job):
         seg_ = slice(a, b + 1); i0 = a + int(np.argmin(gh[seg_])); f = fr[i0]; j = sph[i0]; kq = shp[i0]; cpos = C[i0, j]
         dtip = cpos - D["tip"][f]; vapp = float(D["tipv"][f] @ (dtip / np.linalg.norm(dtip)))
         a_, b_ = D["p0"][f][kq], D["p1"][f][kq]; ab = b_ - a_; tt = np.clip(((cpos - a_) @ ab) / max(ab @ ab, 1e-12), 0, 1); qp = a_ + tt * ab; uu = (qp - cpos) / np.linalg.norm(qp - cpos)
-        LH = D["inv"][f][18]; Lr = RL[i0][1][j]; mu = 1 / (uu @ LH @ uu + uu @ Lr @ uu); eta = eta_of(mu, k)
+        LH = D["inv"][f][D["seg"][kq]]; Lr = RL[i0][1][j]; mu = 1 / (uu @ LH @ uu + uu @ Lr @ uu); eta = eta_of(mu, k)
         best = (0, None)
         for js in range(len(C[i0])):
             for ks in D["all"]:
@@ -103,7 +105,7 @@ def one(job):
         w0, w1 = (max(a, int(t_cross * 60) - 1 - 45), min(b, int(t_cross * 60) - 1 + 45)) if t_cross is not None else (a, b)
         gw = float(gh[w0:w1 + 1].min())
         passes.append(dict(job, pass_idx=pi, start=a, end=b, t_min=float((i0 + 1) / 60), gap_shape=float(gh[i0]), gap_mesh=float(np.nanmin(gm[seg_])) if np.isfinite(gm[seg_]).any() else None,
-                           state=str(D["phase"][f]), v_approach=vapp, u_vs_front_deg=float(np.degrees(np.arccos(np.clip(uu @ (-AX), -1, 1)))), mu=float(mu), eta=eta,
+                           state=str(D["phase"][f]), v_approach=vapp, min_shape=int(kq), min_seg=int(D["seg"][kq]), u_vs_front_deg=float(np.degrees(np.arccos(np.clip(uu @ (-AX), -1, 1)))), mu=float(mu), eta=eta,
                            deficit=(eta - float(gh[i0])) if eta is not None else None, cost_shape_seg=best[1], cost_at_min=best[0], pass_time_s=float((b - a + 1) / 60),
                            side=side if side != "side" else "other", reached=bool(perr[b] < 0.01), t_cross=t_cross, phase=ph, gap_window=gw,
                            direction="A->B" if pi % 2 == 0 else "B->A"))
