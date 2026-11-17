@@ -65,3 +65,37 @@ Ours zone thickness by direction (cm; uniform is 6.5-10.2 cm everywhere, the upp
 - Picked for WP3 (D2-2): P3_bend90, P6_handover, P4_side, P2_bend45.
 Files: logs/meff_isaac/on_wp2_postures.json, on_wp2_zone.json; figures goal1/overnight/postures_preview.png, wp2_zone_thickness.png.
 
+## WP3 Static scene matrix (00:30-01:10, 65 runs, all wall-time ok, RTF 1.15-1.25, infeasible 0, recapture 0)
+Robot path fixed (front scene, single pass, 420 steps); each WP2 posture placed by a rigid yaw + translation so that the off path passes 2.5 cm from the
+target part on the intended side (search: on_wp3_scenes.py). Calibration on off and uniform only; every built scene passed on the first try
+(off gap 2.5 cm, uniform arrives, infeasible 0) except P4 forearmside18 (D3-3). Uniform and ours, seeds 0-2 (seed 2 = reserve item 1).
+Scene count: original rule (torso >= 0.35 m) built 5 of 12. User instruction (0.25 m) added P3 top, P6 fingertip-front. Added rules (relax first):
+0.18 m added P6 top and P6 beside-forearm. Excluded: P2 / P3 beside-forearm (torso <= 0.09 m from the path), P4 beside-forearm (no human-side
+placement) = 3 of 12. Purpose check: all 3 approach directions present; bent-arm postures P2 (42 deg), P3 (89 deg), P6 (48 deg).
+
+| scene | torso min (m) | uniform gap mean (range) cm | ours gap mean (range) cm | mesh gap u / o cm | side | u vs front deg | mu kg | ours eta cm | gap/eta u / o | pass time o/u | v99 max m/s | ours torso-cost steps | class |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 reach front (V2) | 0.35 | 6.0 | 12.0 | - | front | - | - | - | - | - | - | - | ours farther |
+| P1 reach over hand (V2) | 0.35 | 5.4 | 8.2 | - | up | - | - | - | - | - | - | - | ours farther |
+| P2_tipfront | 0.35 | 6.0 (5.3-6.5) | 9.9 (9.3-10.4) | 5.9 / 9.9 | front | 43 | 1.03 | 10.4 | 0.92 / 0.95 | 0.96 | 0.503 | 0 | ours farther |
+| P2_top | 0.35 | 6.0 (5.8-6.3) | 7.5 (6.1-8.7) | 5.9 / 7.8 | up | 92 | 0.59 | 7.0 | 0.93 / 1.06 | 0.92 | 0.472 | 0 | no difference (light) |
+| P3_tipfront | 0.35 | 5.9 (5.6-6.1) | 8.5 (8.2-8.8) | 6.2 / 8.8 | front | 12 | 0.92 | 9.7 | 0.90 / 0.88 | 1.06 | 0.518 | 0 | ours farther |
+| P3_top25 | 0.25 | 5.9 (5.7-6.2) | 6.0 (5.6-6.2) | 7.9 / 8.1 | up | 78 | 0.54 | 6.6 | 0.91 / 0.91 | 1.00 | 0.496 | 0 | no difference (light) |
+| P4_tipfront | 0.35 | 5.9 (5.2-6.5) | 11.5 (11.0-11.9) | 5.8 / 12.5 | front | 42 | 1.30 | 12.2 | 0.91 / 0.94 | 1.06 | 0.507 | 0 | ours farther |
+| P4_top | 0.35 | 5.9 (5.6-6.1) | 9.5 (8.9-10.0) | 8.6 / 11.7 | up | 73 | 0.85 | 9.2 | 0.90 / 1.04 | 0.98 | 0.493 | 0 | ours farther |
+| P6_tipfront25 | 0.25 | 6.0 (5.8-6.1) | 10.2 (9.8-10.6) | 5.8 / 9.7 | front | 15 | 1.08 | 10.8 | 0.92 / 0.94 | 1.00 | 0.546 | 0 | ours farther |
+| P6_top18 | 0.18 | 6.2 (5.4-6.6) | 6.6 (6.1-6.9) | 6.0 / 6.4 | up | 66 | 0.57 | 6.8 | 0.95 / 0.96 | 1.05 | 0.503 | 97 | no difference (light), torso cost in ours |
+| P6_forearmside18 | 0.18 | 5.6 (5.5-5.8) | 11.2 (11.2-11.2) | 5.9 / 11.1 | front | 20 | 0.65 | 7.6 | 0.87 / 1.48 | 1.09 | 0.498 | 0 | ours farther |
+Classification rule written before the runs (on_wp3_summary.py): threshold = max(1 cm, seed range); "light" = ours eta at the minimum < 7.5 cm.
+- Ours keeps more distance when the robot crosses in front of the fingertip (all 4 postures, +2.7 to +5.6 cm, 3 seeds each beyond the seed range),
+  and over the hand of the side-arm posture P4 (+3.7 cm). Over the hand of bent-arm postures (P2, P3, P6) there is no difference: mu there is
+  0.54-0.59 kg (near mu_ref 0.53), so ours eta stays 6.6-7.0 cm. This is the intended direction dependence, not a failure.
+- Beside the forearm (P6 only): ours 11.2 vs uniform 5.6 cm although ours eta at the forearm minimum is 7.6 cm (gap/eta 1.48).
+  (interpretation) the heavier hand zone keeps the robot out before it reaches the forearm; not checked.
+- Torso: torso cost appeared only in P6_top18 for ours (28-35 steps per run, torso gives 86-100 % of the per-step maximum cost on those steps);
+  the gap there equals uniform's, so the scene says nothing about the arm. Uniform never had torso cost; no other scene had torso cost in either condition.
+- Same passing side in every seed and condition; no path change; all arrived; pass time ours / uniform 0.92-1.09.
+- Near-human speed p99 slightly above 0.5 m/s in single passes: max 0.546 (P6_tipfront25), 0.518 (P3_tipfront). Not seen in the R1 round trips.
+Figures: goal1/overnight/wp3_effect_table.png, wp3_scene_gap.png. Numbers: logs/meff_isaac/on_wp3_summary.json, on_wp3_runs.json, on_wp3_passes.json,
+on_wp3_scenes.json.
+

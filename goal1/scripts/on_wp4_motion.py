@@ -2,7 +2,7 @@
 1 cm of the fingertip path, right shoulder (3) + elbow hinge (1) + wrist (3) optimised with the node body model (fingertip on target dominant, palm
 orientation and forearm direction of the reference pose kept softly, continuity), per-frame poses interpolated between key poses, frames recomputed with
 the node code (shapes v2, velocity from the previous frame), then the whole motion placed by one rigid yaw + translation (Isaac frame).
-M1 hand-over: hold pose = WP2 P6_handover placed by the WP3 'tipfront' search (target gap 0.025 m to the off path); retracted = fingertip moved back along
+M1 hand-over: hold pose = WP2 P6_handover placed by the WP3 'tipfront' search (target gap 0.025 m to the off path, torso >= 0.25 m since 0.35 m is infeasible); retracted = fingertip moved back along
 the reach direction (shoulder -> fingertip) by D = smallest of 0.30, 0.32, ... m with every hand shape >= 0.35 m from the off-path robot cloud.
 Cycle rest 1.5 s -> reach (min-jerk) -> hold 3.0 s -> retract -> ... Labels rest / reaching / hold / retracting (reference event: hold onset).
 M2 crossing: P7_down (forearm toward the work table) fingertip swept sideways (human right-left) by 0.40 m with the sweep midpoint on the robot TCP line
@@ -100,7 +100,7 @@ def schedule_m2(A, Tr, n, rest=1.5):
 if __name__ == "__main__":
     which = sys.argv[1:] or ["M1", "M2"]; NF = int(60 * RATE) + 2; ck = json.load(open(f"{O}/on_wp4_motion_check.json")) if os.path.exists(f"{O}/on_wp4_motion_check.json") else {}
     if "M1" in which:
-        info, M = W3.search("P6_handover", "tipfront", 0.025)
+        info, M = W3.search("P6_handover", "tipfront", 0.025, torso_min=0.25)   # WP3 torso rule 0.35 is infeasible for P6 (D4-1)
         assert info is not None, "no tipfront placement for P6_handover"
         R, fI = place_fn(np.radians(info["yaw_deg"]), np.array(info["anchor"]), np.array(info["dst"]))
         xh = X["P6_handover"]; g0 = WP.fk(xh); tip0 = g0["tip"]; u = nz(tip0 - g0["sh"])
@@ -127,20 +127,23 @@ if __name__ == "__main__":
         targets = [g0["tip"] - (A / 2) * lat + 0.01 * i * lat for i in range(0, 41)]
         KX = keyposes(xr, [g0["tip"]] + [g0["tip"] - 0.01 * i * lat for i in range(1, 21)]); KX = KX[::-1]
         KX2 = keyposes(xr, [g0["tip"]] + [g0["tip"] + 0.01 * i * lat for i in range(1, 21)]); KX = np.concatenate([KX, KX2[1:]]); KS = 0.01 * np.arange(len(KX))
-        tipC = g0["tip"]; chosen = None
-        for th in (90, 80, 70, 60, 50, 40, 30):
-            # sweep direction lat (human right) mapped to a direction at angle th from the robot path (+y): yaw so that R @ lat = (sin th, cos th, 0) ... toward the robot base side first
-            yaw = np.arctan2(np.cos(np.radians(th)), -np.sin(np.radians(th))) - np.arctan2(lat[1], lat[0])
-            for sgn in (1, -1):
-                yw = yaw if sgn == 1 else yaw + np.pi
-                R, fI = place_fn(yw, tipC, np.array([0.42, 0.0, 0.47]))
-                tg = min(torso_and_hand_gap(WP.core.compute(WP.pose_of(KX[i]).reshape(-1), WP.T0, prev=None, dt=None), fI)[0] for i in (0, 20, 40))
-                print(f"M2 angle {th} side {sgn} torso gap {tg:.3f}", flush=True)
-                if tg >= 0.35:
-                    chosen = (th, yw, R, fI, tg); break
+        tipC = g0["tip"]; chosen = None; TORSO_M2 = 0.35
+        for TORSO_M2 in (0.35, 0.25):
+            for th in (90, 80, 70, 60, 50, 40, 30):
+                # sweep direction lat (human right) mapped to a direction at angle th from the robot path (+y): yaw so that R @ lat = (sin th, cos th, 0) ... toward the robot base side first
+                yaw = np.arctan2(np.cos(np.radians(th)), -np.sin(np.radians(th))) - np.arctan2(lat[1], lat[0])
+                for sgn in (1, -1):
+                    yw = yaw if sgn == 1 else yaw + np.pi
+                    R, fI = place_fn(yw, tipC, np.array([0.42, 0.0, 0.47]))
+                    tg = min(torso_and_hand_gap(WP.core.compute(WP.pose_of(KX[i]).reshape(-1), WP.T0, prev=None, dt=None), fI)[0] for i in (0, 20, 40))
+                    print(f"M2 angle {th} side {sgn} torso gap {tg:.3f}", flush=True)
+                    if tg >= TORSO_M2:
+                        chosen = (th, yw, R, fI, tg); break
+                if chosen:
+                    break
             if chosen:
                 break
-        assert chosen is not None, "M2: no crossing angle with torso >= 0.35 m"
+        assert chosen is not None, "M2: no crossing angle with torso >= 0.25 m"
         th, yw, R, fI, tg = chosen
         for v in (0.25, 0.5):
             Tr = 1.875 * A / v
@@ -149,7 +152,7 @@ if __name__ == "__main__":
                 if it == 0:
                     Tr *= (np.linalg.norm(np.diff(tp, axis=0), axis=1) * RATE).max() / v
             s, st, Pc = schedule_m2(A, Tr, NF); tag = f"M2_v{int(round(v * 100)):03d}"; out, tips, vt = frames(KX, KS, s, st, R, fI, tag)
-            ck[tag] = dict(file=out, sweep_m=A, crossing_angle_deg=th, yaw_deg=float(np.degrees(yw)), torso_gap_min_keyposes_m=tg, sweep_time_s=Tr, period_s=Pc, rest_s=1.5,
+            ck[tag] = dict(file=out, torso_min_used=TORSO_M2, sweep_m=A, crossing_angle_deg=th, yaw_deg=float(np.degrees(yw)), torso_gap_min_keyposes_m=tg, sweep_time_s=Tr, period_s=Pc, rest_s=1.5,
                            tip_peak_speed=float(vt.max()), tip_z_range=[float(tips[:, 2].min()), float(tips[:, 2].max())], frames=NF)
             print(tag, {k: (round(x_, 4) if isinstance(x_, float) else x_) for k, x_ in ck[tag].items()}, flush=True)
     json.dump(ck, open(f"{O}/on_wp4_motion_check.json", "w"), indent=1, default=lambda o: o.item() if hasattr(o, "item") else str(o))

@@ -6,9 +6,9 @@ Placement search against the robot sphere cloud of the off run on the front scen
                 closest hand point within 4 cm of the fingertip; shift along +x (human side) to reach the target gap.
   top         : target hand shapes, robot passes over the hand: normal . z >= 0.7; shift along -z.
   forearmside : target forearm shapes, robot passes beside the forearm: forearm gap <= hand gap + 0.005 and <= upper-arm gap, |normal . z| <= 0.6; shift along +x.
-Common: target gap 0.025 m (off path), torso shapes (pelvis, abdomen, chest) >= 0.35 m from the cloud, every other shape >= target gap.
+Common: target gap 0.025 m (off path), torso shapes (pelvis, abdomen, chest) >= torso_min (0.35 m for WP3) from the cloud, every other shape >= target gap.
 Grid: yaw 0..350 deg step 10, anchor y in {-0.2, -0.1, 0, 0.1, 0.2}, anchor height / x per direction. Score = alignment - |y| (prefer the path middle).
-Usage: on_wp3_scenes.py <posture> [...] [--gap=0.025] [--only=<dir>] [--adjust=<scene>:<dx>] -> goal1/data/human_on3_<P>_<dir>_v2.npz (+ _v2_armverts; display mesh human_on3_<P>_<dir>_verts.npz),
+Usage: on_wp3_scenes.py <posture> [...] [--gap=0.025] [--only=<dir>] [--torso=0.35] [--suffix=25] -> goal1/data/human_on3_<P>_<dir>_v2.npz (+ _v2_armverts; display mesh human_on3_<P>_<dir>_verts.npz),
 logs/meff_isaac/on_wp3_scenes.json (appended per scene)."""
 import json, os, sys
 import numpy as np
@@ -53,7 +53,7 @@ def closest_normal(M, k, j):
     a, b = M["p0"][k], M["p1"][k]; ab = b - a; c = CL[j]; t = np.clip(((c - a) @ ab) / max(ab @ ab, 1e-12), 0, 1); q = a + t * ab; return nz(c - q), q + nz(c - q) * M["rad"][k]
 
 
-def evaluate(I, name, dirn, yaw, anchor_fn, place, gap):
+def evaluate(I, name, dirn, yaw, anchor_fn, place, gap, torso_min=0.35):
     """place(anchor) -> (dst base, shift axis). Bisection on the shift so that the target gap = gap."""
     a0 = anchor_fn(I); base, ax = place
     def at(s):
@@ -80,7 +80,8 @@ def evaluate(I, name, dirn, yaw, anchor_fn, place, gap):
         al = float(n[2]); ok = al >= 0.7
     else:
         al = 1 - abs(float(n[2])); ok = gf <= gh + 0.005 and gf <= gu and abs(n[2]) <= 0.6
-    ok = ok and gt >= 0.35 and go >= gap - 1e-3 and min(gh, gf, gu) >= gap - 1e-3
+    # chest beyond the path on the human side (x > 0.60), not between robot base and path
+    ok = ok and M["com"][8][0] > 0.60 and gt >= torso_min and go >= gap - 1e-3 and min(gh, gf, gu) >= gap - 1e-3
     return dict(ok=bool(ok), align=al, yaw_deg=float(np.degrees(yaw)), shift=float(hi), anchor=a0.tolist(), dst=(base + hi * ax).tolist(), gap_hand=gh, gap_forearm=gf, gap_upper=gu,
                 gap_torso=gt, gap_other=go, closest_seg=int(M["seg"][kt]), normal=n.round(3).tolist()), M
 
@@ -90,7 +91,7 @@ def shape_gaps_k(M, k):
     d = SM.segdist(CL, M["p0"][k], M["p1"][k]) - M["rad"][k] - CR; j = int(np.argmin(d)); return float(d[j]), j
 
 
-def search(name, dirn, gap):
+def search(name, dirn, gap, torso_min=0.35):
     d, I = load(name); tip = I["jd"][18]; wr = I["jp"][18]; hc = I["com"][18]; el = I["jp"][16]; pt = nz(tip - wr); fa = nz(wr - el)
     best = None
     if dirn == "tipfront":
@@ -108,13 +109,13 @@ def search(name, dirn, gap):
         cands = [(np.radians(yd), (lambda I_: (I_["jp"][16] + I_["jp"][18]) / 2), (np.array([0.38, y0, zq]), np.array([1.0, 0, 0])))
                  for yd in range(0, 360, 10) for y0 in (0.0, -0.1, 0.1, -0.2, 0.2) for zq in (0.50, 0.45, 0.55)]
     for yw, af, pl in cands:
-        res = evaluate(I, name, dirn, yw, af, pl, gap)
+        res = evaluate(I, name, dirn, yw, af, pl, gap, torso_min)
         if res is None:
             continue
         info, M = res
         if not info["ok"]:
             continue
-        sc = info["align"] - abs(info["dst"][1]) + 0.2 * min(info["gap_torso"] - 0.35, 0.2)
+        sc = info["align"] - abs(info["dst"][1]) + 0.2 * min(info["gap_torso"] - torso_min, 0.2)
         if best is None or sc > best[0]:
             best = (sc, info, M)
     return (best[1], best[2]) if best else (None, None)
@@ -141,14 +142,14 @@ def write(name, dirn, info, M, gap, tag):
 
 if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--")]; opt = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--"))
-    gap = float(opt.get("gap", 0.025)); dirs = [opt["only"]] if "only" in opt else ["tipfront", "top", "forearmside"]
+    gap = float(opt.get("gap", 0.025)); dirs = [opt["only"]] if "only" in opt else ["tipfront", "top", "forearmside"]; tmin = float(opt.get("torso", 0.35)); sfx = opt.get("suffix", "")
     J = f"{O}/on_wp3_scenes.json"; allr = json.load(open(J)) if os.path.exists(J) else {}
     for name in args:
         for dn in dirs:
-            tag = f"{name.split('_')[0]}_{dn}"; info, M = search(name, dn, gap)
+            tag = f"{name.split('_')[0]}_{dn}{sfx}"; info, M = search(name, dn, gap, tmin)
             if info is None:
-                allr[tag] = dict(posture=name, direction=dn, feasible=False, gap_target=gap); print(tag, "no feasible placement", flush=True)
+                allr[tag] = dict(posture=name, direction=dn, feasible=False, gap_target=gap, torso_min=tmin); print(tag, "no feasible placement", flush=True)
             else:
-                f = write(name, dn, info, M, gap, tag); allr[tag] = dict(posture=name, direction=dn, feasible=True, file=f, gap_target=gap, **info)
+                f = write(name, dn, info, M, gap, tag); allr[tag] = dict(posture=name, direction=dn, feasible=True, file=f, gap_target=gap, torso_min=tmin, **info)
                 print(tag, json.dumps({k: (round(v, 3) if isinstance(v, float) else v) for k, v in info.items() if k not in ("anchor",)}), flush=True)
             json.dump(allr, open(J, "w"), indent=1)

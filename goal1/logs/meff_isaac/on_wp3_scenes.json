@@ -1,0 +1,378 @@
+{
+ "P3_tipfront": {
+  "posture": "P3_bend90",
+  "direction": "tipfront",
+  "feasible": true,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on3_P3_tipfront_v2.npz",
+  "gap_target": 0.025,
+  "ok": true,
+  "align": 0.900000803455671,
+  "yaw_deg": -311.9308591768554,
+  "shift": 0.12959560453891755,
+  "anchor": [
+   0.8728634186396795,
+   0.23971880188993455,
+   0.1889195183463772
+  ],
+  "dst": [
+   0.5095956045389176,
+   0.0,
+   0.5
+  ],
+  "gap_hand": 0.025000008684197314,
+  "gap_forearm": 0.20207490765972674,
+  "gap_upper": 0.3450900370193768,
+  "gap_torso": 0.35621232923378715,
+  "gap_other": 0.35621232923378715,
+  "closest_seg": 18,
+  "normal": [
+   -0.938,
+   -0.055,
+   0.342
+  ]
+ },
+ "P3_top": {
+  "posture": "P3_bend90",
+  "direction": "top",
+  "feasible": false,
+  "gap_target": 0.025
+ },
+ "P3_forearmside": {
+  "posture": "P3_bend90",
+  "direction": "forearmside",
+  "feasible": false,
+  "gap_target": 0.025
+ },
+ "P6_tipfront": {
+  "posture": "P6_handover",
+  "direction": "tipfront",
+  "feasible": false,
+  "gap_target": 0.025
+ },
+ "P6_top": {
+  "posture": "P6_handover",
+  "direction": "top",
+  "feasible": false,
+  "gap_target": 0.025
+ },
+ "P6_forearmside": {
+  "posture": "P6_handover",
+  "direction": "forearmside",
+  "feasible": false,
+  "gap_target": 0.025
+ },
+ "P4_tipfront": {
+  "posture": "P4_side",
+  "direction": "tipfront",
+  "feasible": true,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on3_P4_tipfront_v2.npz",
+  "gap_target": 0.025,
+  "ok": true,
+  "align": 0.9599472271633522,
+  "yaw_deg": -264.5953622348486,
+  "shift": 0.11724940985441207,
+  "anchor": [
+   1.2488324369291157,
+   0.7260448609986447,
+   0.43630263602215846
+  ],
+  "dst": [
+   0.49724940985441207,
+   0.0,
+   0.46
+  ],
+  "gap_hand": 0.02500000167340795,
+  "gap_forearm": 0.21737021291815012,
+  "gap_upper": 0.4746642535470304,
+  "gap_torso": 0.7196502346771998,
+  "gap_other": 0.7196502346771998,
+  "closest_seg": 18,
+  "normal": [
+   -0.971,
+   -0.057,
+   0.231
+  ]
+ },
+ "P4_top": {
+  "posture": "P4_side",
+  "direction": "top",
+  "feasible": true,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on3_P4_top_v2.npz",
+  "gap_target": 0.025,
+  "ok": true,
+  "align": 0.9955764788493358,
+  "yaw_deg": 55.404637765151406,
+  "shift": 0.06920519918203355,
+  "anchor": [
+   1.2488324369291157,
+   0.7260448609986447,
+   0.43630263602215846
+  ],
+  "dst": [
+   0.42,
+   0.0,
+   0.38079480081796646
+  ],
+  "gap_hand": 0.02500000944576758,
+  "gap_forearm": 0.1150723860088699,
+  "gap_upper": 0.340736659823444,
+  "gap_torso": 0.5480327711577109,
+  "gap_other": 0.5327906772687567,
+  "closest_seg": 18,
+  "normal": [
+   -0.024,
+   -0.091,
+   0.996
+  ]
+ },
+ "P4_forearmside": {
+  "posture": "P4_side",
+  "direction": "forearmside",
+  "feasible": false,
+  "gap_target": 0.025
+ },
+ "P2_tipfront": {
+  "posture": "P2_bend45",
+  "direction": "tipfront",
+  "feasible": true,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on3_P2_tipfront_v2.npz",
+  "gap_target": 0.025,
+  "ok": true,
+  "align": 0.9931695505331519,
+  "yaw_deg": -339.3047912179548,
+  "shift": 0.11301964670419695,
+  "anchor": [
+   0.6016093028040044,
+   0.06861589958395253,
+   0.3216073254295071
+  ],
+  "dst": [
+   0.49301964670419696,
+   0.0,
+   0.46
+  ],
+  "gap_hand": 0.025000012447672207,
+  "gap_forearm": 0.21585273352661224,
+  "gap_upper": 0.4367742371902796,
+  "gap_torso": 0.4728881728305529,
+  "gap_other": 0.4728881728305529,
+  "closest_seg": 18,
+  "normal": [
+   -0.932,
+   -0.114,
+   0.345
+  ]
+ },
+ "P2_top": {
+  "posture": "P2_bend45",
+  "direction": "top",
+  "feasible": true,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on3_P2_top_v2.npz",
+  "gap_target": 0.025,
+  "ok": true,
+  "align": 0.984967368277426,
+  "yaw_deg": 20.69520878204521,
+  "shift": 0.055381174385547634,
+  "anchor": [
+   0.6016093028040044,
+   0.06861589958395253,
+   0.3216073254295071
+  ],
+  "dst": [
+   0.38,
+   0.0,
+   0.3946188256144524
+  ],
+  "gap_hand": 0.025000003860579656,
+  "gap_forearm": 0.15408131182112075,
+  "gap_upper": 0.34185788538595896,
+  "gap_torso": 0.3725047701076814,
+  "gap_other": 0.3689512381291398,
+  "closest_seg": 18,
+  "normal": [
+   0.172,
+   -0.017,
+   0.985
+  ]
+ },
+ "P2_forearmside": {
+  "posture": "P2_bend45",
+  "direction": "forearmside",
+  "feasible": false,
+  "gap_target": 0.025
+ },
+ "P3_top25": {
+  "posture": "P3_bend90",
+  "direction": "top",
+  "feasible": true,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on3_P3_top25_v2.npz",
+  "gap_target": 0.025,
+  "torso_min": 0.25,
+  "ok": true,
+  "align": 0.9873892220944872,
+  "yaw_deg": 43.0691408231446,
+  "shift": 0.06735320091247558,
+  "anchor": [
+   0.8728634186396795,
+   0.23971880188993455,
+   0.1889195183463772
+  ],
+  "dst": [
+   0.42,
+   0.0,
+   0.3826467990875244
+  ],
+  "gap_hand": 0.025000002872507893,
+  "gap_forearm": 0.1446754361544736,
+  "gap_upper": 0.2811657278513619,
+  "gap_torso": 0.26200389211007685,
+  "gap_other": 0.26200389211007685,
+  "closest_seg": 18,
+  "normal": [
+   -0.144,
+   -0.066,
+   0.987
+  ]
+ },
+ "P3_forearmside25": {
+  "posture": "P3_bend90",
+  "direction": "forearmside",
+  "feasible": false,
+  "gap_target": 0.025,
+  "torso_min": 0.25
+ },
+ "P6_tipfront25": {
+  "posture": "P6_handover",
+  "direction": "tipfront",
+  "feasible": true,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on3_P6_tipfront25_v2.npz",
+  "gap_target": 0.025,
+  "torso_min": 0.25,
+  "ok": true,
+  "align": 0.7742319982971997,
+  "yaw_deg": -33.613105882651865,
+  "shift": 0.14453522711992264,
+  "anchor": [
+   0.7497428422855296,
+   -0.13831195039921873,
+   0.15106544291455348
+  ],
+  "dst": [
+   0.5245352271199226,
+   -0.2,
+   0.55
+  ],
+  "gap_hand": 0.0250000044116655,
+  "gap_forearm": 0.18371219515420328,
+  "gap_upper": 0.38130079644647447,
+  "gap_torso": 0.26042041449361025,
+  "gap_other": 0.23656155779369747,
+  "closest_seg": 18,
+  "normal": [
+   -0.987,
+   0.16,
+   -0.007
+  ]
+ },
+ "P6_top25": {
+  "posture": "P6_handover",
+  "direction": "top",
+  "feasible": false,
+  "gap_target": 0.025,
+  "torso_min": 0.25
+ },
+ "P6_forearmside25": {
+  "posture": "P6_handover",
+  "direction": "forearmside",
+  "feasible": false,
+  "gap_target": 0.025,
+  "torso_min": 0.25
+ },
+ "P4_forearmside25": {
+  "posture": "P4_side",
+  "direction": "forearmside",
+  "feasible": false,
+  "gap_target": 0.025,
+  "torso_min": 0.25
+ },
+ "P2_forearmside25": {
+  "posture": "P2_bend45",
+  "direction": "forearmside",
+  "feasible": false,
+  "gap_target": 0.025,
+  "torso_min": 0.25
+ },
+ "P6_top18": {
+  "posture": "P6_handover",
+  "direction": "top",
+  "feasible": true,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on3_P6_top18_v2.npz",
+  "gap_target": 0.025,
+  "torso_min": 0.18,
+  "ok": true,
+  "align": 0.9933603214330152,
+  "yaw_deg": 336.38689411734816,
+  "shift": 0.10482905209064484,
+  "anchor": [
+   0.7497428422855296,
+   -0.13831195039921873,
+   0.15106544291455348
+  ],
+  "dst": [
+   0.42,
+   -0.2,
+   0.34517094790935515
+  ],
+  "gap_hand": 0.02500000985584573,
+  "gap_forearm": 0.12689411946887116,
+  "gap_upper": 0.2943999298802059,
+  "gap_torso": 0.1922674634427061,
+  "gap_other": 0.1922674634427061,
+  "closest_seg": 18,
+  "normal": [
+   -0.015,
+   -0.114,
+   0.993
+  ]
+ },
+ "P6_forearmside18": {
+  "posture": "P6_handover",
+  "direction": "forearmside",
+  "feasible": true,
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on3_P6_forearmside18_v2.npz",
+  "gap_target": 0.025,
+  "torso_min": 0.18,
+  "ok": true,
+  "align": 0.9703500626355132,
+  "yaw_deg": 70.0,
+  "shift": 0.20452197343111037,
+  "anchor": [
+   0.96787834614196,
+   0.02592336695086983,
+   0.1877521315761288
+  ],
+  "dst": [
+   0.5845219734311103,
+   0.0,
+   0.5
+  ],
+  "gap_hand": 0.04561773561376678,
+  "gap_forearm": 0.025000001612571182,
+  "gap_upper": 0.11185616172329407,
+  "gap_torso": 0.1823407941842342,
+  "gap_other": 0.1823407941842342,
+  "closest_seg": 16,
+  "normal": [
+   -0.999,
+   0.044,
+   0.03
+  ]
+ },
+ "P4_forearmside18": {
+  "posture": "P4_side",
+  "direction": "forearmside",
+  "feasible": false,
+  "gap_target": 0.025,
+  "torso_min": 0.18
+ }
+}

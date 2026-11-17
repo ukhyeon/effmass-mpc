@@ -33,13 +33,13 @@ Format: time / situation / alternatives / choice and reason / original criterion
 
 ## D2-1 00:20 WP2 posture checks
 - Situation: the first check flagged every posture, including the B2a reference, because the upper-arm capsule overlaps the chest capsule at the
-  shoulder (by construction) and the wrist axis-angle includes forearm twist. Class (nai) measurement method.
+  shoulder (by construction) and the wrist axis-angle includes forearm twist. 원인 분류 (나) 측정 방법.
 - Choice: overlap test = forearm / hand shapes vs every non-arm shape, upper arm vs non-arm shapes except the chest and right shoulder it attaches to;
   wrist split into twist (pro/supination, limit 90 deg) and swing (limit 70 deg); elbow hyper-extension <= 6 deg allowed (P4 has 3 deg).
 - P3_bend90 and P6_handover: the hanging upper arm overlapped the abdomen capsule by 0.9 / 1.4 cm. Fixed by 14 deg abduction of the upper-arm target.
 - P6_handover palm-up target: with twist <= 80 / swing <= 60 deg and the abducted upper arm the optimiser reaches palm 30 deg from up, elbow 48 deg
   (target 60), forearm 13 deg off. Palm weight 1.0 and 2.0 were tried (2 tries): both collapsed the elbow to 4-5 deg. Kept weight 0.5 (palm 30 deg off). Recorded as a limit.
-- Zone thickness first run measured hand directions from the hand COM, which lies outside the thin hand capsules (class (nai)); fixed by starting from the
+- Zone thickness first run measured hand directions from the hand COM, which lies outside the thin hand capsules (원인 분류 (나)); fixed by starting from the
   nearest capsule axis point. Only the corrected numbers are reported.
 
 ## D2-2 00:30 WP3 posture pick
@@ -47,3 +47,44 @@ Format: time / situation / alternatives / choice and reason / original criterion
 - Result: P3_bend90, P6_handover, P4_side, P2_bend45. P3 is pulled far by forearm_top 37 cm (the ray above the forearm runs inside the hanging upper
   arm's zone). P4_side is close to the reach pose once rotated toward the robot, but its hand is rolled 90 deg (inner / outer side thickness swapped).
 - Alternative considered: replace P4 with P7_down (light hand, mu max 1.7 kg) for a likely "no difference" case. Not done: the pre-set rule stands.
+
+## D3-1 00:36 WP3 infeasible scenes
+- Situation: placement search found 5 of 12 scenes (P3 tipfront; P4 tipfront, top; P2 tipfront, top). All forearm-side scenes and all P6 scenes,
+  plus P3 top, fail. Binding constraint in every case: torso shapes >= 0.35 m from the off-path robot sweep (best torso gap 0.06-0.30 m).
+  With a bent arm the hand is 0.3-0.45 m from the chest; with the forearm alongside the straight path, the shoulder and chest end up next to the path.
+- 원인 분류 (마) limit of the scene construction (fixed straight robot path at hand height + torso rule), not of the method under test.
+- Alternatives: (1) drop the infeasible scenes and record them (rule in the plan); (2) lower the torso threshold (would let ours' torso zone, up to
+  25 cm, act, which defeats the rule's purpose; not mine to change); (3) build new robot paths (new goals + IK) per scene: large change, no time
+  budget for calibrating new paths.
+- Choice: (1). The reach-pose front and top scenes enter the table with their V2 results (seeds 0-2, same settings, uniform u065 = gk000 bit-equal).
+- Original criterion: 4 postures x 3 directions. Verdict: 5 of 12 built; forearm-side direction not covered at all.
+
+## D4-1 00:40 WP4 M1 placement
+- Situation: M1 hold pose = P6_handover; with the hand 2.5 cm from the off path the torso is at best 0.26 m from the robot sweep (D3-1).
+- Alternatives: (1) keep torso >= 0.35 m by holding the hand ~11 cm from the path (uniform zone 6.5 cm would never act; not a hand-over);
+  (2) torso >= 0.25 m (the WP3 rule is a WP3 scene rule; WP4 has none), and report the torso's share of the executed-state cost;
+  (3) use another posture for M1 (not a hand-over).
+- Choice: (2), same for both conditions. M2 keeps 0.35 m (falls back to a smaller crossing angle first).
+
+## D3-2 (user instruction, received 00:48) WP3 retry of the 7 dropped scenes
+- Source: user instruction during the night (also appended to PLAN.md). Not my own decision.
+- Content: after the current WP3 batch, retry P3 top, P3 forearmside, P6 tipfront / top / forearmside, P4 forearmside, P2 forearmside with the torso
+  rule relaxed to >= 0.25 m (same relaxation as WP4 M1). Calibration as before (off and uniform only). Torso cost share reported offline.
+- Reporting: the 0.35 m scenes and the 0.25 m scenes are kept as separate groups; the original rule (0.35 m) and its verdict (5 of 12) stay in the report.
+
+## D3-3 00:58 WP3 under the added rules (relax -> modify -> exclude)
+- Status before: with torso >= 0.25 m (D3-2) 7 of 12 scenes; still excluded P3 forearmside, P6 top, P6 forearmside, P4 forearmside, P2 forearmside
+  (5 of 12 = 42 %, >= 30 %), and the forearm-side direction was missing, so the WP3 purpose (all 3 directions, >= 2 bent-arm postures) was not met.
+- Step 1, relax: torso distance 0.35 m (original) -> 0.25 m (user, D3-2) -> 0.18 m (mine) for the scenes still missing.
+  Scan of the best achievable torso gap: P6 top 0.192, P6 forearmside 0.233, P4 forearmside 0.191, P3 forearmside 0.092, P2 forearmside 0.063 m.
+  0.18 m chosen as the smallest value that adds the forearm-side direction without going near the uniform zone (6.5 cm) of the torso.
+  What the torso rule protects: no torso cost, so that the arm is what the conditions differ on. Checked instead by the offline executed-state torso
+  cost (on_analyze cost_split): steps with any torso cost and torso share of the per-step maximum, reported per scene and condition.
+- Built at 0.18 m: P6 top18, P6 forearmside18, P4 forearmside18. Calibration (off, uniform):
+  P6 top18 and P6 forearmside18 pass (off gap 2.5 cm, uniform arrives, infeasible 0).
+  P4 forearmside18 try 1 placed the human between the robot base and the path (chest x 0.12 m; my search had no side check) and uniform did not arrive.
+  Try 2 with "chest beyond the path (x > 0.60 m)": no placement. Excluded after 2 tries (no third geometric option at 0.18 m).
+  Every other scene was re-checked against the side condition: all chests at x 0.81-1.42 m.
+- Step 2, modify: not needed for the purpose after step 1 (all 3 directions present; bent-arm postures P2, P3, P6).
+- Step 3, exclude: P3 forearmside, P2 forearmside (torso <= 0.09 m from the path), P4 forearmside (no human-side placement): 3 of 12 = 25 %.
+- Groups in the report: torso >= 0.35 m (5 scenes, original rule), 0.25 m (P3 top25, P6 tipfront25, user rule), 0.18 m (P6 top18, P6 forearmside18).

@@ -9,7 +9,7 @@ approach speed, u vs front, mu, eta, deficit = eta - gap at the minimum, cost sh
 reached; crossing time t_cross = first step of the leg where the TCP projection on the A->B line passes the projection of the reference fingertip
 (fingertip at the first reference-event frame), phase = t_cross - nearest reference-event onset (s, negative = robot crossed before the event).
 Per run: penetration steps (shape hand, shape all, mesh hand), near-human sphere speed p99, realtime factor, solver mean / p99, recapture, infeasible,
-completed passes, stalls (TCP < 0.05 m/s for >= 0.5 s within 0.4 m of a human shape; at_goal flag), command roughness (RMS of joint acceleration and jerk
+completed passes, optional executed-state torso cost share (job cost_split), stalls (TCP < 0.05 m/s for >= 0.5 s within 0.4 m of a human shape; at_goal flag), command roughness (RMS of joint acceleration and jerk
 from the executed joint commands, 60 Hz finite differences).
 Usage: on_analyze.py <out_prefix> <jobs.json> [workers]  -> <out_prefix>_runs.json, <out_prefix>_passes.json"""
 import json, os, re, sys, csv
@@ -119,8 +119,38 @@ def one(job):
                stalls_not_at_goal=sum(1 for s_ in stall_list if not s_["at_goal"]), stall_time_not_at_goal_s=float(sum(s_["dur_s"] for s_ in stall_list if not s_["at_goal"])),
                stall_list=stall_list, acc_rms=float(np.sqrt((qdd[10:] ** 2).mean())), jerk_rms=float(np.sqrt((qddd[10:] ** 2).mean())),
                arrived=bool((perr < 0.01).any()), arrival_s=float((np.nonzero(perr < 0.01)[0][0] + 1) / 60) if (perr < 0.01).any() else None)
+    if job.get("cost_split") and k is not None:
+        run.update(cost_split(D, C, RL, fr, k))
     np.savez(f"{O}/{tag}_on_series.npz", gap_shape=gh, gap_all=ga, gap_mesh=gm, frame=fr, tcp=TCP, switch=sw)
     return run, passes
+
+
+TORSO_SEGS = (0, 3, 8)
+
+
+def cost_split(D, C, RL, fr, k):
+    """executed-state human cost per step (same per-pair cost as the kernel, w 1e5, eta from the run's k), max over pairs (max_all):
+    steps with any torso cost, steps where a torso pair gives the step maximum, torso share of the summed step maxima, largest torso cost."""
+    n = len(C); ct = np.zeros(n); ca = np.zeros(n); arg_torso = np.zeros(n, bool)
+    for i in range(n):
+        f = fr[i]; best_all = 0.0; best_t = 0.0
+        for ks in D["all"]:
+            a2, b2 = D["p0"][f][ks], D["p1"][f][ks]; ab2 = b2 - a2; t2 = np.clip(((C[i] - a2) @ ab2) / max(ab2 @ ab2, 1e-12), 0, 1); q2 = a2 + t2[:, None] * ab2
+            v = q2 - C[i]; nn = np.linalg.norm(v, axis=1); dd = nn - D["rad"][ks] - BA.RS
+            m = dd < 0.25
+            if not m.any():
+                continue
+            u = v[m] / np.maximum(nn[m], 1e-9)[:, None]; Lh = D["inv"][f][D["seg"][ks]]; Lr = RL[i][1][m]
+            mu = 1.0 / (np.einsum("ni,ij,nj->n", u, Lh, u) + np.einsum("ni,nij,nj->n", u, Lr, u))
+            e = np.clip(0.065 + k * np.maximum(np.sqrt(mu / 0.53) - 1, 0), 0.065, 0.25); d_ = dd[m]
+            c = np.where(d_ < 0, 0.5 * e - d_, np.where(d_ < e, (e - d_) ** 2 * 0.5 / e, 0.0)) * W_COST; cm = float(c.max())
+            best_all = max(best_all, cm)
+            if D["seg"][ks] in TORSO_SEGS:
+                best_t = max(best_t, cm)
+        ca[i] = best_all; ct[i] = best_t; arg_torso[i] = best_t > 0 and best_t >= best_all
+    act = ca > 0
+    return dict(cost_steps=int(act.sum()), torso_cost_steps=int((ct > 0).sum()), torso_argmax_steps=int(arg_torso.sum()),
+                torso_share_of_step_max=float(ca[arg_torso].sum() / ca.sum()) if ca.sum() > 0 else 0.0, torso_cost_max=float(ct.max()), all_cost_max=float(ca.max()))
 
 
 def cv(o):
