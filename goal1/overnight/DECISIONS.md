@@ -88,3 +88,12 @@ Format: time / situation / alternatives / choice and reason / original criterion
 - Step 2, modify: not needed for the purpose after step 1 (all 3 directions present; bent-arm postures P2, P3, P6).
 - Step 3, exclude: P3 forearmside, P2 forearmside (torso <= 0.09 m from the path), P4 forearmside (no human-side placement): 3 of 12 = 25 %.
 - Groups in the report: torso >= 0.35 m (5 scenes, original rule), 0.25 m (P3 top25, P6 tipfront25, user rule), 0.18 m (P6 top18, P6 forearmside18).
+
+## D4-2 01:19 WP4 motions as generated
+- M1: hold = P6_handover at the WP3 tipfront placement with torso >= 0.25 m (D4-1; the placement equals scene P6_tipfront25). Retract D = 0.38 m
+  (smallest with hand >= 0.35 m from the off sweep; R1 had 0.33). Peak tip speed 0.253 / 0.500 m/s, line deviation 0.8 mm, period 10.2 / 7.3 s.
+- M2: P7_down fingertip swept 0.40 m sideways through the TCP line. My own start values: torso >= 0.35 m and the largest crossing angle (90 deg first).
+  No angle met 0.35 m (relax, added rule 1): torso >= 0.25 m gives a 40 deg crossing angle (torso 0.277 m). What the torso value protected: no torso cost;
+  checked offline (torso cost share) like WP3. The hand rests 1.5 s at each end: on the human side 3 cm from the off sweep, on the far side inside it
+  (-3 to -4 cm), so the robot meets a hand that sits in its path. This is the intended "crossing" task, kept for both conditions.
+- Runs: M1, M2 x 0.25, 0.5 m/s x uniform / ours x seeds 0-2 (seed 2 = reserve item 1) + M1 0.5 m/s with P (WP1 best variant, D1-3) seeds 0-1.

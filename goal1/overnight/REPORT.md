@@ -99,3 +99,32 @@ Classification rule written before the runs (on_wp3_summary.py): threshold = max
 Figures: goal1/overnight/wp3_effect_table.png, wp3_scene_gap.png. Numbers: logs/meff_isaac/on_wp3_summary.json, on_wp3_runs.json, on_wp3_passes.json,
 on_wp3_scenes.json.
 
+## WP4 Moving collaboration scenes (01:10-01:52, 28 runs, all wall-time ok, RTF >= 1.159, infeasible 0, recapture 0)
+Motions (on_wp4_motion.py, node code, D4-1, D4-2): M1 hand-over = P6_handover held 3 s, reach / retract 0.38 m along the reach line (min-jerk,
+peak 0.253 / 0.500 m/s); M2 crossing = P7_down fingertip swept 0.40 m sideways through the robot TCP line at 40 deg (peak 0.250 / 0.500 m/s),
+resting 1.5 s on each side (on the far side the hand sits inside the off-path sweep). Front robot path, round trips, 60 s, uniform and ours,
+seeds 0-2 (seed 2 = reserve item 1); M1 0.5 m/s also with P (--meff-motion cv), seeds 0-1. Analysis by crossing phase (WP1 method).
+| motion / speed | cond | min gap per seed (cm) | critical-window max deficit per seed (cm) | hold-window mean gap (cm) | penetration (shape / mesh steps) | passes per run | stalls in front of the hand (count, s, 3 runs) |
+|---|---|---|---|---|---|---|---|
+| M1 0.25 | uniform | 5.3 / 2.8 / 4.1 | 1.2 / 3.7 / 2.4 | 5.8 | 0 / 0 | 27 / 26 / 27 | 0 |
+| M1 0.25 | ours | 7.5 / 6.6 / 7.6 | 4.1 / 4.6 / 2.9 | 10.1 | 0 / 0 | 27 / 25 / 27 | 0 |
+| M1 0.5 | uniform | 3.0 / 3.5 / 3.9 | 3.5 / 3.0 / 2.6 | 5.9 | 0 / 0 | 28 / 26 / 27 | 0 |
+| M1 0.5 | ours | 4.7 / 7.7 / 6.5 | 6.7 / 3.8 / 4.5 | 10.1 | 0 / 0 | 27 / 25 / 27 | 0 |
+| M1 0.5 P | uniform | 5.6 / 5.5 (s0, s1) | 0.7 / 0.9 | 6.2 | 0 / 0 | 28 / 26 | 0 |
+| M1 0.5 P | ours | 9.0 / 10.0 (s0, s1) | 0.9 / 0.6 | 10.0 | 0 / 0 | 26 / 25 | 0 |
+| M2 0.25 | uniform | 2.6 / 2.5 / 3.3 | 3.9 / 4.0 / 3.2 | - | 0 / 0 | 18 / 16 / 18 | 13, 32.5 s |
+| M2 0.25 | ours | 3.6 / 4.2 / 4.3 | 3.1 / 2.8 / 3.0 | - | 0 / 0 | 14 / 12 / 14 | 20, 38.9 s |
+| M2 0.5 | uniform | 0.6 / 1.2 / 0.0 | 5.9 / 5.3 / 6.5 | - | 0 / 0 | 21 / 21 / 21 | 17, 13.7 s |
+| M2 0.5 | ours | 6.4 / 6.7 / 3.8 | - / - / 3.1 | - | 0 / 0 | 18 / 19 / 18 | 3, 5.0 s |
+(critical window: M1 robot crosses within [-T_reach, +0.25 s] of hold onset; M2 within +-T_sweep/2 of the hand reaching the TCP line. "-" = no pass
+of that seed fell in the window.) Near-human speed p99 max 0.472-0.493 m/s in every group.
+- M1 hand-over: ours keeps the larger distance in every seed at both speeds (min gap +1.7 to +3.8 cm over uniform's seed range; hold gap 10.1 vs 5.8-5.9 cm)
+  with no loss of throughput (25-27 vs 26-28 passes). With P the critical deficit drops to <= 0.9 cm in both conditions and ours' min gap rises to 9.0-10.0 cm (2 seeds).
+- M1 torso: the hand-over placement has the torso 0.26 m from the sweep; ours had torso cost on 0-55 steps per run, 0-1.4 % of the summed per-step
+  maximum cost. Small; the hand dominates.
+- M2 crossing: no penetration anywhere. At 0.5 m/s uniform came to 0.0-1.2 cm, ours stayed at 3.8-6.7 cm. At 0.25 m/s ours waits more in front of the
+  hand (20 stalls, 38.9 s over 3 runs vs 13, 32.5 s) and completes fewer passes (12-14 vs 16-18 per 60 s); at 0.5 m/s ours waits less (3, 5.0 s vs
+  17, 13.7 s) and completes 18-19 vs 21. (interpretation) with the hand resting inside the path the larger zone makes ours wait for the hand to leave
+  rather than squeeze past; not checked frame by frame.
+Figure: goal1/overnight/wp4_phase_gap.png. Numbers: logs/meff_isaac/on_wp4_summary.json, on_wp4_runs.json, on_wp4_passes.json, on_wp4_motion_check.json.
+

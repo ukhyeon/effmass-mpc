@@ -1,0 +1,534 @@
+{
+ "M1/v025/gain/base": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.06566176691600797,
+  "min_gap_mesh": 0.06092983608865323,
+  "n_crit": 25,
+  "crit_min_gap": 0.06566176691600797,
+  "crit_max_deficit": 0.045513028850618836,
+  "crit_mean_deficit": -0.0386290973154068,
+  "hold_mean_gap": 0.10122770769054323,
+  "n_hold": 12,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   27,
+   25,
+   27
+  ],
+  "stalls_front": 0,
+  "stall_time_front_s": 0.0,
+  "torso_cost_steps": [
+   23,
+   31,
+   0
+  ],
+  "torso_share": [
+   0.0015411102485554128,
+   0.0031757568731074046,
+   0.0
+  ],
+  "rtf_min": 1.189,
+  "v99_max": 0.48545028417201863,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.07530918001059894,
+    "crit_min": 0.07530918001059894,
+    "crit_max_def": 0.04095593413228335
+   },
+   "1": {
+    "min_gap": 0.06566176691600797,
+    "crit_min": 0.06566176691600797,
+    "crit_max_def": 0.045513028850618836
+   },
+   "2": {
+    "min_gap": 0.0759956811381926,
+    "crit_min": 0.0759956811381926,
+    "crit_max_def": 0.029316758337714133
+   }
+  }
+ },
+ "M1/v025/gk000/base": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.027985695178718573,
+  "min_gap_mesh": 0.024483357332432204,
+  "n_crit": 25,
+  "crit_min_gap": 0.027985695178718573,
+  "crit_max_deficit": 0.03701430482128143,
+  "crit_mean_deficit": -0.06752896699622599,
+  "hold_mean_gap": 0.058466130369183834,
+  "n_hold": 13,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   27,
+   26,
+   27
+  ],
+  "stalls_front": 0,
+  "stall_time_front_s": 0.0,
+  "torso_cost_steps": [
+   0,
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.169,
+  "v99_max": 0.49324858518843867,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.053016402360507225,
+    "crit_min": 0.053016402360507225,
+    "crit_max_def": 0.011983597639492777
+   },
+   "1": {
+    "min_gap": 0.027985695178718573,
+    "crit_min": 0.027985695178718573,
+    "crit_max_def": 0.03701430482128143
+   },
+   "2": {
+    "min_gap": 0.04131792194069725,
+    "crit_min": 0.04131792194069725,
+    "crit_max_def": 0.023682078059302752
+   }
+  }
+ },
+ "M1/v050/gain/P": {
+  "seeds": [
+   0,
+   1
+  ],
+  "min_gap": 0.09002349478633218,
+  "min_gap_mesh": 0.08330173309120814,
+  "n_crit": 13,
+  "crit_min_gap": 0.09705487715185766,
+  "crit_max_deficit": 0.009453316814598808,
+  "crit_mean_deficit": -0.032162978093076874,
+  "hold_mean_gap": 0.10048680844676273,
+  "n_hold": 13,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   26,
+   25
+  ],
+  "stalls_front": 0,
+  "stall_time_front_s": 0.0,
+  "torso_cost_steps": [
+   17,
+   37
+  ],
+  "torso_share": [
+   0.0007067573346358784,
+   0.013868936726106087
+  ],
+  "rtf_min": 1.162,
+  "v99_max": 0.47199731990361615,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.09002349478633218,
+    "crit_min": 0.09705487715185766,
+    "crit_max_def": 0.009453316814598808
+   },
+   "1": {
+    "min_gap": 0.09970756286673728,
+    "crit_min": 0.10269806375617749,
+    "crit_max_def": 0.0060963518003407935
+   }
+  }
+ },
+ "M1/v050/gain/base": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.047387946733624314,
+  "min_gap_mesh": 0.046574088927531426,
+  "n_crit": 16,
+  "crit_min_gap": 0.047387946733624314,
+  "crit_max_deficit": 0.06662241149056673,
+  "crit_mean_deficit": -0.0048485740295455375,
+  "hold_mean_gap": 0.10149905085562008,
+  "n_hold": 20,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   27,
+   25,
+   27
+  ],
+  "stalls_front": 0,
+  "stall_time_front_s": 0.0,
+  "torso_cost_steps": [
+   20,
+   55,
+   0
+  ],
+  "torso_share": [
+   0.00018930929052018893,
+   0.013993510673850507,
+   0.0
+  ],
+  "rtf_min": 1.184,
+  "v99_max": 0.48819496224097053,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.047387946733624314,
+    "crit_min": 0.047387946733624314,
+    "crit_max_def": 0.06662241149056673
+   },
+   "1": {
+    "min_gap": 0.07695034218501272,
+    "crit_min": 0.07695034218501272,
+    "crit_max_def": 0.03775071881431148
+   },
+   "2": {
+    "min_gap": 0.06473285320940794,
+    "crit_min": 0.06473285320940794,
+    "crit_max_def": 0.044649601200265204
+   }
+  }
+ },
+ "M1/v050/gk000/P": {
+  "seeds": [
+   0,
+   1
+  ],
+  "min_gap": 0.05463140626154808,
+  "min_gap_mesh": 0.05269434749219942,
+  "n_crit": 12,
+  "crit_min_gap": 0.05608337789933972,
+  "crit_max_deficit": 0.008916622100660285,
+  "crit_mean_deficit": -0.03508899405957084,
+  "hold_mean_gap": 0.06168918281607052,
+  "n_hold": 15,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   28,
+   26
+  ],
+  "stalls_front": 0,
+  "stall_time_front_s": 0.0,
+  "torso_cost_steps": [
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.166,
+  "v99_max": 0.4765885832258219,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.05577720796520419,
+    "crit_min": 0.05753059754036531,
+    "crit_max_def": 0.007469402459634691
+   },
+   "1": {
+    "min_gap": 0.05463140626154808,
+    "crit_min": 0.05608337789933972,
+    "crit_max_def": 0.008916622100660285
+   }
+  }
+ },
+ "M1/v050/gk000/base": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.030348796519655635,
+  "min_gap_mesh": 0.029224398089397446,
+  "n_crit": 17,
+  "crit_min_gap": 0.030348796519655635,
+  "crit_max_deficit": 0.03465120348034437,
+  "crit_mean_deficit": -0.025042014944304632,
+  "hold_mean_gap": 0.058788314684121615,
+  "n_hold": 20,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   28,
+   26,
+   27
+  ],
+  "stalls_front": 0,
+  "stall_time_front_s": 0.0,
+  "torso_cost_steps": [
+   0,
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.192,
+  "v99_max": 0.4923332955811653,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.030348796519655635,
+    "crit_min": 0.030348796519655635,
+    "crit_max_def": 0.03465120348034437
+   },
+   "1": {
+    "min_gap": 0.035073064725502145,
+    "crit_min": 0.035073064725502145,
+    "crit_max_def": 0.029926935274497857
+   },
+   "2": {
+    "min_gap": 0.0389388791655623,
+    "crit_min": 0.0389388791655623,
+    "crit_max_def": 0.0260611208344377
+   }
+  }
+ },
+ "M2/v025/gain/base": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.03557585351624319,
+  "min_gap_mesh": 0.04421054061466877,
+  "n_crit": 21,
+  "crit_min_gap": 0.03557585351624319,
+  "crit_max_deficit": 0.0313649327549044,
+  "crit_mean_deficit": 0.01503451807250519,
+  "hold_mean_gap": null,
+  "n_hold": 0,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   14,
+   12,
+   14
+  ],
+  "stalls_front": 20,
+  "stall_time_front_s": 38.86666666666667,
+  "torso_cost_steps": [
+   0,
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.159,
+  "v99_max": 0.4728282556355003,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.03557585351624319,
+    "crit_min": 0.03557585351624319,
+    "crit_max_def": 0.0313649327549044
+   },
+   "1": {
+    "min_gap": 0.04238106716438586,
+    "crit_min": 0.04238106716438586,
+    "crit_max_def": 0.027599827210111547
+   },
+   "2": {
+    "min_gap": 0.04298253930792505,
+    "crit_min": 0.043720255755045845,
+    "crit_max_def": 0.029673175621421577
+   }
+  }
+ },
+ "M2/v025/gk000/base": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.02525633808852304,
+  "min_gap_mesh": 0.031150133627040305,
+  "n_crit": 45,
+  "crit_min_gap": 0.02525633808852304,
+  "crit_max_deficit": 0.03974366191147696,
+  "crit_mean_deficit": 0.013078531616798172,
+  "hold_mean_gap": null,
+  "n_hold": 0,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   18,
+   16,
+   18
+  ],
+  "stalls_front": 13,
+  "stall_time_front_s": 32.53333333333333,
+  "torso_cost_steps": [
+   0,
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.17,
+  "v99_max": 0.47324416924655716,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.02625641652336899,
+    "crit_min": 0.02625641652336899,
+    "crit_max_def": 0.03874358347663101
+   },
+   "1": {
+    "min_gap": 0.02525633808852304,
+    "crit_min": 0.02525633808852304,
+    "crit_max_def": 0.03974366191147696
+   },
+   "2": {
+    "min_gap": 0.03267345503002675,
+    "crit_min": 0.03267345503002675,
+    "crit_max_def": 0.03232654496997325
+   }
+  }
+ },
+ "M2/v050/gain/base": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.037573594510471486,
+  "min_gap_mesh": 0.04964660563807702,
+  "n_crit": 1,
+  "crit_min_gap": 0.037573594510471486,
+  "crit_max_deficit": 0.030594456321781205,
+  "crit_mean_deficit": 0.030594456321781205,
+  "hold_mean_gap": null,
+  "n_hold": 0,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   18,
+   19,
+   18
+  ],
+  "stalls_front": 3,
+  "stall_time_front_s": 5.016666666666667,
+  "torso_cost_steps": [
+   0,
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.172,
+  "v99_max": 0.47187747206782166,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.06389960374182818,
+    "crit_min": null,
+    "crit_max_def": null
+   },
+   "1": {
+    "min_gap": 0.06679368231632542,
+    "crit_min": null,
+    "crit_max_def": null
+   },
+   "2": {
+    "min_gap": 0.037573594510471486,
+    "crit_min": 0.037573594510471486,
+    "crit_max_def": 0.030594456321781205
+   }
+  }
+ },
+ "M2/v050/gk000/base": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "min_gap": 0.0002649194019956752,
+  "min_gap_mesh": 0.009567126678025721,
+  "n_crit": 25,
+  "crit_min_gap": 0.0002649194019956752,
+  "crit_max_deficit": 0.06473508059800433,
+  "crit_mean_deficit": 0.023159449552159796,
+  "hold_mean_gap": null,
+  "n_hold": 0,
+  "pen_shape": 0,
+  "pen_mesh": 0,
+  "passes": [
+   21,
+   21,
+   21
+  ],
+  "stalls_front": 17,
+  "stall_time_front_s": 13.683333333333332,
+  "torso_cost_steps": [
+   0,
+   0,
+   0
+  ],
+  "torso_share": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "rtf_min": 1.171,
+  "v99_max": 0.4769195083787354,
+  "infeasible": 0,
+  "recapture": 0,
+  "per_seed": {
+   "0": {
+    "min_gap": 0.006179481581620211,
+    "crit_min": 0.006179481581620211,
+    "crit_max_def": 0.05882051841837979
+   },
+   "1": {
+    "min_gap": 0.01208852740077887,
+    "crit_min": 0.01208852740077887,
+    "crit_max_def": 0.05291147259922113
+   },
+   "2": {
+    "min_gap": 0.0002649194019956752,
+    "crit_min": 0.0002649194019956752,
+    "crit_max_def": 0.06473508059800433
+   }
+  }
+ }
+}

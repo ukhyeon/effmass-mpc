@@ -1,0 +1,112 @@
+{
+ "M1_v025": {
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on4_M1_v025_v2.npz",
+  "D_retract_m": 0.38,
+  "reach_time_s": 2.8544867488172074,
+  "period_s": 10.208973497634414,
+  "rest_s": 1.5,
+  "hold_s": 3.0,
+  "tip_peak_speed": 0.2534375053471732,
+  "tip_line_dev_max_m": 0.0007767142625985238,
+  "placement": {
+   "ok": true,
+   "align": 0.7742319982971997,
+   "yaw_deg": -33.613105882651865,
+   "shift": 0.14453522711992264,
+   "anchor": [
+    0.7497428422855296,
+    -0.13831195039921873,
+    0.15106544291455348
+   ],
+   "dst": [
+    0.5245352271199226,
+    -0.2,
+    0.55
+   ],
+   "gap_hand": 0.0250000044116655,
+   "gap_forearm": 0.18371219515420328,
+   "gap_upper": 0.38130079644647447,
+   "gap_torso": 0.26042041449361025,
+   "gap_other": 0.23656155779369747,
+   "closest_seg": 18,
+   "normal": [
+    -0.987,
+    0.16,
+    -0.007
+   ]
+  },
+  "frames": 1802
+ },
+ "M1_v050": {
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on4_M1_v050_v2.npz",
+  "D_retract_m": 0.38,
+  "reach_time_s": 1.424411722277311,
+  "period_s": 7.348823444554622,
+  "rest_s": 1.5,
+  "hold_s": 3.0,
+  "tip_peak_speed": 0.5002665929718679,
+  "tip_line_dev_max_m": 0.0007797999686930201,
+  "placement": {
+   "ok": true,
+   "align": 0.7742319982971997,
+   "yaw_deg": -33.613105882651865,
+   "shift": 0.14453522711992264,
+   "anchor": [
+    0.7497428422855296,
+    -0.13831195039921873,
+    0.15106544291455348
+   ],
+   "dst": [
+    0.5245352271199226,
+    -0.2,
+    0.55
+   ],
+   "gap_hand": 0.0250000044116655,
+   "gap_forearm": 0.18371219515420328,
+   "gap_upper": 0.38130079644647447,
+   "gap_torso": 0.26042041449361025,
+   "gap_other": 0.23656155779369747,
+   "closest_seg": 18,
+   "normal": [
+    -0.987,
+    0.16,
+    -0.007
+   ]
+  },
+  "frames": 1802
+ },
+ "M2_v025": {
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on4_M2_v025_v2.npz",
+  "torso_min_used": 0.25,
+  "sweep_m": 0.4,
+  "crossing_angle_deg": 40,
+  "yaw_deg": 40.00000000000001,
+  "torso_gap_min_keyposes_m": 0.2765240160545403,
+  "sweep_time_s": 2.998683325185934,
+  "period_s": 8.997366650371868,
+  "rest_s": 1.5,
+  "tip_peak_speed": 0.25005098415579274,
+  "tip_z_range": [
+   0.4699750621254636,
+   0.4761742316446096
+  ],
+  "frames": 1802
+ },
+ "M2_v050": {
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on4_M2_v050_v2.npz",
+  "torso_min_used": 0.25,
+  "sweep_m": 0.4,
+  "crossing_angle_deg": 40,
+  "yaw_deg": 40.00000000000001,
+  "torso_gap_min_keyposes_m": 0.2765240160545403,
+  "sweep_time_s": 1.4993131349789124,
+  "period_s": 5.998626269957825,
+  "rest_s": 1.5,
+  "tip_peak_speed": 0.5000108406958595,
+  "tip_z_range": [
+   0.4699749850324042,
+   0.4761742316446096
+  ],
+  "frames": 1802
+ }
+}
