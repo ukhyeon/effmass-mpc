@@ -158,3 +158,18 @@ Notes for the live Kinect stage: keep the end-to-end delay of the human data <= 
 (jitter mostly costs command smoothness, not distance). Frame drops up to 60 % with hold-last are harmless at 0.5 m/s. Single seeds except lag100 / jit2.
 Figure: goal1/overnight/wp5_perception.png. Numbers: logs/meff_isaac/on_wp5_summary.json, on_wp5_runs.json, on_wp5_passes.json.
 
+## WP6 Tuning (02:25-02:38, 24 runs <= 25, RTF 1.161-1.221)
+Goals and split written before tuning (D6-0). Problem: near-human speed p99 above the 0.52 m/s must-limit in 2 of 54 WP3 single passes (uniform
+P6_tipfront25 s1 0.546, P3_tipfront s2 0.518). gap/eta was not tuned: seed-0 means already at target, seed spread 0.06-0.09 larger than any expected effect.
+Shared settings only, one change each; tune set P2_tipfront, P4_top, P6_tipfront25, P3_top25 (seed 1); check set P3_tipfront, P4_tipfront, P2_top, P6_forearmside18 (seed 2).
+| candidate | set | cond | p99 max t1 -> cand (m/s) | gap mean t1 -> cand (cm) | gap/eta t1 -> cand | pass time t1 -> cand (s) | must items | side unchanged |
+|---|---|---|---|---|---|---|---|---|
+| c1 speed_cap_w 1e6 | tune | uniform | 0.546 -> 0.511 | 6.11 -> 6.29 | 0.940 -> 0.967 | 2.34 -> 2.44 | all met | yes |
+| c1 | tune | ours | 0.492 -> 0.482 | 9.16 -> 9.30 | 0.974 -> 1.004 | 2.25 -> 2.25 | all met | yes |
+| c1 | check | uniform | 0.518 -> 0.499 | 5.51 -> 5.46 | 0.847 -> 0.840 | 2.25 -> 2.28 | all met | yes |
+| c1 | check | ours | 0.503 -> 0.481 | 9.34 -> 9.09 | 1.034 -> 1.010 | 2.36 -> 2.31 | all met | yes |
+| c2 speed_cap_dist 0.5 m | tune | uniform / ours | 0.546 -> 0.546 / 0.492 -> 0.492 | 6.11 -> 6.1 / 9.16 -> 9.2 | 0.940 -> 0.943 / 0.974 -> 0.974 | 2.34 -> 2.33 / 2.25 -> 2.29 | uniform fails (0.546) | yes |
+Verdict: no candidate passes the pre-set improvement rule. c1 is the only usable candidate: it removes both must-limit violations and lowers p99 in
+15 of 16 paired runs, but its mean p99 reduction (0.015 m/s) is smaller than the WP3 seed spread (0.031 m/s). Saved as goal1/config/tuned_t2a.yml
+(header states this); not adopted. Numbers: logs/meff_isaac/on_wp6_summary.json, on_wp6_runs.json; config files tuned_t2a_c1.yml, tuned_t2a_c2.yml.
+

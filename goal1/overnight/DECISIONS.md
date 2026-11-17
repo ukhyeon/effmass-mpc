@@ -119,3 +119,11 @@ Format: time / situation / alternatives / choice and reason / original criterion
 - Every planned level (lag 50-150 ms, jitter 1-2 cm, drop 30 %) stayed without penetration and mostly inside the base seed range, so the plan's
   levels give only a lower bound of tolerance. WP5 purpose (added rule 3): a tolerance level for each of lag, jitter, dropout. Added levels
   lag 300 ms, jitter 4 cm, drop 60 % (uniform and ours, seed 0; 6 runs) to look for the level where it breaks. Within the WP5 time budget.
+
+## D6-1 02:37 WP6 verdict
+- c2 (speed_cap_dist 0.5 m): no effect on the tune set (most runs identical to t1, P6_tipfront25 uniform still 0.546 m/s) -> dropped after the tune set.
+- c1 (speed_cap_w 1e6): tune set (seed 1) and check set (seed 2) both meet every must item; worst p99 0.546 -> 0.511 and 0.518 -> 0.499 m/s.
+  Mean p99 reduction 0.015 m/s vs the WP3 seed spread of p99 (median per scene / condition) 0.031 m/s -> by the pre-set rule not an improvement.
+  Other method for the same question: paired runs (same scene, condition, seed) p99 lower in 15 of 16.
+  Gap, gap / eta, pass time (uniform +4.5 % tune, +1.3 % check; ours 0 / -2 %) and passing side stayed within the seed spread.
+- Written as goal1/config/tuned_t2a.yml with the verdict in its header; t1 and all defaults untouched. Adoption left to the user.

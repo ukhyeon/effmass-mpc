@@ -1,0 +1,15 @@
+# tuned_t2a.yml - overnight WP6 candidate = t2a_c1 (t1 with speed_cap_w 3e5 -> 1e6). NOT ADOPTED; adoption is the user's decision.
+# Verdict by the pre-set WP6 rule: mean p99 reduction 0.015 m/s < WP3 seed spread 0.031 m/s -> not counted as an improvement.
+# Facts: must items met in all 16 tuning runs (t1 failed 2 of the same 16: 0.546, 0.518 m/s); p99 lower in 15 of 16 paired runs; gap, gap/eta, pass time, side within the seed spread.
+# Keys under settings = step2b option names with "_" (an option given explicitly on the command line wins).
+# MPPI settings and the human cost (set A, w 1e5, u nearest, shapes v2, max_all) are not part of the profile and stay as before.
+profile: t2a
+date: 2026-11-18
+settings:
+  speed_cap: "on"          # rollout cost on robot sphere speed near the human
+  speed_cap_v: 0.5         # m/s, ISO/TS 15066 hand transient (F_max 280 N, k 75 kN/m) at mu ~ 4.6 kg -> 0.48 m/s, rounded
+  speed_cap_dist: 0.4      # m, penalty only for spheres within this shape-based gap of the human
+  speed_cap_w: 1000000.0   # weight of max(0, v - v_cap)^2 (max over spheres, per rollout step)
+  pose_rot_w: 200.0        # pose cost orientation weight (particle_mpc.yml default 60; position weight 300 unchanged)
+tuning:
+  tried: ["s1 w 1e4 rot 60", "s2 w 1e5 rot 60", "s3 w 3e5 rot 60", "s4 w 3e5 rot 200 (chosen)"]
