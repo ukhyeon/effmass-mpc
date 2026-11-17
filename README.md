@@ -1,24 +1,23 @@
 > **English summary.** Human-avoidance MPC for a Franka FR3 in which the avoidance zone around each body part changes shape with the directional effective mass of the human (body shape, posture, collision direction), compared against uniform avoidance under the same settings.
 > Pipeline: Azure Kinect + real-time SMPL → per-segment directional effective mass → reduced mass μ → GPU MPPI cost → FR3 in Isaac Sim 4.5. This tag (`v0.1-static`) covers the static-pose stages up to the V2 demo.
-> This repository is a learning/engineering log, not a statistical claim; it does not run on its own (Isaac Sim, cuRobo, SMPL model and the ROS 2 human-dynamics package are not included).
+> Results so far are simulation results from one static arm pose (three seeds per condition). The repository does not run on its own: Isaac Sim, cuRobo, the SMPL model and the ROS 2 human-dynamics package are not included.
 
 # effmass-mpc: 유효질량으로 회피 구역을 바꾸는 사람 회피 MPC
 
-사람의 체형·자세·충돌 방향에 따라 달라지는 유효질량으로 회피 구역의 모양을 바꾸는 MPC를 Isaac Sim의 Franka FR3에서 설계하고 있다.
+사람의 체형·자세·충돌 방향에 따라 달라지는 유효질량을 이용해 회피 구역의 모양을 바꾸는 MPC를 개발한다. 현재 Isaac Sim 의 Franka FR3 에서 검증하고 있으며, 실물 FR3 적용을 목표로 한다.
 
 ![V2 대표 영상: 왼쪽 균일 회피, 오른쪽 제안](media/v2_main.gif)
 
 *왼쪽: 균일 회피 (η 6.5 cm 고정), 오른쪽: 제안 (k_gain 0.10). 위 줄 = 정면 접근, 아래 줄 = 위 접근. 같은 장면·같은 MPC 설정·seed 0. 원본 영상: [media/v2_main.mp4](media/v2_main.mp4)*
 
-## 1. 최종 목표
+## 1. 목표
 
 - 사람의 체형, 자세, 충돌 방향에 따라 달라지는 유효질량으로 회피 구역의 모양을 바꾸는 사람 회피 MPC를 Isaac Sim에서 설계하고, 실물 Franka FR3에 적용한다.
-- 논문용 통계 입증보다 제어를 익히고 시뮬레이션과 실물에 적용하는 것이 목적이다.
-- 비교 대상은 하나다: **균일 회피**(사람의 질량을 모르는 기존 방식, 모든 부위·방향에 같은 간격) 대 **제안**.
+- 비교 기준은 **균일 회피**(사람의 질량 정보를 쓰지 않고 모든 부위·방향에 같은 간격을 두는 방식)이며, 제안 방법과 같은 설정에서 비교한다.
 
 ## 2. 핵심 아이디어
 
-**식이 답하는 질문: 로봇이 사람의 이 부위에 이 방향으로 부딪힌다면, 그 충돌이 얼마나 "무거운" 충돌인가에 맞춰 얼마나 더 떨어져 지나가야 하는가?**
+**설계 질문: 로봇이 사람의 어느 부위에 어느 방향으로 접근하느냐에 따라 충돌 시 유효질량이 다를 때, 그 방향으로 얼마만큼의 간격을 두어야 하는가?**
 
 충돌 방향 u 는 로봇 구 중심에서 사람 형상의 가장 가까운 점을 향하는 방향이다. 이 방향으로 사람 분절의 유효질량 m_h, 로봇 구 위치의 유효질량 m_r 을 구하고, 둘을 묶은 환산질량 μ 로 그 쌍의 회피 간격 η 를 정한다.
 
@@ -33,7 +32,7 @@ m_r = 1 / (uᵀ Λ_r⁻¹ u)        Λ_r⁻¹ : 로봇 구 중심의 3x3 작업�
 | 매개변수 | 기본값 | 뜻 |
 |---|---|---|
 | d_base | 0.065 m | 기본 간격 (균일 회피의 간격과 같음) |
-| k_gain | 0.10 m | 질량 이득. 설계자가 정하는 손잡이. **k_gain = 0 이면 균일 회피와 같다** |
+| k_gain | 0.10 m | 질량 이득. 설계자가 정하는 조절 변수. **k_gain = 0 이면 균일 회피와 같다** |
 | μ_ref | 0.53 kg | 이보다 가벼운 충돌은 기본 간격만 둔다 |
 | η_max | 0.25 m | 간격 상한 |
 
@@ -68,14 +67,14 @@ MPPI 비용은 rollout 의 각 시점에서 (로봇 구, 사람 형상) 쌍마�
 | 1-2 | 유효질량을 MPC에 공급 | 완료 |
 | 1-3 | 비용 구현 | 완료 |
 | B2a | 정지 자세에서 방향 효과 확인 | 완료 |
-| T | 사람 근처 속도 상한 0.5 m/s 와 조정 | 완료 |
+| T | 사람 근처 속도 상한(0.5 m/s) 적용과 가중치 조정 | 완료 |
 | V1 | 기본 간격 + 질량 이득 식 | 완료 |
-| V2 | 정적 시연과 이득 손잡이 | 완료 |
+| V2 | 정적 시연과 질량 이득 조절 | 완료 |
 | R1 | 움직이는 손 재생 | 진행 중 |
 | R2 | 실시간 Kinect + 가상 Franka | 예정 |
 | R3 | 계산 분담 재측정 | 예정 |
 | G2 | 실물 FR3 적용 | 예정 |
-| 병렬 | 제어용 PC에서 franka_ros2 세팅 | 진행 중 |
+| 병행 | 제어용 PC의 franka_ros2 환경 구성 | 진행 중 |
 
 단계별 확인 내용과 근거 로그는 [docs/progress.md](docs/progress.md) 에 있다.
 
@@ -95,7 +94,7 @@ MPPI 비용은 rollout 의 각 시점에서 (로봇 구, 사람 형상) 쌍마�
 - 모든 실행이 목표에 도달했고 infeasible 은 0 이다. 사람 근처 로봇 속도 p99 는 0.45~0.52 m/s.
 - 근거: `goal1/logs/meff_isaac/v2_summary.json` (`by_scene_cond`, `front_minus_top`), `v2_runs.json`.
 
-**표 2. 이득 손잡이 (정면 접근, seed 0, 나머지 설정 같음)**
+**표 2. 질량 이득 k_gain 에 따른 변화 (정면 접근, seed 0, 나머지 설정 같음)**
 
 | k_gain | 최소 간격 순간의 η | 손 최소 간격 (형상) | 손 최소 간격 (메시) | 지나간 쪽 |
 |---|---|---|---|---|
@@ -106,13 +105,13 @@ MPPI 비용은 rollout 의 각 시점에서 (로봇 구, 사람 형상) 쌍마�
 
 근거: `goal1/logs/meff_isaac/v2_summary.json` (`gain_knob`). 영상: [media/v2_gain_knob.gif](media/v2_gain_knob.gif) ([mp4](media/v2_gain_knob.mp4)).
 
-![이득 손잡이](media/v2_gain_knob.gif)
+![k_gain 변화 영상](media/v2_gain_knob.gif)
 
 ![구역과 경로 (seed 0)](goal1/zone/v2_a_paths_zone.png)
 
 *구역(검은 경계, 제안은 μ 로 색칠)과 seed 0 의 TCP 경로. 큰 점 = 최소 간격 순간.*
 
-![이득 손잡이 그림](goal1/zone/v2_b_gain_knob.png)
+![k_gain 에 따른 구역과 간격](goal1/zone/v2_b_gain_knob.png)
 
 ![팔꿈치 각도별 제안 구역](goal1/zone/v2_d_posture.png)
 
@@ -126,7 +125,7 @@ MPPI 비용은 rollout 의 각 시점에서 (로봇 구, 사람 형상) 쌍마�
 4. 메시 기준으로는 방향 대비가 형상 기준보다 작다.
 5. 속도 상한 0.5 m/s 는 설계값이며 규격 적합 주장이 아니다. 충돌력 측정과 규격 검증은 범위 밖이다.
 
-그 밖에: 정적 단계 결과는 정지 자세 하나와 seed 3개에서 얻은 것이다. 통계적 일반화를 주장하지 않는다.
+위 결과는 시뮬레이션에서 정지 자세 하나, 조건별 seed 3개로 얻은 것이다. 다른 자세·체형과 실물 로봇에서의 결과는 아직 확인하지 않았다.
 
 ## 6. 시스템 구성
 
@@ -144,7 +143,7 @@ flowchart LR
     I -->|관절 상태| M
 ```
 
-정적 단계(B2a~V2)에서는 Kinect 대신 미리 계산한 정지 자세를 넣었다. 실시간 Kinect 입력은 R2 단계에서 한다.
+정적 단계(B2a~V2)에서는 Kinect 대신 미리 계산한 정지 자세를 입력했다. 실시간 Kinect 입력은 R2 단계에서 적용한다.
 
 ## 7. 실행 환경과 필요한 것
 
@@ -152,7 +151,7 @@ flowchart LR
 
 | 필요한 것 | 비고 |
 |---|---|
-| Ubuntu 22.04, NVIDIA GPU (작성 PC: RTX 2080 Ti) | |
+| Ubuntu 22.04, NVIDIA GPU (개발 환경: RTX 2080 Ti) | |
 | Isaac Sim 4.5 | 별도 설치 |
 | GPU MPPI 라이브러리: cuRobo | 별도 설치 (NVIDIA 라이선스). Isaac Sim 4.5 지원 버전 사용 |
 | NVIDIA Warp | 비용 채널 커널 |
@@ -161,7 +160,7 @@ flowchart LR
 | Pinocchio | 로봇 유효질량 계산 검증 (MPC 루프 안에서는 numpy 구현 사용) |
 | 사람 동역학 노드(ROS 2 패키지) | 미포함 (아래 "미포함 항목" 참고) |
 
-`goal1/scripts/` 의 스크립트는 작성 당시 PC 의 폴더 배치(절대 경로 포함)를 가정한다. 로그 파일에도 당시 경로가 남아 있다.
+`env_check/scripts/`, `goal1/scripts/` 의 스크립트는 개발 환경의 폴더 배치(절대 경로 포함)를 가정한다. 로그 파일에도 개발 환경의 경로가 남아 있다.
 
 ## 8. 저장소 구조
 
@@ -175,7 +174,7 @@ flowchart LR
 | `goal1/logs/meff_isaac/` | 요약 로그 json (1-2d, 1-3, B2a-4, B2a-5, T, V1, V2) |
 | `goal1/b2a/b2a5_fig*.png` | B2a-5 그림 |
 | `goal1/zone/*.png` | 구역 그림 (V1, V2) |
-| `goal1/step1_2_report.md`, `goal1/step1_3_report.md` | 단계 작업 기록 (당시 그대로, 한국어·영어 혼용) |
+| `goal1/step1_2_report.md`, `goal1/step1_3_report.md` | 단계별 작업 기록 (작성 당시 원문 유지) |
 | `media/` | 대표 GIF 와 원본 mp4 |
 | `docs/` | 단계별 진행 기록, 커밋 규칙 |
 
@@ -192,9 +191,9 @@ flowchart LR
 | SMPL / SMPL-H 모델 파일 | 모델 라이선스상 재배포 불가 |
 | 사람 데이터 (Kinect 녹화에서 나온 자세·위치, 메시 정점, SMPL 매개변수가 든 npz, 구역 메시 npz) | 개인 데이터와 SMPL 파생 데이터 |
 | cuRobo, Isaac Sim, CUDA, Franka 설명 파일·USD 등 타사 코드와 로봇 에셋 | 각 원저작자 배포본을 써야 함 |
-| 사람 동역학 ROS 2 패키지 (`ws/`) | 연구실 코드를 복사·수정한 파일이 들어 있어 공개 여부를 따로 정해야 함 |
-| ISO/TS 15066 수치 파일 | 규격 문서의 수치라 공개 여부를 따로 정함 |
-| 가상환경, 캐시, 프레임·녹화 폴더, 25 MB 넘는 영상 | 재생성 가능하거나 용량이 큼 |
+| 사람 동역학 ROS 2 패키지 (`ws/`) | 기존 연구실 코드에 기반한 파일이 포함되어 공개 범위 검토 중 |
+| ISO/TS 15066 수치 파일 | 규격 문서의 수치를 담고 있어 공개 범위 검토 중 |
+| 가상환경, 캐시, 프레임·녹화 폴더, 25 MB 넘는 영상 | 다시 만들 수 있거나 용량이 큼 |
 | R1 단계 산출물 | 진행 중 |
 
 ## 11. 참고문헌

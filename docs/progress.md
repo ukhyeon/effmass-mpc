@@ -36,9 +36,9 @@
 - 수치: 균일 η 6.5~20 cm 에서 간격/η 비 정면 0.915~0.972, 위 0.825~0.895. 기본값 d_base 0.065 m, k_gain 0.10 m, μ_ref 0.53 kg, η_max 0.25 m.
 - 근거: `goal1/logs/meff_isaac/v1_calib.json`, `v1_gain_table.json`, `v1_zone.json`.
 
-## V2 정적 시연과 이득 손잡이 (완료)
+## V2 정적 시연과 질량 이득 조절 (완료)
 
-- 확인: 균일(η 6.5 cm) 대 제안(k_gain 0.10), 같은 설정, 정면·위 장면, seed 3개. 이득 손잡이 k_gain 0/0.05/0.10/0.15 (정면, seed 0).
+- 확인: 균일(η 6.5 cm) 대 제안(k_gain 0.10), 같은 설정, 정면·위 장면, seed 3개. 질량 이득 k_gain 0/0.05/0.10/0.15 (정면, seed 0).
 - 수치: 손 간격(형상) 정면 균일 6.0 대 제안 12.0 cm, 방향 대비(정면 − 위) 균일 +0.5 대 제안 +3.8 cm (메시 기준 +1.2 대 +2.2 cm).
-- 이득 손잡이 간격 6.3 / 9.7 / 12.5 / 13.5 cm, 0.15 에서 손 위로 넘어가는 길. 정면 구역 두께 균일 6.6 대 제안 20.0 cm.
+- k_gain 별 손 간격 6.3 / 9.7 / 12.5 / 13.5 cm, 0.15 에서 손 위로 넘어가는 길. 정면 구역 두께 균일 6.6 대 제안 20.0 cm.
 - 근거: `goal1/logs/meff_isaac/v2_summary.json`, `v2_runs.json`, `v2_thickness.json`, `v2_posture.json`, 영상 `media/v2_main.gif`, `media/v2_gain_knob.gif`.
