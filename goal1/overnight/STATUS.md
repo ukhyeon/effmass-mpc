@@ -11,7 +11,7 @@ Started 2026-11-17 23:18 KST. Disk free at start: 1.4 TB (/dev/sda6, 19% used).
 | 4 moving collab scenes | 1.5 h | done | 01:10 | 01:52 | 28 |
 | 5 perception imperfection | 1.0 h | done | 01:52 | 02:26 | 26 |
 | 6 tuning | 1.0 h | done | 02:25 | 02:38 | 24 |
-| 7 wrap-up | 1.25 h | done (videos 03:39-04:48, docs and report 05:27-05:45) | 03:39 | 05:45 | 8 display runs |
+| 7 wrap-up | 1.25 h | done (videos 03:39-04:48, docs and report 05:15-05:28) | 03:39 | 05:28 | 8 display runs |
 
 ## Run time calibration (WP0, measured start to end of the wrapper)
 - single pass (V2 front, 304 steps): 27.4 s (both runs). Timeout 3x = 82 s, used 90 s.
