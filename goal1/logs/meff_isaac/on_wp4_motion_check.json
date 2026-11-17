@@ -108,5 +108,43 @@
    0.4761742316446096
   ],
   "frames": 1802
+ },
+ "M3_v025": {
+  "file": "/home/robotics/effmass_mpc/goal1/data/human_on4_M3_v025_v2.npz",
+  "travel_m": 0.1,
+  "move_time_s": 0.7494909214474351,
+  "sweep_time_s": 0.7494909214474351,
+  "period_s": 2.49898184289487,
+  "rest_s": 0.5,
+  "tip_peak_speed": 0.2500304294696657,
+  "placement": {
+   "ok": true,
+   "align": 0.9703500626355132,
+   "yaw_deg": 70.0,
+   "shift": 0.20452197343111037,
+   "anchor": [
+    0.96787834614196,
+    0.02592336695086983,
+    0.1877521315761288
+   ],
+   "dst": [
+    0.5845219734311103,
+    0.0,
+    0.5
+   ],
+   "gap_hand": 0.04561773561376678,
+   "gap_forearm": 0.025000001612571182,
+   "gap_upper": 0.11185616172329407,
+   "gap_torso": 0.1823407941842342,
+   "gap_other": 0.1823407941842342,
+   "closest_seg": 16,
+   "normal": [
+    -0.999,
+    0.044,
+    0.03
+   ]
+  },
+  "frames": 1802,
+  "labels": "rest / cross_in (first half of a stroke) / cross_out (second half); reference event = mid-stroke"
  }
 }

@@ -98,6 +98,7 @@ def schedule_m2(A, Tr, n, rest=1.5):
 
 
 if __name__ == "__main__":
+    # "M3" = reserve 3 (bent-arm forearm task)
     which = sys.argv[1:] or ["M1", "M2"]; NF = int(60 * RATE) + 2; ck = json.load(open(f"{O}/on_wp4_motion_check.json")) if os.path.exists(f"{O}/on_wp4_motion_check.json") else {}
     if "M1" in which:
         info, M = W3.search("P6_handover", "tipfront", 0.025, torso_min=0.25)   # WP3 torso rule 0.35 is infeasible for P6 (D4-1)
@@ -155,4 +156,23 @@ if __name__ == "__main__":
             ck[tag] = dict(file=out, torso_min_used=TORSO_M2, sweep_m=A, crossing_angle_deg=th, yaw_deg=float(np.degrees(yw)), torso_gap_min_keyposes_m=tg, sweep_time_s=Tr, period_s=Pc, rest_s=1.5,
                            tip_peak_speed=float(vt.max()), tip_z_range=[float(tips[:, 2].min()), float(tips[:, 2].max())], frames=NF)
             print(tag, {k: (round(x_, 4) if isinstance(x_, float) else x_) for k, x_ in ck[tag].items()}, flush=True)
+    if "M3" in which:
+        # reserve 3: bent-arm work, forearm moving back and forth ~10 cm along its own axis (fingertip -5 .. +5 cm around the P6 hand-over pose),
+        # robot passes beside the forearm: placement = WP3 scene P6_forearmside18 (torso >= 0.18 m, D3-3). Rest 0.5 s at each end, min-jerk, 0.25 m/s.
+        info, M = W3.search("P6_handover", "forearmside", 0.025, torso_min=0.18)
+        assert info is not None, "M3: no forearm-side placement"
+        R, fI = place_fn(np.radians(info["yaw_deg"]), np.array(info["anchor"]), np.array(info["dst"]))
+        xh = X["P6_handover"]; g0 = WP.fk(xh); fa = nz(g0["wr"] - g0["el"]); A = 0.10
+        KXb = keyposes(xh, [g0["tip"]] + [g0["tip"] - 0.01 * i * fa for i in range(1, 6)])[::-1]
+        KXf = keyposes(xh, [g0["tip"]] + [g0["tip"] + 0.01 * i * fa for i in range(1, 6)]); KX = np.concatenate([KXb, KXf[1:]]); KS = 0.01 * np.arange(len(KX))
+        v = 0.25; Tr = 1.875 * A / v
+        for it in range(2):
+            s, st, Pc = schedule_m2(A, Tr, int((0.5 + Tr + 0.2) * RATE), rest=0.5); tp = np.array([WP.fk(np.array([np.interp(sv, KS, KX[:, j]) for j in range(7)]))["tip"] for sv in s])
+            if it == 0:
+                Tr *= (np.linalg.norm(np.diff(tp, axis=0), axis=1) * RATE).max() / v
+        s, st, Pc = schedule_m2(A, Tr, NF, rest=0.5); tag = "M3_v025"; out, tips, vt = frames(KX, KS, s, st, R, fI, tag)
+        z = dict(np.load(out)); z["s_retract"] = z["s_path"]; np.savez(out, **z)
+        ck[tag] = dict(file=out, travel_m=A, move_time_s=Tr, sweep_time_s=Tr, period_s=Pc, rest_s=0.5, tip_peak_speed=float(vt.max()), placement=info, frames=NF,
+                       labels="rest / cross_in (first half of a stroke) / cross_out (second half); reference event = mid-stroke")
+        print(tag, {k: (round(x_, 4) if isinstance(x_, float) else x_) for k, x_ in ck[tag].items() if k != "placement"}, flush=True)
     json.dump(ck, open(f"{O}/on_wp4_motion_check.json", "w"), indent=1, default=lambda o: o.item() if hasattr(o, "item") else str(o))

@@ -127,3 +127,14 @@ Format: time / situation / alternatives / choice and reason / original criterion
   Other method for the same question: paired runs (same scene, condition, seed) p99 lower in 15 of 16.
   Gap, gap / eta, pass time (uniform +4.5 % tune, +1.3 % check; ours 0 / -2 %) and passing side stayed within the seed spread.
 - Written as goal1/config/tuned_t2a.yml with the verdict in its header; t1 and all defaults untouched. Adoption left to the user.
+
+## DR2-1 02:38 reserve 2 scenes
+- Gain knob on P4_tipfront (largest ours - uniform, +5.6 cm, mu 1.30 kg) and P2_top (light direction, mu 0.59 kg, no difference). k 0 and 0.10 exist
+  (WP3, seeds 0-2); added k 0.05 and 0.15, seeds 0-2 (12 runs). Expected: P4_tipfront gap grows with k until eta saturates or the path changes;
+  P2_top barely changes (mu near mu_ref, eta stays ~ d_base for any k).
+
+## DR3-1 02:47 reserve 3 (M3 bent-arm forearm task)
+- Motion: P6_handover (elbow 48 deg) at the WP3 placement P6_forearmside18 (torso >= 0.18 m, the only forearm-side placement that exists, D3-3);
+  fingertip moved +-5 cm along the forearm axis (10 cm stroke), min-jerk, peak 0.25 m/s, 0.5 s rest at each end, period 2.5 s, 60 s.
+- Measured part: forearm + hand (as in WP3). Uniform and ours, seeds 0-2 (6 runs). Expected: ours keeps the larger forearm/hand gap as in the static
+  P6_forearmside18 scene (11.2 vs 5.6 cm), slightly lower because the hand moves along the path.

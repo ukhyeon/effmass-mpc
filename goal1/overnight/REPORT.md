@@ -173,3 +173,25 @@ Verdict: no candidate passes the pre-set improvement rule. c1 is the only usable
 15 of 16 paired runs, but its mean p99 reduction (0.015 m/s) is smaller than the WP3 seed spread (0.031 m/s). Saved as goal1/config/tuned_t2a.yml
 (header states this); not adopted. Numbers: logs/meff_isaac/on_wp6_summary.json, on_wp6_runs.json; config files tuned_t2a_c1.yml, tuned_t2a_c2.yml.
 
+## Reserve 2 Gain knob on two WP3 scenes (02:38-02:44, 12 runs + WP3 runs for k 0 / 0.10)
+| scene | k 0 | k 0.05 | k 0.10 | k 0.15 |
+|---|---|---|---|---|
+| P4_tipfront gap mean (seeds) cm | 5.9 (6.0 / 6.5 / 5.2) | 9.8 (9.5 / 10.3 / 9.5) | 11.5 (11.0 / 11.5 / 11.9) | 13.4 (12.8 / 14.2 / 13.3) |
+| P4_tipfront eta at the minimum cm | 6.5 | 10.9-11.3 | 11.8-12.4 | 12.8-14.6 |
+| P4_tipfront side | front x3 | front x3 | front x3 | up / front / front |
+| P2_top gap mean (seeds) cm | 6.0 (6.3 / 6.0 / 5.8) | 6.4 (7.0 / 6.5 / 5.7) | 7.5 (8.7 / 7.6 / 6.1) | 8.1 (8.6 / 8.3 / 7.4) |
+| P2_top eta at the minimum cm | 6.5 | 6.6-6.8 | 6.9-7.2 | 7.0-7.3 |
+- P4_tipfront: the gap follows eta (gap/eta 0.88-0.97) over the whole range; the step 0 -> 0.05 is the largest (+3.9 cm), then +1.7 and +1.9 cm.
+  At k 0.15 one seed of three passes over the hand (side 'up'), the same path change V2 saw at k 0.15 on the reach pose. Proportional range: k 0 to 0.10.
+- P2_top (light direction, mu ~0.6 kg): eta moves only 6.5 -> 7.3 cm, the gap 6.0 -> 8.1 cm. Raising k does not create a zone where mu is near mu_ref.
+- All arrived, infeasible 0, near-human speed p99 <= 0.507 m/s. Numbers: logs/meff_isaac/on_r2_gainknob.json (from on_wp3_passes.json / on_wp3_runs.json).
+
+## Reserve 3 M3 bent-arm forearm task (02:44-02:55, 6 runs, RTF >= 1.136, infeasible 0, recapture 0)
+P6_handover (elbow 48 deg) at the P6_forearmside18 placement (DR3-1), forearm stroke 10 cm along its axis at 0.25 m/s, robot passes beside the forearm.
+| cond | min forearm/hand gap per seed (cm) | mesh min (cm) | critical-window max deficit (cm) | penetration | passes per 60 s | stalls in front of the hand |
+|---|---|---|---|---|---|---|
+| uniform | 5.1 / 4.8 / 4.4 | 4.6 | 1.7 | 0 / 0 | 25 / 25 / 25 | 0 |
+| ours | 8.6 / 7.8 / 9.0 | 7.7 | 1.5 | 0 / 0 | 24 / 24 / 23 | 0 |
+- Ours keeps +3.4 to +4.6 cm more (every ours seed above every uniform seed) at a cost of about one pass per minute. Torso cost in ours on 0-8 steps
+  per run, about 0 % of the cost. Near-human speed p99 <= 0.482 m/s. Numbers: logs/meff_isaac/on_wp4_summary.json (M3 rows), on_wp4_motion_check.json.
+

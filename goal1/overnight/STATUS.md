@@ -26,3 +26,11 @@ Started 2026-11-17 23:18 KST. Disk free at start: 1.4 TB (/dev/sda6, 19% used).
 | 5 | lag 50/100/150 ms, jitter 1/2 cm, drop 30 % x 2 conds seed 0; worst two x seed 1; lag 100 + lead 0.1 if L helps | 12 + 4 + 2 | ~23 min |
 | 6 | <= 25 single-pass runs | <= 25 | ~12 min |
 Seeds are not reduced: everything fits the budgets.
+
+## Reserve work
+| item | state | start | end | runs |
+|---|---|---|---|---|
+| R1 seed 2 for WP3 / WP4 | done inside WP3 / WP4 | | | (counted there) |
+| R2 gain knob on 2 WP3 scenes | done | 02:38 | 02:44 | 12 |
+| R3 M3 bent-arm forearm task | done | 02:44 | 02:55 | 6 |
+| R4 ROS replay path RTF / delay | waiting | | | |

@@ -16,6 +16,7 @@ if sys.argv[1] == "jobs":
             continue
         mo, v, c, s, var = m.groups()
         jobs.append(dict(tag=t, human=f"human_on4_{mo}_{v}_v2", k=K[c], scene=G, ref_label="hold" if mo == "M1" else "cross_out", cost_split=True, group="wp4",
+                         target_segs=[16, 18] if mo == "M3" else [18],
                          motion=mo, speed=v, cond=c, seed=int(s), variant=(var or "base").replace("_", "+")))
     json.dump(jobs, open(sys.argv[2], "w")); print(len(jobs), "jobs"); sys.exit(0)
 CK = json.load(open(f"{O}/on_wp4_motion_check.json")); P = json.load(open(f"{O}/on_wp4_passes.json")); R = json.load(open(f"{O}/on_wp4_runs.json")); out = {}
