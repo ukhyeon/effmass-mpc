@@ -10,6 +10,7 @@
   기록: recv (순번, 입력 stamp, 수신 시각, 노드 compute_ms), upd (처리 시각, 변환·텐서·표시 ms) — save(prefix)
 """
 import json
+import os
 import threading
 import time
 
@@ -132,8 +133,15 @@ class HumanInertiaLink:
         m.CreatePointsAttr(Vt.Vec3fArray.FromNumpy(P))                      # points, topology and extent set together at creation
         m.CreateExtentAttr(Vt.Vec3fArray([Gf.Vec3f(*P.min(0).tolist()), Gf.Vec3f(*P.max(0).tolist())]))
         m.CreateFaceVertexCountsAttr(Vt.IntArray([3] * len(f))); m.CreateFaceVertexIndicesAttr(Vt.IntArray.FromNumpy(f.reshape(-1)))
-        m.CreateDisplayColorAttr(Vt.Vec3fArray([Gf.Vec3f(*SKIN_RGB)])); m.CreateDisplayOpacityAttr(Vt.FloatArray([1.0])); m.CreateDoubleSidedAttr(True)
+        op = float(getattr(self, "mesh_opacity", 1.0))
+        m.CreateDisplayColorAttr(Vt.Vec3fArray([Gf.Vec3f(*SKIN_RGB)])); m.CreateDisplayOpacityAttr(Vt.FloatArray([op])); m.CreateDoubleSidedAttr(True)
         m.CreateSubdivisionSchemeAttr("none")
+        if op < 1.0:   # (overnight2) translucent display-only mesh for re-renders: preview surface with opacity, no shadows
+            from pxr import Sdf, UsdShade
+            mt = UsdShade.Material.Define(self.stage, f"{self.root}/mesh_mat"); sh = UsdShade.Shader.Define(self.stage, f"{self.root}/mesh_mat/s"); sh.CreateIdAttr("UsdPreviewSurface")
+            sh.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(*SKIN_RGB)); sh.CreateInput("opacity", Sdf.ValueTypeNames.Float).Set(op)
+            sh.CreateInput("roughness", Sdf.ValueTypeNames.Float).Set(0.6); mt.CreateSurfaceOutput().ConnectToSource(sh.ConnectableAPI(), "surface")
+            UsdGeom.PrimvarsAPI(m.GetPrim()).CreatePrimvar("doNotCastShadows", Sdf.ValueTypeNames.Bool).Set(True); UsdShade.MaterialBindingAPI(m.GetPrim()).Bind(mt)
         self.mesh_pts = m.GetPointsAttr(); self.mesh_ext = m.GetExtentAttr(); self.mesh_vt = Vt; self.mesh_gf = Gf
 
     def _set_mesh(self, pts_isaac):
@@ -293,7 +301,7 @@ class PrecomputedHumanLink(HumanInertiaLink):
                  mesh_npz=None, lead_s=0.0, lag_s=0.0, jitter_m=0.0, drop_frac=0.0, noise_seed=0, vel_alpha=0.0):
         super().__init__(None, transform_json, inputs, stage=stage, display=display, shapes_viz=shapes_viz, root=root)
         # (B2a) display-only mesh: vertices precomputed with the node body model (b2a_mesh.py), separate file, not used by the cost path
-        self.mesh_V = None; self.mesh_ms = []
+        self.mesh_V = None; self.mesh_ms = []; self.mesh_opacity = float(os.environ.get("G1_MESH_OPACITY", "1.0"))
         if mesh_npz and stage is not None:
             zm = np.load(mesh_npz); self.mesh_V = zm["verts"]; self.mesh_path = mesh_npz
             self._make_mesh(zm["faces"], zm["verts"][0].astype(np.float64) @ self.R.T + self.t)

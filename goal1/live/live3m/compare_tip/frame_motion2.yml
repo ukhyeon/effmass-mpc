@@ -1,0 +1,7 @@
+# live cmp tip: copy of live_frame_user.yml with the virtual robot base moved by (+0.10, +0.30) m for motion 2
+# live_frame_user.yml - live Kinect, set by hand (2026-11-18): world -> Franka base, p_base = Rz(rotation_z_deg)^T (p_world - base_position_world).
+# No rotation: base x axis = world +x (the robot faces world +x). Stand with the pelvis above world (-1.40, +0.23) facing world -x.
+frame: live_user
+rotation_z_deg: 0.0
+base_position_world: [-2.350, 0.680, 0.900]
+stand_pelvis_world_xy: [-1.40, 0.23]

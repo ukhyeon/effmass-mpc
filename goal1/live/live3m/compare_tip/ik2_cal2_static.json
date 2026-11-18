@@ -1,0 +1,145 @@
+[
+ {
+  "motion": "motion 1",
+  "offset": 0.13,
+  "shift": [
+   -0.1,
+   0
+  ],
+  "dz": 0.0,
+  "n_ok": 50,
+  "all_ok": false,
+  "gap_centre_cm": 3.6,
+  "gap_line_cm": 3.5
+ },
+ {
+  "motion": "motion 1",
+  "offset": 0.13,
+  "shift": [
+   -0.15,
+   0
+  ],
+  "dz": 0.0,
+  "n_ok": 61,
+  "all_ok": true,
+  "gap_centre_cm": 3.6,
+  "gap_line_cm": 3.5
+ },
+ {
+  "motion": "motion 2",
+  "offset": 0.16,
+  "shift": [
+   0.1,
+   0.3
+  ],
+  "dz": 0.0,
+  "n_ok": 61,
+  "all_ok": true,
+  "gap_centre_cm": 0.6,
+  "gap_line_cm": 0.6
+ },
+ {
+  "motion": "motion 2",
+  "offset": 0.16,
+  "shift": [
+   0.15,
+   0.4
+  ],
+  "dz": 0.0,
+  "n_ok": 61,
+  "all_ok": true,
+  "gap_centre_cm": 0.6,
+  "gap_line_cm": 0.6
+ },
+ {
+  "motion": "motion 2",
+  "offset": 0.16,
+  "shift": [
+   0.2,
+   0.5
+  ],
+  "dz": 0.0,
+  "n_ok": 61,
+  "all_ok": true,
+  "gap_centre_cm": -2.1,
+  "gap_line_cm": -2.7
+ },
+ {
+  "motion": "motion 2",
+  "offset": 0.18,
+  "shift": [
+   0.1,
+   0.3
+  ],
+  "dz": 0.0,
+  "n_ok": 61,
+  "all_ok": true,
+  "gap_centre_cm": 2.2,
+  "gap_line_cm": 2.2
+ },
+ {
+  "motion": "motion 2",
+  "offset": 0.18,
+  "shift": [
+   0.15,
+   0.4
+  ],
+  "dz": 0.0,
+  "n_ok": 61,
+  "all_ok": true,
+  "gap_centre_cm": 2.2,
+  "gap_line_cm": 2.2
+ },
+ {
+  "motion": "motion 2",
+  "offset": 0.18,
+  "shift": [
+   0.2,
+   0.5
+  ],
+  "dz": 0.0,
+  "n_ok": 61,
+  "all_ok": true,
+  "gap_centre_cm": -2.3,
+  "gap_line_cm": -2.7
+ },
+ {
+  "motion": "motion 2",
+  "offset": 0.2,
+  "shift": [
+   0.1,
+   0.3
+  ],
+  "dz": 0.0,
+  "n_ok": 61,
+  "all_ok": true,
+  "gap_centre_cm": 4.0,
+  "gap_line_cm": 4.0
+ },
+ {
+  "motion": "motion 2",
+  "offset": 0.2,
+  "shift": [
+   0.15,
+   0.4
+  ],
+  "dz": 0.0,
+  "n_ok": 61,
+  "all_ok": true,
+  "gap_centre_cm": 4.0,
+  "gap_line_cm": 4.0
+ },
+ {
+  "motion": "motion 2",
+  "offset": 0.2,
+  "shift": [
+   0.2,
+   0.5
+  ],
+  "dz": 0.0,
+  "n_ok": 61,
+  "all_ok": true,
+  "gap_centre_cm": -2.4,
+  "gap_line_cm": -2.7
+ }
+]

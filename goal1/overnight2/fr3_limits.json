@@ -1,0 +1,99 @@
+{
+ "source": "https://frankarobotics.github.io/docs/robot_specifications.html",
+ "section": "System Limits for Supported Robot Models > Limits for Franka Research 3 (FR3)",
+ "read": "2026-11-18 23:35 (fetched by a web-fetch subagent; page has no date)",
+ "q_max": [
+  2.9007,
+  1.8361,
+  2.9007,
+  -0.1169,
+  2.8763,
+  4.6216,
+  3.0508
+ ],
+ "q_min": [
+  -2.9007,
+  -1.8361,
+  -2.9007,
+  -3.077,
+  -2.8763,
+  0.4398,
+  -3.0508
+ ],
+ "dq_max": [
+  2.62,
+  2.62,
+  2.62,
+  2.62,
+  5.26,
+  4.18,
+  5.26
+ ],
+ "ddq_max": [
+  10,
+  10,
+  10,
+  10,
+  10,
+  10,
+  10
+ ],
+ "dddq_max": [
+  5000,
+  5000,
+  5000,
+  5000,
+  5000,
+  5000,
+  5000
+ ],
+ "tau_max": [
+  87,
+  87,
+  87,
+  87,
+  12,
+  12,
+  12
+ ],
+ "dtau_max": [
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000
+ ],
+ "position_based_velocity_limits": {
+  "note": "suggested rectangular position-velocity limits",
+  "dq_max": [
+   2,
+   1,
+   1.5,
+   1.25,
+   3,
+   1.5,
+   3
+  ]
+ },
+ "cartesian": {
+  "p_dot_max": [
+   3.0,
+   2.5,
+   2.62
+  ],
+  "p_ddot_max": [
+   9.0,
+   17.0,
+   10.0
+  ],
+  "p_dddot_max": [
+   4500.0,
+   8500.0,
+   5000.0
+  ],
+  "columns": "translation m, rotation rad, elbow rad"
+ },
+ "not_on_page": "control loop rate, packet loss / network timing"
+}
