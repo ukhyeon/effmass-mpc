@@ -28,6 +28,16 @@
 !/goal1/part_regen/*.json
 !/goal1/part_regen/*.mp4
 !/goal1/part_regen/runs.tsv
+!/goal1/live_prep2/
+/goal1/live_prep2/*
+!/goal1/live_prep2/*.md
+!/goal1/live_prep2/*.json
+!/goal1/live/
+/goal1/live/*
+!/goal1/live/*/
+/goal1/live/*/*
+!/goal1/live/*/video_sync.json
+!/goal1/live/*/video_prep.json
 
 # reports
 !/goal1/step1_2_report.md

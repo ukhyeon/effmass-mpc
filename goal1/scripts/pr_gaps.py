@@ -31,7 +31,8 @@ def one(tag, human, scene, frame=f"{GG}/b2a/g2/temp_transform.json"):
     z = np.load(human if human.endswith(".npz") else f"{DD}/{human}.npz"); F = len(z["p0"]); R, t = L.load_frame(frame)
     P0 = z["p0"].reshape(F, -1, 3).astype(float) @ R.T + t; P1 = z["p1"].reshape(F, -1, 3).astype(float) @ R.T + t
     rad = z["shape_radius"].astype(float); seg = z["shape_segment"]
-    fr = np.minimum(np.floor((np.arange(n) + 1) / 60.0 * 30 + 1e-6).astype(int), F - 1)
+    rate = float(z["rate"]) if "rate" in z.files else 30.0      # (live prep2) human frames per simulated second (30 = real time)
+    fr = np.minimum(np.floor((np.arange(n) + 1) / 60.0 * rate + 1e-6).astype(int), F - 1)
     sc = json.load(open(scene)); A_, B_ = np.array(sc["tcp_A"]), np.array(sc["tcp_B"])
     C = np.stack([BA.RI.compute(q)[0] for q in Q]); TCP = np.stack([(BA.RI._fk(q)[HB + 1] @ HT) @ np.array([0, 0, 0.1034, 1.0]) for q in Q])[:, :3]
     sec = (np.linalg.norm(TCP - A_, axis=1) > EE) & (np.linalg.norm(TCP - B_, axis=1) > EE)
@@ -51,6 +52,16 @@ def one(tag, human, scene, frame=f"{GG}/b2a/g2/temp_transform.json"):
         out[f"gap_{name}"] = float(g[sec].min()) if sec.any() else None
         out[f"gap_{name}_all_steps"] = float(g.min())
         out[f"pen_{name}"] = int((g < 0).sum())
+    # (live prep2) penetration events with the hand (18): step, time, robot link, human segment, TCP position
+    hk_ = [k for k in act if seg[k] in (17, 18)]
+    if hk_:
+        gh = G[:, hk_].min(1); pen_i = np.nonzero(gh < 0)[0]; ev = []
+        for i in pen_i:
+            kk = hk_[int(np.argmin(G[i, hk_]))]; j = J[i, kk]
+            ev.append(dict(step=int(i), t_s=float((i + 1) / 60), gap_cm=float(gh[i] * 100), link=BA.RI.sphere_link[j], segment=int(seg[kk]),
+                           tcp=[float(v) for v in TCP[i]], pass_section=bool(sec[i])))
+        out["pen_hand_events"] = ev
+        out["gap_hands_min_all_steps"] = float(gh.min())
     # side of the closest hand approach and pass time (single pass)
     hk = [k for k in act if seg[k] == 18]
     if hk and sec.any():

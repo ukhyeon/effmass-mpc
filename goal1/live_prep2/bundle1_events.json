@@ -1,0 +1,74 @@
+[
+ {
+  "tag": "pr_live_run3_part",
+  "t": 68.63,
+  "gap_cm": -0.7,
+  "hand_speed": 0.41,
+  "hand_toward_robot": 0.39,
+  "robot_sphere_toward_hand": -0.41,
+  "pos_err": 0.38
+ },
+ {
+  "tag": "pr_live_run3_part",
+  "t": 68.65,
+  "gap_cm": -0.3,
+  "hand_speed": 0.41,
+  "hand_toward_robot": 0.39,
+  "robot_sphere_toward_hand": -0.44,
+  "pos_err": 0.387
+ },
+ {
+  "tag": "pr_live_run3_part",
+  "t": 68.67,
+  "gap_cm": -1.0,
+  "hand_speed": 0.33,
+  "hand_toward_robot": 0.2,
+  "robot_sphere_toward_hand": -0.46,
+  "pos_err": 0.395
+ },
+ {
+  "tag": "lp2_run3B_hr1",
+  "t": 76.7,
+  "gap_cm": -0.8,
+  "hand_speed": 2.75,
+  "hand_toward_robot": -0.29,
+  "robot_sphere_toward_hand": -0.1,
+  "pos_err": 0.406
+ },
+ {
+  "tag": "lp2_run3B_hr1",
+  "t": 76.72,
+  "gap_cm": -1.0,
+  "hand_speed": 2.75,
+  "hand_toward_robot": -0.36,
+  "robot_sphere_toward_hand": -0.14,
+  "pos_err": 0.402
+ },
+ {
+  "tag": "lp2_run3B_static",
+  "t": 60.53,
+  "gap_cm": -0.1,
+  "hand_speed": 0.51,
+  "hand_toward_robot": 0.47,
+  "robot_sphere_toward_hand": -0.07,
+  "pos_err": 0.202
+ },
+ {
+  "tag": "lp2_run3B_static",
+  "t": 60.57,
+  "gap_cm": -0.2,
+  "hand_speed": 0.36,
+  "hand_toward_robot": 0.34,
+  "robot_sphere_toward_hand": -0.11,
+  "pos_err": 0.208
+ },
+ {
+  "tag": "lp2_run3B_static",
+  "t": 72.67,
+  "gap_cm": -0.7,
+  "hand_speed": 1.29,
+  "hand_toward_robot": 1.16,
+  "robot_sphere_toward_hand": -0.17,
+  "pos_err": 0.607
+ }
+]
