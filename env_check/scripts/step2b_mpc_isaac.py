@@ -59,7 +59,7 @@ ap.add_argument("--human-lag-s", type=float, default=0.0, help="(overnight) prec
 ap.add_argument("--human-jitter-m", type=float, default=0.0, help="(overnight) precomputed: per frame per segment Gaussian position noise std (m); 0 = off")
 ap.add_argument("--human-drop-frac", type=float, default=0.0, help="(overnight) precomputed: fraction of frames missing, last frame kept; 0 = off")
 ap.add_argument("--human-noise-seed", type=int, default=0, help="(overnight) seed for jitter and dropout")
-ap.add_argument("--human-vel-alpha", type=float, default=0.0, help="(overnight) precomputed: EMA factor for the delivered segment velocity (0 = off)")
+ap.add_argument("--human-vel-alpha", type=float, default=0.0, help="(overnight) precomputed, (live) also inertia (ROS): EMA factor for the delivered segment velocity (0 = off)")
 ap.add_argument("--shapes", default="v1", choices=["v1", "v2"], help="(shapes v2) precomputed source: v2 uses <human-pre>_v2.npz (21 shapes + 3 inactive). v1 = previous results")
 ap.add_argument("--human-viz", default="both", choices=["none", "mesh", "shapes", "both"], help="(B2a) precomputed source display: body mesh and/or one-colour capsules")
 ap.add_argument("--human-mesh-pre", default="", help="(B2a) display-only vertex file; empty = <human-pre>_verts.npz if it exists")
@@ -124,7 +124,8 @@ if args.meff_mode == "gain":   # (V1) gain mode: kernel slots eta0 = d_base, p =
         args.meff_eta_max = 0.25
 if args.profile:   # (T1) profile values for options not given explicitly on the command line
     import yaml as _yaml
-    PROFILE = _yaml.safe_load(open(os.path.expanduser(f"~/effmass_mpc/goal1/config/tuned_{args.profile}.yml")))
+    _pf = args.profile if args.profile.endswith((".yml", ".yaml")) else f"~/effmass_mpc/goal1/config/tuned_{args.profile}.yml"   # (live) a .yml path is used as given
+    PROFILE = _yaml.safe_load(open(os.path.expanduser(_pf)))
     for _k, _v in PROFILE["settings"].items():
         if "--" + _k.replace("_", "-") not in sys.argv:
             setattr(args, _k, _v)
@@ -428,7 +429,9 @@ if args.ros:
         import step4_human as H4
         import g1_human_link as G1L
         HUMAN = G1L.HumanInertiaLink(ros_node, HUMAN_FRAME, MEFF_INP, stage=stage,
-                                     display=("instancer",) if args.human_mode == "full" else (), shapes_viz=args.meff_viz in ("shapes", "both"))
+                                     display=("instancer",) if args.human_mode == "full" else (), shapes_viz=args.meff_viz in ("shapes", "both"),
+                                     vel_alpha=args.human_vel_alpha)
+        log(f"(live) ROS human: frame file {HUMAN_FRAME}, velocity EMA alpha {args.human_vel_alpha}, motion model {args.meff_motion}")
         if args.human_mesh != "none":
             HUMAN.mesh_link = H4.HumanLink(ros_node, os.path.join(os.path.expanduser(args.human_dir), "temp_transform.json"), stage=stage, display=(), tensor=False,
                                            verify_every=0, mesh=(args.human_mesh,), mesh_transform_json=os.path.join(os.path.expanduser(args.human_dir), "mesh_transform.json"),

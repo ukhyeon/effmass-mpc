@@ -5,7 +5,7 @@ either by the deterministic rule (precomputed runs) or by the wall-clock replay 
     human npz : precomputed file (node world), shapes from its p0/p1/shape_radius (as r1_analyze.human)
     frame file: node world -> Isaac transform (temp_transform.json or live_frame.yml, g1_human_link.load_frame)
     default   : step i -> frame clip(floor((i + 1) / 60 * 30), F - 1)  (PrecomputedHumanLink rule, same as r1_analyze.py)
-    --ros     : step i -> the frame the replay had published last at the wall time of step i (TRUE human at that time).
+    --ros     : step i -> the replay frame at the wall time of step i, floor((t - t0) * 30) (TRUE human at that time, also in gaps).
                 Wall time of steps: cumulative loop_ms anchored to the Isaac pump times of new messages (<tag>_human_inertia_rec.npz
                 'upd', in step order of h_new == 1); replay log <tag>_replay.npz (frame, wall_ns).
 Metrics as r1_analyze.py: min hand gap (shape, MPC sphere radius + 0.02), penetration steps, v_near_p99 (robot sphere speed when
@@ -45,9 +45,12 @@ def ros_frames(tag, rows, F):
     inew = np.nonzero(hnew)[0]
     m = min(len(inew), len(upd))
     off = np.median(upd[:m, 4] / 1e9 - t_end[inew[:m]])                          # anchor: pump time of the new message ~ step end
-    wall = t_end + off
-    j = np.searchsorted(pw / 1e9, wall, side="right") - 1
-    fr = np.where(j >= 0, pf[np.clip(j, 0, len(pf) - 1)], 0)
+    wall0 = t_end + off
+    # wall time per step: linear between the pump times of new messages (about every 2 steps); outside, cumulative loop_ms
+    wall = np.interp(np.arange(len(rows)), inew[:m], upd[:m, 4] / 1e9)
+    wall[:inew[0]] = wall0[:inew[0]] + (wall[inew[0]] - wall0[inew[0]]); wall[inew[m - 1] + 1:] = wall0[inew[m - 1] + 1:] + (wall[inew[m - 1]] - wall0[inew[m - 1]])
+    # TRUE frame at the step's wall time from the replay clock (frame = floor((t - t0) * 30)), also inside deliberate message gaps
+    fr = np.floor((wall - int(rp["t0_ns"]) / 1e9) * 30.0 + 1e-9).astype(int)
     # age of the delivered data: input stamp of the last pumped message vs step time
     st = np.full(len(rows), np.nan); k = -1
     for i in range(len(rows)):
@@ -65,7 +68,7 @@ def ros_frames(tag, rows, F):
             k += 1
         if k >= 0:
             dfr[i] = sidx.get(int(upd[k, 1]), -1)
-    return np.clip(fr, 0, F - 1), age, dfr, float(np.median(np.abs(upd[:m, 4] / 1e9 - wall[inew[:m]])))
+    return np.clip(fr, 0, F - 1), age, dfr, float(np.median(np.abs(wall0 - wall)))     # loop_ms-only clock vs anchored clock
 
 
 def main():

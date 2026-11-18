@@ -1,0 +1,15 @@
+# live_t1.yml - live Kinect profile (2026-11-18). Load with step2b_mpc_isaac.py --profile ~/effmass_mpc/goal1/config/live_t1.yml
+# Keys under settings = step2b option names with "_" (an option given explicitly on the command line wins). Defaults and
+# tuned_t1.yml are not changed; this file = t1 + the overnight combination (constant-velocity prediction + velocity filter +
+# speed-cap distance 0.5 m), which kept penetration 0 and the near-human speed p99 <= 0.5 m/s with synthetic lag 100 ms + jitter 2 cm
+# and on clean data (overnight F1-F8, see analysis/README.md 7-3, 7-4).
+profile: live_t1
+date: 2026-11-18
+settings:
+  speed_cap: "on"          # rollout cost on robot sphere speed near the human (t1)
+  speed_cap_v: 0.5         # m/s, design value (t1), not a standards claim
+  speed_cap_dist: 0.5      # m (t1: 0.4) - penalty starts farther from the human (overnight t2a_c2)
+  speed_cap_w: 300000.0    # (t1)
+  pose_rot_w: 200.0        # (t1)
+  meff_motion: "cv"        # human shapes moved by segment velocity x (age + rollout time) inside the cost
+  human_vel_alpha: 0.2     # EMA of the segment velocity, per new human message; 0.2 was chosen on synthetic noise, retune on Kinect data

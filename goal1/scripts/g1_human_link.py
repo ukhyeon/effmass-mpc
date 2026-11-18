@@ -38,10 +38,13 @@ def load_frame(path):
 
 
 class HumanInertiaLink:
-    def __init__(self, node, transform_json, inputs, stage=None, display=("instancer",), shapes_viz=False, root="/World/human"):
+    def __init__(self, node, transform_json, inputs, stage=None, display=("instancer",), shapes_viz=False, root="/World/human", vel_alpha=0.0):
         from rclpy.qos import DurabilityPolicy, HistoryPolicy, QoSProfile, ReliabilityPolicy
         from effmass_msgs.msg import HumanInertiaState
         self.R, self.t = load_frame(transform_json)
+        # (live) ROS path: EMA of the segment velocity the node computed from input stamps, per new message (0 = off, previous behaviour).
+        # Same rule as PrecomputedHumanLink (which sets its own vel_alpha after this __init__).
+        self.vel_alpha = float(vel_alpha); self.vf = None
         self.inp = inputs
         self.lock = threading.Lock()
         self.latest = None
@@ -150,6 +153,10 @@ class HumanInertiaLink:
             return T
         n, st, trecv, cnt, d = L
         self.last_pumped = n; self.last_stamp_ns = st
+        if self.vel_alpha:
+            vel = d["vel"].astype(np.float64)
+            self.vf = vel.copy() if self.vf is None else self.vel_alpha * vel + (1.0 - self.vel_alpha) * self.vf
+            d = dict(d); d["vel"] = self.vf
         b = pc()
         h = G.to_isaac(d, self.R, self.t)
         c = pc()
