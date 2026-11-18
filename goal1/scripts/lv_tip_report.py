@@ -22,7 +22,7 @@ def f1(v, s=100.0, d=1):
 
 
 def main(tag):
-    C = f"{GG}/live/{tag}/compare"; T = f"{GG}/live/{tag}/compare_tip"
+    tag, sub = (tag.split("@") + ["compare_tip"])[:2]; C = f"{GG}/live/{tag}/compare"; T = f"{GG}/live/{tag}/{sub}"
     A = json.load(open(f"{C}/analysis.json")); B = json.load(open(f"{T}/analysis.json")); S = {m["name"]: m for m in json.load(open(f"{T}/scenes.json"))["motions"]}
     side = {e["name"]: e["per_mode"] for e in A["intervals"] if e["t0_s"] is not None}
     rows = ["| motion | approach | mode | gap (cm) | part / side | eta at min (cm) | pass s | overlap steps |", "|---|---|---|---|---|---|---|---|"]

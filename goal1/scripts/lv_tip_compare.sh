@@ -6,9 +6,10 @@
 #   cmp : uniform (k 0) and per-part reference (k 0.10), seeds 0 1 2; seed 0 also saves every 2nd step (VIEW of the live run, zone
 #         shells on forearms, hands, elbows) -> compare_tip/analysis.json
 #   post: clips (lv_tip_video.py) and REPORT.md with the figure (lv_tip_report.py)
-# Env: TIP_RERUN=1 reruns finished runs (default: reuse), TIP_TIMEOUT per run (s, default 600).
+# Env: TIP_PREFIX run tag prefix (default tip), TIP_RERUN=1 reruns finished runs (default: reuse), TIP_TIMEOUT per run (s, default 600).
 set -u
-TAG=${1:?tag}; ST=${2:?off|cmp|post}; GG=$HOME/effmass_mpc/goal1; O=$GG/logs/meff_isaac; G=$GG/b2a/g2; SC=$GG/scripts; T=$GG/live/$TAG/compare_tip
+ARG=${1:?tag}; ST=${2:?off|cmp|post}; TAG=${ARG%%@*}; SUB=compare_tip; [[ $ARG == *@* ]] && SUB=${ARG#*@}   # "tag@folder" (default compare_tip)
+GG=$HOME/effmass_mpc/goal1; O=$GG/logs/meff_isaac; G=$GG/b2a/g2; SC=$GG/scripts; T=$GG/live/$TAG/$SUB; TP=${TIP_PREFIX:-tip}   # run tag prefix
 [[ -f $T/scenes.json ]] || { echo "no $T/scenes.json"; exit 2; }
 n=$(ps -eo comm=,args= | awk '$1!="bash" && $1!="grep" && $1!="sh"' | grep -cE 'step2b_mpc_isaac|kit/python')
 [[ $n == 0 ]] || { echo "an Isaac process is running (one Isaac at a time); stop it first"; exit 3; }
@@ -26,8 +27,8 @@ run_() {  # tag motion extra...
 }
 MEFF="--meff on --meff-mode gain --meff-dbase 0.065 --meff-muref 0.53 --meff-eta-max 0.25 --meff-agg max_all --b1-log 1 --meff-muref-mode part"
 if [[ $ST == off ]]; then
-  J="{"; for q in $NM; do run_ tip_${TAG}_m${q}_off $q --meff off --b1-log 0 --mppi-seed 0; J="$J\"motion $q\": {\"off\": [\"tip_${TAG}_m${q}_off\"]},"; done; echo "${J%,}}" > $T/runs_off.json
-  $SC/g1_run_human.sh py $SC/lv_tip_analyze.py $TAG $T/runs_off.json $T/analysis_off.json 2>$T/analyze_off_err.txt | grep "^motion"
+  J="{"; for q in $NM; do run_ ${TP}_${TAG}_m${q}_off $q --meff off --b1-log 0 --mppi-seed 0; J="$J\"motion $q\": {\"off\": [\"${TP}_${TAG}_m${q}_off\"]},"; done; echo "${J%,}}" > $T/runs_off.json
+  $SC/g1_run_human.sh py $SC/lv_tip_analyze.py $TAG@$SUB $T/runs_off.json $T/analysis_off.json 2>$T/analyze_off_err.txt | grep "^motion"
 elif [[ $ST == cmp ]]; then
   J="{"
   for q in $NM; do
@@ -35,7 +36,7 @@ elif [[ $ST == cmp ]]; then
     for mode in uni part; do
       if [[ $mode == uni ]]; then K=0; M=uniform; else K=0.10; M=part; fi; L=""
       for s in 0 1 2; do
-        t=tip_${TAG}_m${q}_${mode}_s$s; REC=""
+        t=${TP}_${TAG}_m${q}_${mode}_s$s; REC=""
         [[ $s == 0 ]] && REC="--viz-eta-shell armelbow --viz-cam=$VIEW --viz-record $T/frames_$t --viz-record-res 640x360 --viz-record-every 2"
         run_ $t $q $MEFF --meff-gain $K --mppi-seed $s $REC; L="$L\"$t\","
       done
@@ -44,8 +45,8 @@ elif [[ $ST == cmp ]]; then
     J="${J%,}},"
   done
   echo "${J%,}}" > $T/runs.json
-  $SC/g1_run_human.sh py $SC/lv_tip_analyze.py $TAG $T/runs.json $T/analysis.json 2>$T/analyze_err.txt | grep "^motion"
+  $SC/g1_run_human.sh py $SC/lv_tip_analyze.py $TAG@$SUB $T/runs.json $T/analysis.json 2>$T/analyze_err.txt | grep "^motion"
 else
-  python3 $SC/lv_tip_video.py $TAG | tail -1 | cut -c1-300
-  python3 $SC/lv_tip_report.py $TAG
+  python3 $SC/lv_tip_video.py $TAG@$SUB | tail -1 | cut -c1-300
+  python3 $SC/lv_tip_report.py $TAG@$SUB
 fi

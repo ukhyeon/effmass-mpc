@@ -56,3 +56,10 @@
 - options: (a) keep the hard hold (robot never moves fast near the human, but cannot escape); (b) do not scale a command whose robot spheres are not closer to the human than now (retreat allowed); (c) scale only the velocity component toward the human
 - choice: (b), simple and keeps "no fast approach", option --safety-allow-retreat (default 1 inside the new safety layer; 0 = the first version)
 - result: see bundle 4 table (on = hold, on2 = retreat allowed)
+
+## D0-6 (extra, after all bundles) path lowered by 6 cm
+- question: can the front pass show a larger difference if the gripper body passes at fingertip / elbow height?
+- cause class: setting not suitable (path height), within the allowed +-10 cm
+- options: (a) leave as is; (b) lower by 6 cm and recalibrate the offsets (static gap ~3 cm); (c) tilt the path with the arm axis (not in the instruction)
+- choice: (b), results kept separate in compare_tip_low (compare_tip unchanged)
+- result: elbow front +4.0 cm (front-dominant, eta 8.1-8.5 cm), fingertip +1.1 / +1.7 cm (still from above); off pass gaps vary per direction (-8.4..+4.8 cm), so marked exploratory

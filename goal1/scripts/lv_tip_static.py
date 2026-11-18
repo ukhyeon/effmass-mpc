@@ -6,7 +6,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import b2a_analyze as BA
 import shape_metrics as SM
-T = os.path.expanduser(f"~/effmass_mpc/goal1/live/{sys.argv[1]}/compare_tip"); P = {m["name"]: m for m in json.load(open(f"{T}/paths.json"))["motions"]}
+_tg, _sub = (sys.argv[1].split("@") + ["compare_tip"])[:2]; T = os.path.expanduser(f"~/effmass_mpc/goal1/live/{_tg}/{_sub}"); P = {m["name"]: m for m in json.load(open(f"{T}/paths.json"))["motions"]}   # "tag@folder"
 D = json.load(open(sys.argv[2])); s = np.array(D["s"]); res = []
 for jb in D["jobs"]:
     m = P[jb["motion"]]; z = np.load(f"{T}/rep_{jb['motion'].replace(' ', '')}.npz"); sh = np.array(list(jb["shift"]) + [0.0])

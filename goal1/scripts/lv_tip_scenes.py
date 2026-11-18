@@ -21,7 +21,7 @@ RAW = {}
 
 
 def main(tag, shifts):
-    C = f"{GG}/live/{tag}/compare"; T = f"{GG}/live/{tag}/compare_tip"
+    tag, sub = (tag.split("@") + ["compare_tip"])[:2]; C = f"{GG}/live/{tag}/compare"; T = f"{GG}/live/{tag}/{sub}"   # "tag@folder"
     cfg = json.load(open(f"{C}/runs.json")); P = json.load(open(f"{T}/paths.json")); base_sc = json.load(open(cfg["scene"]))
     z = dict(np.load(cfg["human"])); F = len(z["p0"]); fr_txt = open(cfg["frame_file"]).read()
     out = dict(tag=tag, motions=[])

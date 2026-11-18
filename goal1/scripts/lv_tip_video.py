@@ -3,7 +3,7 @@ seed 0 runs saved (compare_tip/frames_<run>), via lv_clip3.py. The colour time o
 replay file. Output compare_tip/clip_tip_<motion>.mp4 (+ .json)."""
 import json, os, subprocess, sys
 GG = os.path.expanduser("~/effmass_mpc/goal1")
-tag = sys.argv[1]; T = f"{GG}/live/{tag}/compare_tip"; R = json.load(open(f"{T}/runs.json")); S = {m["name"]: m for m in json.load(open(f"{T}/scenes.json"))["motions"]}
+tag, sub = (sys.argv[1].split("@") + ["compare_tip"])[:2]; T = f"{GG}/live/{tag}/{sub}"; R = json.load(open(f"{T}/runs.json")); S = {m["name"]: m for m in json.load(open(f"{T}/scenes.json"))["motions"]}
 for mot, modes in R.items():
     m = S[mot]; nm = mot.replace(" ", "")
     spec = dict(tag=tag, out=f"{T}/clip_tip_{nm}.mp4", dir_uniform=f"{T}/frames_{modes['uniform'][0]}", dir_part=f"{T}/frames_{modes['part'][0]}", steps=m["steps"],

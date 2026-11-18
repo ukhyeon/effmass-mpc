@@ -12,7 +12,7 @@ from curobo.types.base import TensorDeviceType
 from curobo.types.math import Pose
 from curobo.types.robot import RobotConfig
 from curobo.wrap.reacher.ik_solver import IKSolver, IKSolverConfig
-S.set_scene("g1"); ta = TensorDeviceType(); T = os.path.expanduser(f"~/effmass_mpc/goal1/live/{sys.argv[1]}/compare_tip")
+S.set_scene("g1"); ta = TensorDeviceType(); _tg, _sub = (sys.argv[1].split("@") + ["compare_tip"])[:2]; T = os.path.expanduser(f"~/effmass_mpc/goal1/live/{_tg}/{_sub}")   # "tag@folder"
 P = json.load(open(f"{T}/paths.json")); SH = sys.argv[2] if len(sys.argv) > 2 else "0,0"; sh = np.array([float(v) for v in SH.split(",")] + [0.0])
 rc = RobotConfig.from_dict(S.build_robot_cfg(), ta)
 ik = IKSolver(IKSolverConfig.load_from_robot_config(rc, S.build_world_config(), num_seeds=64, self_collision_check=True, self_collision_opt=True, tensor_args=ta,

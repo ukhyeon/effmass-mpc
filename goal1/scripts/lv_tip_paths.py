@@ -1,4 +1,4 @@
-"""lv_tip_paths.py <tag> [offset_m | motionN=offset_m ...] - live cmp tip: one robot path per motion of compare/analysis.json, passing just in front of the fingertip
+"""lv_tip_paths.py <tag[@folder]> [offset_m | motionN=offset_m ... | dz=m] - live cmp tip: one robot path per motion of compare/analysis.json, passing just in front of the fingertip
 (motions 1, 2) or the elbow (motion 3 and later), from the motion's representative posture (per-shape median of p0 / p1 over the motion's frames,
 Franka base frame via the run's frame file). The human data are not changed.
   arm side: the side (left 13/15/17, right 14/16/18) whose hand is nearer to the old path (tcp_A - tcp_B) over the motion
@@ -21,7 +21,8 @@ HOLD = float(os.environ.get("TIP_HOLD", "0.04"))   # (hold) 0 = median over the 
 
 
 def main(tag, off=0.03, h=0.30, per=None):
-    C = f"{GG}/live/{tag}/compare"; T = f"{GG}/live/{tag}/compare_tip"; os.makedirs(T, exist_ok=True)
+    tag, sub = (tag.split("@") + ["compare_tip"])[:2]   # (overnight2) "tag@folder": results in goal1/live/<tag>/<folder>
+    C = f"{GG}/live/{tag}/compare"; T = f"{GG}/live/{tag}/{sub}"; os.makedirs(T, exist_ok=True); per = dict(per or {}); DZ = float(per.pop("dz", os.environ.get("TIP_DZ", "0")))   # "dz=-0.06" argument (launchers clear the env)
     cfg = json.load(open(f"{C}/runs.json")); an = json.load(open(f"{C}/analysis.json")); sc = json.load(open(cfg["scene"]))
     z = np.load(cfg["human"]); F = len(z["p0"]); R, t = L.load_frame(cfg["frame_file"])
     P0 = z["p0"].reshape(F, -1, 3).astype(float) @ R.T + t; P1 = z["p1"].reshape(F, -1, 3).astype(float) @ R.T + t
@@ -68,9 +69,9 @@ def main(tag, off=0.03, h=0.30, per=None):
                 ax = p1[ua] - p0[ua]; ax /= np.linalg.norm(ax); cand = [(p1[ua] + rad[ua] * ax, ua), (p0[fa] + rad[fa] * ax, fa)]
             tip, kt = max(cand, key=lambda c: float(c[0] @ ax))
         om = (per or {}).get(e["name"].replace(" ", ""), off)
-        c = tip + om * ax; u = np.cross([0, 0, 1.0], ax); u /= np.linalg.norm(u)
+        c = tip + om * ax + np.array([0, 0, DZ]); u = np.cross([0, 0, 1.0], ax); u /= np.linalg.norm(u)   # DZ: path height change (env TIP_DZ, m)
         bend = float(np.degrees(np.arccos(np.clip(((p1[ua] - p0[ua]) / np.linalg.norm(p1[ua] - p0[ua])) @ ((p1[fa] - p0[fa]) / np.linalg.norm(p1[fa] - p0[fa])), -1, 1))))
-        out["motions"].append(dict(name=e["name"], t0_s=e["t0_s"], t1_s=e["t1_s"], side=side[0], target=target, offset_m=om, target_shape=int(kt), axis=ax.tolist(),
+        out["motions"].append(dict(name=e["name"], t0_s=e["t0_s"], t1_s=e["t1_s"], side=side[0], target=target, offset_m=om, dz_m=DZ, target_shape=int(kt), axis=ax.tolist(),
                                    tip=tip.tolist(), centre=c.tolist(), u=u.tolist(), A=(c - h * u).tolist(), B=(c + h * u).tolist(),
                                    axis_elev_deg=float(np.degrees(np.arcsin(np.clip(ax[2], -1, 1)))), elbow_bend_deg=bend, frames=[int(fs_all[0]), int(fs_all[-1])],
                                    hold_frames=[int(f) for f in fs], hold_share=float(len(fs) / len(fs_all)), hold_m=HOLD))

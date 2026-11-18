@@ -76,7 +76,7 @@ def one(tag, m):
 
 
 def main(tag, runs_json, out_json):
-    T = f"{GG}/live/{tag}/compare_tip"; S = {m["name"]: m for m in json.load(open(f"{T}/scenes.json"))["motions"]}
+    tag, sub = (tag.split("@") + ["compare_tip"])[:2]; T = f"{GG}/live/{tag}/{sub}"; S = {m["name"]: m for m in json.load(open(f"{T}/scenes.json"))["motions"]}
     J = json.load(open(runs_json)); out = {}
     for mot, modes in J.items():
         out[mot] = {}

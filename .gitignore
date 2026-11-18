@@ -55,6 +55,13 @@
 !/goal1/live/*/compare_tip/*.mp4
 !/goal1/live/*/compare_tip/*.json
 !/goal1/live/*/compare_tip/*.yml
+!/goal1/live/*/compare_tip_low/
+/goal1/live/*/compare_tip_low/*
+!/goal1/live/*/compare_tip_low/REPORT.md
+!/goal1/live/*/compare_tip_low/*.png
+!/goal1/live/*/compare_tip_low/*.mp4
+!/goal1/live/*/compare_tip_low/*.json
+!/goal1/live/*/compare_tip_low/*.yml
 !/goal1/live/*/media/
 /goal1/live/*/media/*
 !/goal1/live/*/media/*.mp4
