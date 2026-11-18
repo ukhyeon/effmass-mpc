@@ -31,7 +31,7 @@ ap.add_argument("--rate", type=float, default=30.0)
 ap.add_argument("--duration", type=float, default=65.0, help="seconds after t0")
 ap.add_argument("--wait-file", default="")
 ap.add_argument("--wait-timeout", type=float, default=300.0)
-ap.add_argument("--camera", default="legacy", choices=["legacy", "none"])
+ap.add_argument("--camera", default="legacy", choices=["legacy", "live", "none"], help="legacy pose, the pose stored in the npz (live, lv_make_live_replay.py) or none (sensing_node publishes it)")
 ap.add_argument("--gaps", default="", help="s:d,s:d (seconds after t0)")
 ap.add_argument("--out", required=True)
 ap.add_argument("--topic", default="/hrc/human_pose", help="HumanPose topic (remap the node to it when sensing also runs)")
@@ -49,9 +49,14 @@ tl = QoSProfile(history=HistoryPolicy.KEEP_LAST, depth=1, reliability=Reliabilit
 rclpy.init()
 n = rclpy.create_node("lv_replay_pose")
 pub = n.create_publisher(HumanPose, a.topic, be)
-if a.camera == "legacy":
+if a.camera in ("legacy", "live"):
+    if a.camera == "live":
+        c = np.asarray(z["camera"], np.float64).reshape(-1)
+        cam = dict(roll_deg=float(c[0]), pitch_deg=float(c[1]), yaw_deg=float(c[2]), t=[float(v) for v in c[3:6]], source="lv_replay_pose live (npz camera)")
+    else:
+        cam = dict(LEGACY, source="lv_replay_pose legacy")
     cp = n.create_publisher(String, "/hrc/camera_pose", tl)
-    cp.publish(String(data=json.dumps(dict(LEGACY, source="lv_replay_pose legacy"))))
+    cp.publish(String(data=json.dumps(cam)))
 if a.wait_file:
     tw = time.time()
     while not os.path.exists(a.wait_file):
