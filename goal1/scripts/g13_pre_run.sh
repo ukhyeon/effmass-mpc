@@ -8,7 +8,8 @@ left() { ps -eo comm=,args= | awk '$1!="bash" && $1!="grep" && $1!="sh"' | grep 
 TAG="${1:?tag}"; shift
 E=$HOME/effmass_mpc/env_check; S=$E/scripts; G=$HOME/effmass_mpc/goal1; O=$G/logs/meff_isaac; mkdir -p $O; P=$O/$TAG
 # (B1) 측정 전 점검: 남은 프로세스·/dev/shm(ad_ 제외) 이 0 이 아니면 시작하지 않음
-if [[ $(left) != 0 || $(ls /dev/shm | grep -vc '^ad_') != 0 ]]; then echo "[pre-check] 중단: 남은 프로세스 $(left), /dev/shm $(ls /dev/shm | grep -v '^ad_' | tr '\n' ' ')"; exit 3; fi
+# (live) G13_SHM_CHECK=0 skips only the /dev/shm part (entries left by other sessions' ROS processes); the process check stays.
+if [[ $(left) != 0 || ( ${G13_SHM_CHECK:-1} != 0 && $(ls /dev/shm | grep -vc '^ad_') != 0 ) ]]; then echo "[pre-check] 중단: 남은 프로세스 $(left), /dev/shm $(ls /dev/shm | grep -v '^ad_' | tr '\n' ' ')"; exit 3; fi
 rm -f $P.ready $P.done $P.end $P.stop
 $S/step4_hrc_snapshot.sh ${P}_hrc_before > /dev/null; touch ${P}_t0
 echo "[g13pre] tag $TAG 추가 isaac 인자 '$*' (시작 $(date +%T)), 측정 전 남은 프로세스 $(left), /dev/shm 항목 $(ls /dev/shm | grep -vc '^ad_')"
