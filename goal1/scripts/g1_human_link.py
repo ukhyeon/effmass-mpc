@@ -22,12 +22,26 @@ SKIN_RGB = (0.87, 0.70, 0.58)
 RAD = [0.12, 0.08, 0.08, 0.11, 0.06, 0.06, 0.05, 0.05, 0.12, 0.06, 0.06, 0.06, 0.10, 0.05, 0.05, 0.045, 0.045, 0.045, 0.045]   # step4_human 과 같음
 
 
+def load_frame(path):
+    """(live) node world -> Isaac transform (R, t), p_isaac = R p + t.
+    .json: {"R", "t"} (previous transforms). .yml/.yaml: live_frame.yml (rotation_z_deg, base_position_world):
+    R = Rz(rotation_z_deg)^T, t = -R base_position_world."""
+    if str(path).endswith((".yml", ".yaml")):
+        import yaml
+        c = yaml.safe_load(open(path))
+        a = np.radians(float(c["rotation_z_deg"])); ca, sa = np.cos(a), np.sin(a)
+        Rz = np.array([[ca, -sa, 0.0], [sa, ca, 0.0], [0.0, 0.0, 1.0]])
+        R = Rz.T; t = -R @ np.asarray(c["base_position_world"], np.float64)
+        return R, t
+    tf = json.load(open(path))
+    return np.asarray(tf["R"], np.float64), np.asarray(tf["t"], np.float64)
+
+
 class HumanInertiaLink:
     def __init__(self, node, transform_json, inputs, stage=None, display=("instancer",), shapes_viz=False, root="/World/human"):
         from rclpy.qos import DurabilityPolicy, HistoryPolicy, QoSProfile, ReliabilityPolicy
         from effmass_msgs.msg import HumanInertiaState
-        tf = json.load(open(transform_json))
-        self.R = np.asarray(tf["R"], np.float64); self.t = np.asarray(tf["t"], np.float64)
+        self.R, self.t = load_frame(transform_json)
         self.inp = inputs
         self.lock = threading.Lock()
         self.latest = None

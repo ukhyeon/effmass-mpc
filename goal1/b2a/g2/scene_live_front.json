@@ -1,0 +1,80 @@
+{
+ "path": "front",
+ "key": "live_front",
+ "scene": "live",
+ "goals_wxyz": [
+  [
+   0.38,
+   -0.37000063896104096,
+   0.554964,
+   0.0,
+   1.0,
+   0.0,
+   0.0
+  ],
+  [
+   0.38,
+   0.36999936103895903,
+   0.554964,
+   0.0,
+   1.0,
+   0.0,
+   0.0
+  ]
+ ],
+ "q_start": [
+  -0.2963539958000183,
+  -0.1146709993481636,
+  -0.4490619897842407,
+  -1.8691500425338745,
+  -0.050648998469114304,
+  1.7655199766159058,
+  0.05236399918794632
+ ],
+ "tcp_A": [
+  0.38,
+  -0.37000063896104096,
+  0.451564
+ ],
+ "tcp_B": [
+  0.38,
+  0.36999936103895903,
+  0.451564
+ ],
+ "dy": [
+  -0.37,
+  0.37
+ ],
+ "symmetric": true,
+ "end_gap": [
+  0.25396972726264955,
+  0.23755928338086368
+ ],
+ "end_margin": [
+  1.1729499574661255,
+  0.8278780090332032
+ ],
+ "line_min_margin": 0.6876130210876465,
+ "plates": [],
+ "note": "Live Kinect scene (2026-11-18). Robot part = scene_b2a4_front_0.38h1 (moving-hand round trip, same goals and q_start). Human from the live node through goal1/config/live_frame.yml (base 0.9 m, Rz 180).",
+ "live": {
+  "frame_file": "goal1/config/live_frame.yml",
+  "stand_pelvis_base_xy": [
+   1.05,
+   -0.15
+  ],
+  "stand_pelvis_world_xy": [
+   -1.05,
+   0.15
+  ],
+  "stand_note": "Stand facing the robot (world +x), pelvis above world (-1.05, +0.15); reach the right arm forward at TCP height (world z ~1.35 m).",
+  "base_distance_m": 1.061,
+  "camera_distance_m": 2.261,
+  "camera_world_xy": [
+   -0.83,
+   -2.1
+  ],
+  "check_with": "R1 v050 moving hand (betas 0) moved to this place: hand shape crosses the TCP line by 3.4 cm at full reach; contact on the line at y +0.043 is 0.413 / 0.327 m from tcp_A / tcp_B (>= 0.25 m); fingertip x min 0.339 (path x 0.38)",
+  "feet_in_view": "camera 1.66 m high, optical axis 11.0 deg down: colour lower edge 40.5 deg down sees the floor from 1.94 m, depth NFOV from 1.75 m"
+ }
+}

@@ -1,0 +1,12 @@
+# live_frame.yml - live Kinect: hrc_ws world -> Franka base frame (= Isaac world in step2b_mpc_isaac.py).
+# hrc_ws world: origin = floor point below the Indy7 base centre, z up (the Indy7-era layout); the worker stands on the world -x side.
+# Franka faces its base +x and joint 1 cannot turn it to face backwards, so the base is turned 180 deg about z:
+#   p_base = Rz(rotation_z_deg)^T (p_world - base_position_world)
+#   e.g. world (-1.0, 0, 1.2) -> base (1.0, 0, 0.3)
+# Human positions, shapes and velocities use R = Rz(rotation_z_deg)^T; the 3x3 inverse inertia uses R Lambda R^T
+# (g1_meff_gpu.to_isaac), so the effective mass along a direction is unchanged.
+# Used by step2b_mpc_isaac.py --human-frame <this file>; without that option the previous transforms are used.
+frame: live
+rotation_z_deg: 180.0
+# Base height 0.9 m = value used in all simulations so far (floor at base z -0.9). Replace with the measured mount height.
+base_position_world: [0.0, 0.0, 0.9]

@@ -52,6 +52,7 @@ ap.add_argument("--ros-pose-topic", default="/step3/human_pose", help="3단계 �
 # (goal1 1-2d) 사람 데이터 출처·유효질량 채널. 기본값은 이전 동작 그대로 (dyn, off). inertia/on 은 EFFMASS_WS=1 run_isaac_ros.sh 로 실행
 ap.add_argument("--human-source", default="dyn", choices=["dyn", "inertia", "precomputed"], help="dyn: 원본 노드 HumanDynamicsState (4단계), inertia: 사본 노드 HumanInertiaState, precomputed: 미리 계산한 프레임을 시뮬레이션 시각으로 (1-3)")
 ap.add_argument("--human-pre", default="~/effmass_mpc/goal1/data/human_precomputed_1781524848.npz")
+ap.add_argument("--human-frame", default="", help="(live) node world -> Isaac transform file for the human (e.g. goal1/config/live_frame.yml); empty = <human-dir>/temp_transform.json")
 ap.add_argument("--human-delay-frames", type=int, default=0)
 ap.add_argument("--human-lead-s", type=float, default=0.0, help="(overnight) precomputed: move shapes ahead by file velocity x lead (s); 0 = off")
 ap.add_argument("--human-lag-s", type=float, default=0.0, help="(overnight) precomputed: deliver the frame of t_sim - lag (s); 0 = off")
@@ -403,6 +404,7 @@ if args.ros:
         ros_node.create_subscription(HumanPose, args.ros_pose_topic, _on_pose, M.best_effort_qos())
     ros_pub = ros_node.create_publisher(RosJointState, "/step3/joint_states", QoSProfile(depth=10))
     HUMAN = None
+    HUMAN_FRAME = os.path.expanduser(args.human_frame) if args.human_frame else os.path.join(os.path.expanduser(args.human_dir), "temp_transform.json")   # (live)
     if args.human and args.human_source == "precomputed":
         import g1_human_link as G1L
         _hp = os.path.expanduser(args.human_pre)
@@ -412,7 +414,7 @@ if args.ros:
         _base = _hp[:-len("_v2.npz")] + ".npz" if _hp.endswith("_v2.npz") else _hp
         _mp = os.path.expanduser(args.human_mesh_pre) if args.human_mesh_pre else _base.replace(".npz", "_verts.npz")
         _mp = _mp if (args.human_viz in ("mesh", "both") and os.path.exists(_mp)) else None
-        HUMAN = G1L.PrecomputedHumanLink(os.path.expanduser(args.human_pre), S.PHYSICS_DT, os.path.join(os.path.expanduser(args.human_dir), "temp_transform.json"), MEFF_INP,
+        HUMAN = G1L.PrecomputedHumanLink(os.path.expanduser(args.human_pre), S.PHYSICS_DT, HUMAN_FRAME, MEFF_INP,
                                          delay_frames=args.human_delay_frames, stage=stage, display=("instancer",) if args.human_mode == "full" else (),
                                          shapes_viz=args.meff_viz in ("shapes", "both") or args.human_viz in ("shapes", "both"), mesh_npz=_mp,
                                          lead_s=args.human_lead_s, lag_s=args.human_lag_s, jitter_m=args.human_jitter_m, drop_frac=args.human_drop_frac,
@@ -425,7 +427,7 @@ if args.ros:
     elif args.human and args.human_source == "inertia":
         import step4_human as H4
         import g1_human_link as G1L
-        HUMAN = G1L.HumanInertiaLink(ros_node, os.path.join(os.path.expanduser(args.human_dir), "temp_transform.json"), MEFF_INP, stage=stage,
+        HUMAN = G1L.HumanInertiaLink(ros_node, HUMAN_FRAME, MEFF_INP, stage=stage,
                                      display=("instancer",) if args.human_mode == "full" else (), shapes_viz=args.meff_viz in ("shapes", "both"))
         if args.human_mesh != "none":
             HUMAN.mesh_link = H4.HumanLink(ros_node, os.path.join(os.path.expanduser(args.human_dir), "temp_transform.json"), stage=stage, display=(), tensor=False,
