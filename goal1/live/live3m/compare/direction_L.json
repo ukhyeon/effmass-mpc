@@ -1,0 +1,122 @@
+{
+ "part/motion 1/hand": {
+  "n": 132,
+  "gap_min_cm": 13.1,
+  "cos_axis_median": -0.79,
+  "share_front": 0.13,
+  "eta_cm_median": 9.8,
+  "eta_cm_max": 10.4,
+  "mu_median": 0.91
+ },
+ "part/motion 1/forearm": {
+  "n": 196,
+  "gap_min_cm": 4.9,
+  "cos_axis_median": 0.0,
+  "share_front": 0.0,
+  "eta_cm_median": 7.2,
+  "eta_cm_max": 7.4,
+  "mu_median": 1.66
+ },
+ "part/motion 2/hand": {
+  "n": 40,
+  "gap_min_cm": 8.5,
+  "cos_axis_median": -0.39,
+  "share_front": 0.0,
+  "eta_cm_median": 6.6,
+  "eta_cm_max": 8.2,
+  "mu_median": 0.55
+ },
+ "part/motion 2/forearm": {
+  "n": 286,
+  "gap_min_cm": 5.0,
+  "cos_axis_median": -0.0,
+  "share_front": 0.0,
+  "eta_cm_median": 7.3,
+  "eta_cm_max": 9.2,
+  "mu_median": 1.79
+ },
+ "part/motion 3/hand": {
+  "n": 92,
+  "gap_min_cm": 3.8,
+  "cos_axis_median": -0.57,
+  "share_front": 0.0,
+  "eta_cm_median": 6.6,
+  "eta_cm_max": 8.3,
+  "mu_median": 0.57
+ },
+ "part/motion 3/forearm": {
+  "n": 229,
+  "gap_min_cm": 3.8,
+  "cos_axis_median": -0.0,
+  "share_front": 0.0,
+  "eta_cm_median": 6.9,
+  "eta_cm_max": 9.9,
+  "mu_median": 1.66
+ },
+ "uniform/motion 1/hand": {
+  "n": 125,
+  "gap_min_cm": 13.4,
+  "cos_axis_median": -0.81,
+  "share_front": 0.19,
+  "eta_cm_median": 6.5,
+  "eta_cm_max": 6.5,
+  "mu_median": 0.97
+ },
+ "uniform/motion 1/forearm": {
+  "n": 192,
+  "gap_min_cm": 4.6,
+  "cos_axis_median": -0.0,
+  "share_front": 0.0,
+  "eta_cm_median": 6.5,
+  "eta_cm_max": 6.5,
+  "mu_median": 1.76
+ },
+ "uniform/motion 2/hand": {
+  "n": 64,
+  "gap_min_cm": 8.6,
+  "cos_axis_median": -0.53,
+  "share_front": 0.0,
+  "eta_cm_median": 6.5,
+  "eta_cm_max": 6.5,
+  "mu_median": 0.68
+ },
+ "uniform/motion 2/forearm": {
+  "n": 300,
+  "gap_min_cm": 4.6,
+  "cos_axis_median": -0.0,
+  "share_front": 0.0,
+  "eta_cm_median": 6.5,
+  "eta_cm_max": 6.5,
+  "mu_median": 1.81
+ },
+ "uniform/motion 3/hand": {
+  "n": 92,
+  "gap_min_cm": 3.8,
+  "cos_axis_median": -0.58,
+  "share_front": 0.0,
+  "eta_cm_median": 6.5,
+  "eta_cm_max": 6.5,
+  "mu_median": 0.59
+ },
+ "uniform/motion 3/forearm": {
+  "n": 234,
+  "gap_min_cm": 4.0,
+  "cos_axis_median": -0.0,
+  "share_front": 0.0,
+  "eta_cm_median": 6.5,
+  "eta_cm_max": 6.5,
+  "mu_median": 1.69
+ },
+ "pose/motion 1": {
+  "shoulder_to_hand_m": 0.606,
+  "elbow_bend_deg": 21.0
+ },
+ "pose/motion 2": {
+  "shoulder_to_hand_m": 0.44,
+  "elbow_bend_deg": 91.0
+ },
+ "pose/motion 3": {
+  "shoulder_to_hand_m": 0.432,
+  "elbow_bend_deg": 94.0
+ }
+}

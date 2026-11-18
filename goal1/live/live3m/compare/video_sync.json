@@ -1,0 +1,33 @@
+{
+ "out": "/home/robotics/effmass_mpc/goal1/live/live3m/compare/live3m_compare.mp4",
+ "ffmpeg_exit": 0,
+ "duration_s": 84.5,
+ "colour_frames": 2435,
+ "t0_stamp": 1795008394.4225,
+ "colour_time_offset_s": {
+  "median": 0.010142803192138672,
+  "p95": 0.02022228240966796,
+  "max": 0.028516769409179688
+ },
+ "isaac_step_offset_max": 4,
+ "clips": [
+  {
+   "name": "motion 1",
+   "file": "clip_motion1.mp4",
+   "start_s": 6.466666666666667,
+   "ok": true
+  },
+  {
+   "name": "motion 2",
+   "file": "clip_motion2.mp4",
+   "start_s": 29.9,
+   "ok": true
+  },
+  {
+   "name": "motion 3",
+   "file": "clip_motion3.mp4",
+   "start_s": 62.400000000000006,
+   "ok": true
+  }
+ ]
+}

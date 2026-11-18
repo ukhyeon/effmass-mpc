@@ -1,0 +1,1 @@
+{"tag": "live3m", "out": "/home/robotics/effmass_mpc/goal1/live/live3m/compare/human_rt_v2.npz", "frames_30hz": 2535, "duration_s": 84.49728655815125, "messages_used": 2070, "sensing_frames": 2435, "frame_file": "/home/robotics/effmass_mpc/goal1/config/live_frame_user.yml", "camera": {"roll_deg": 100.9803, "pitch_deg": 0.4568, "yaw_deg": 0.0, "t": [-0.83, -2.1, 1.66]}}

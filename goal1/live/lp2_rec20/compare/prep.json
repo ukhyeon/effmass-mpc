@@ -1,0 +1,1 @@
+{"tag": "lp2_rec20", "out": "/home/robotics/effmass_mpc/goal1/live/lp2_rec20/compare/human_rt_v2.npz", "frames_30hz": 1067, "duration_s": 35.561437368392944, "messages_used": 840, "sensing_frames": 1264, "frame_file": "/home/robotics/effmass_mpc/goal1/config/live_frame_user.yml", "camera": {"roll_deg": 101.0658, "pitch_deg": 0.556, "yaw_deg": 0.0, "t": [-0.83, -2.1, 1.66]}}

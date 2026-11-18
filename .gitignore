@@ -43,7 +43,7 @@
 /goal1/live/*/compare/*
 !/goal1/live/*/compare/REPORT.md
 !/goal1/live/*/compare/*.png
-!/goal1/live/*/compare/analysis.json
+!/goal1/live/*/compare/*.json
 !/goal1/live/*/compare/runs.json
 !/goal1/live/*/compare/video_sync.json
 !/goal1/live/*/compare/*.mp4
