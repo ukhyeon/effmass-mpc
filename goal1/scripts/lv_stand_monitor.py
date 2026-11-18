@@ -18,13 +18,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import g1_human_link as L
 
 GG = os.path.expanduser("~/effmass_mpc/goal1")
-sc = json.load(open(f"{GG}/b2a/g2/scene_live_front.json"))
-target = np.asarray(sc["live"]["stand_pelvis_world_xy"], float); cam = np.asarray(sc["live"]["camera_world_xy"], float)
-R, t = L.load_frame(f"{GG}/config/live_frame.yml")
+import argparse
+ap = argparse.ArgumentParser(); ap.add_argument("--frame", default=f"{GG}/config/live_frame.yml"); a = ap.parse_args()
+sc = json.load(open(f"{GG}/b2a/g2/scene_live_front.json")); cam = np.asarray(sc["live"]["camera_world_xy"], float)
+R, t = L.load_frame(a.frame)
+# standing place in world = the base-frame place of the scene mapped back through this frame (live_frame_user.yml: where you stood)
+target = (R.T @ (np.r_[sc["live"]["stand_pelvis_base_xy"], 0.0] - t))[:2]
 path_x = float(sc["tcp_A"][0]); path_z = float(sc["tcp_A"][2])
 be = QoSProfile(history=HistoryPolicy.KEEP_LAST, depth=5, reliability=ReliabilityPolicy.BEST_EFFORT, durability=DurabilityPolicy.VOLATILE)
 rclpy.init(); n = rclpy.create_node("lv_stand_monitor"); buf = []
 n.create_subscription(HumanInertiaState, "/effmass/human_inertia_state", lambda m: buf.append(np.array(m.com_position, float).reshape(-1, 3)), be)
+print(f"frame file {a.frame}")
 print(f"standing place: pelvis above world ({target[0]:+.2f}, {target[1]:+.2f}); robot path in base frame x {path_x:.2f}, z {path_z:.2f}, y -0.37..+0.37", flush=True)
 last = time.time()
 while rclpy.ok():
@@ -39,5 +43,5 @@ while rclpy.ok():
     hb = R @ P[18] + t
     ok = "  <- OK" if np.hypot(*d) <= 0.05 else ""
     print(f"{time.strftime('%H:%M:%S')}  pelvis world ({pel[0]:+.2f}, {pel[1]:+.2f})  move ({-d[0]:+.2f} x, {-d[1]:+.2f} y){ok}  "
-          f"base {np.hypot(*pel[:2]):.2f} m  camera {np.hypot(*(pel[:2] - cam)):.2f} m  |  right hand base x {hb[0]:.2f} (path {path_x:.2f}) "
+          f"base {np.hypot(*(R @ pel + t)[:2]):.2f} m  camera {np.hypot(*(pel[:2] - cam)):.2f} m  |  right hand base x {hb[0]:.2f} (path {path_x:.2f}) "
           f"y {hb[1]:+.2f} z {hb[2]:.2f} (path {path_z:.2f})", flush=True)

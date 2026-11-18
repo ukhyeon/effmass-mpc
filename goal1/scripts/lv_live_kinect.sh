@@ -8,7 +8,11 @@
 #   4) a terminal "stand monitor": pelvis offset from the standing place, distances, right hand vs the robot path
 #   steps: Isaac physics steps (default 36000 = 10 min of simulated time). Stop early: Ctrl+C here (once) or close the Isaac
 #   window; the loop ends after the current step and the run is saved (--graceful-stop 1, --stop-file <tag>.stopreq).
-#   VIEW="eye_x,eye_y,eye_z,target_x,target_y,target_z" (Franka base frame) changes the GUI camera.
+#   LV_FRAME=<file>: world -> Franka base transform (default goal1/config/live_frame.yml; goal1/config/live_frame_user.yml from
+#   lv_live_place.sh puts the virtual robot in front of where you stood facing the monitor). The stand monitor follows it.
+#   GUI camera: VIEW_MODE=shoulder (default: above and behind your right shoulder looking at the robot, so reaching forward goes
+#   into the screen) or side (behind-left of the robot, you seen from the front); VIEW="eye_x,eye_y,eye_z,target_x,target_y,target_z"
+#   (Franka base frame) overrides both.
 #   Before: no other sensing_node / k4aviewer may hold the Kinect.
 set -u
 TAG="${1:?tag}"; STEPS="${2:-36000}"
@@ -29,16 +33,20 @@ grep -a "camera pose\] roll" ${P}_sensing.log | sed 's/.*\[camera pose\]/[camera
 grep -q "camera pose\] roll" ${P}_sensing.log || { echo "sensing did not report the camera pose; see ${P}_sensing.log"; kill -INT $SP 2>/dev/null; exit 4; }
 $GG/scripts/g1_run_human.sh node -p shapes:=v2 -p pelvis_correction:=true -p perf_csv:=${P}_nodeperf.csv > ${P}_node.log 2>&1 &
 NP=$!
-DISPLAY=${DISPLAY:-:0} gnome-terminal --title "stand monitor ($TAG)" --geometry 150x20 -- $GG/scripts/g1_run_human.sh py $GG/scripts/lv_stand_monitor.py 2>/dev/null
+FRAME=${LV_FRAME:-$GG/config/live_frame.yml}
+[[ -f $FRAME ]] || { echo "frame file $FRAME not found (run lv_live_place.sh first)"; kill -INT $NP $SP 2>/dev/null; exit 6; }
+echo "[live] frame file $FRAME"
+DISPLAY=${DISPLAY:-:0} gnome-terminal --title "stand monitor ($TAG)" --geometry 150x20 -- $GG/scripts/g1_run_human.sh py $GG/scripts/lv_stand_monitor.py --frame $FRAME 2>/dev/null
 echo "[live] Isaac GUI starting (about 30-60 s). Stand in view first so sensing can estimate the body shape, then go to the standing place."
 # Ctrl+C here: the trap writes $P.stopreq; Isaac (own session, so the terminal's Ctrl+C does not reach Kit) stops after the
 # current step and saves the run. sensing and the node stop on the same Ctrl+C. Closing the Isaac window also stops and saves.
 rm -f $P.stopreq
 trap 'echo "[live] Ctrl+C: Isaac stops after this step and saves (wait a few seconds)"; touch $P.stopreq' INT TERM
-VIEW=${VIEW:--1.2,-1.7,1.6,0.6,0.0,0.25}   # GUI camera eye,target in the Franka base frame: behind-left of the robot, facing the person
+if [[ ${VIEW_MODE:-shoulder} == side ]]; then DEFVIEW="-1.2,-1.7,1.6,0.6,0.0,0.25"; else DEFVIEW="1.85,0.25,1.0,0.3,-0.05,0.3"; fi
+VIEW=${VIEW:-$DEFVIEW}   # GUI camera eye,target in the Franka base frame
 EFFMASS_WS=1 RUN_ISAAC_NO_DISPLAY=0 ROS_METHOD=min setsid $S/run_isaac_ros.sh $S/step2b_mpc_isaac.py --gui --scene g2 --robot fr3v2_1 --no-diag --warmup 10 \
   --tag $TAG --ros --ros-pose-topic none --human --human-mode full --human-source inertia --ready-file $P.ready --done-file $P.done --ros-out $P \
-  --human-dir $G --human-frame $GG/config/live_frame.yml --scene-json $G/scene_live_front.json --round-trip 1 --profile $GG/config/live_t1.yml \
+  --human-dir $G --human-frame $FRAME --scene-json $G/scene_live_front.json --round-trip 1 --profile $GG/config/live_t1.yml \
   --u-def nearest --meff on --meff-mode gain --meff-dbase 0.065 --meff-muref 0.53 --meff-eta-max 0.25 --meff-agg max_all --b1-log 0 --cost-agg 0 \
   --meff-gain ${K_GAIN:-0.10} --mppi-seed 0 --meff-viz shapes --steps $STEPS --graceful-stop 1 --stop-file $P.stopreq --viz-cam="$VIEW" > $P.log 2>&1 &
 IP=$!

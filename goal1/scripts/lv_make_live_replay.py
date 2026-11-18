@@ -32,6 +32,9 @@ ap.add_argument("--trans-from", default=os.path.expanduser("~/hrc_ws/pose_npz/hu
 ap.add_argument("--roll", type=float, required=True); ap.add_argument("--pitch", type=float, required=True); ap.add_argument("--yaw", type=float, default=0.0)
 ap.add_argument("--t", nargs=3, type=float, required=True)
 ap.add_argument("--scene", default=os.path.expanduser("~/effmass_mpc/goal1/b2a/g2/scene_live_front.json"))
+ap.add_argument("--world-xy", nargs=2, type=float, default=None, help="(placement test) move the person so the pelvis is at this world xy ...")
+ap.add_argument("--heading-deg", type=float, default=None, help="... and faces this world heading (deg from +x, CCW); the --live file faces 0 deg")
+ap.add_argument("--out-world", default="", help="(placement test) also write the moved motion as a precomputed file in hrc_ws world")
 a = ap.parse_args()
 
 A_of = lambda r, p, y: camera_to_world_rotmat(r, p, y).numpy().astype(np.float64).T
@@ -50,6 +53,15 @@ com_old_isaac = src["com"].reshape(F, 19, 3)[0, 0].astype(np.float64) @ R1.T + t
 import json
 d = np.zeros(3); d[:2] = np.asarray(json.load(open(a.scene))["live"]["stand_pelvis_base_xy"]) - com_old_isaac[:2]
 M = Rl.T @ R1; c = Rl.T @ (t1 + d - tl)                    # live world p = M p_old + c
+live_com = live["com"].reshape(F, 19, 3).astype(np.float64)
+Rw = np.eye(3); move = lambda p: p
+if a.world_xy is not None:                                  # extra rigid move in world: rotate about the pelvis, then put the pelvis at world_xy
+    h = np.radians(a.heading_deg or 0.0); ch, sh = np.cos(h), np.sin(h)
+    Rw = np.array([[ch, -sh, 0.0], [sh, ch, 0.0], [0.0, 0.0, 1.0]])
+    pel = live_com[0, 0].copy(); tgt = np.array([a.world_xy[0], a.world_xy[1], pel[2]])
+    c = Rw @ (c - pel) + tgt; M = Rw @ M
+    move = lambda p: (p - pel) @ Rw.T + tgt
+    live_com = move(live_com)
 Rc = Rotation.from_rotvec(P[:, 0]).as_matrix()
 Rc_new = np.einsum("ij,fjk->fik", A_new.T @ M @ A_old, Rc)
 pose_new = P.copy(); pose_new[:, 0] = Rotation.from_matrix(Rc_new).as_rotvec()
@@ -60,7 +72,17 @@ chk = HumanInertiaCore("cpu", camera_pose=dict(roll_deg=a.roll, pitch_deg=a.pitc
 chk.set_betas(np.zeros(10, np.float32)); err = 0.0
 for f in range(0, F, 25):
     o = chk.compute(pose_new[f].reshape(-1).astype(np.float32), trans[f].astype(np.float32), betas=np.zeros(10, np.float32))
-    err = max(err, float(np.abs(o["com"][0].numpy().astype(np.float64) - live["com"].reshape(F, 19, 3)[f]).max()))
+    err = max(err, float(np.abs(o["com"][0].numpy().astype(np.float64) - live_com[f]).max()))
 np.savez(a.out, pose66=pose_new.reshape(F, 66).astype(np.float32), trans=trans.astype(np.float32), betas=np.zeros(10, np.float32),
          camera=np.array([a.roll, a.pitch, a.yaw, *t_new]), check_max_err_m=err, src=a.src, live=a.live)
+if a.out_world:
+    out = {k: live[k] for k in live.files}
+    for k in ("com", "p0", "p1"):
+        out[k] = move(live[k].reshape(F, -1, 3).astype(np.float64)).reshape(live[k].shape).astype(live[k].dtype)
+    out["vel"] = (live["vel"].reshape(F, 19, 3).astype(np.float64) @ Rw.T).reshape(live["vel"].shape).astype(live["vel"].dtype)
+    out["inv"] = np.einsum("ij,fsjk,lk->fsil", Rw, live["inv"].reshape(F, 19, 3, 3).astype(np.float64), Rw).reshape(live["inv"].shape).astype(live["inv"].dtype)
+    Mr = Rw @ (Rl.T @ R1)                                   # 'rot' of the source files is in the legacy node world
+    out["rot"] = np.einsum("ij,fsjk->fsik", Mr, src["rot"].reshape(F, 19, 3, 3).astype(np.float64)).reshape(src["rot"].shape).astype(src["rot"].dtype)
+    np.savez(a.out_world, **out)
+    print(f"[live replay] world file {a.out_world}")
 print(f"[live replay] {F} frames, trans {np.round(T_new, 4).tolist()}, check vs --live COM: max {err * 1000:.3f} mm -> {a.out}")
