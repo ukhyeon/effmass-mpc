@@ -44,8 +44,10 @@ class Viz:
             pr = stage.GetPrimAtPath("/World/human/instancer")
             if pr.IsValid():
                 UsdGeom.Imageable(pr).MakeInvisible()
-        if args.viz_eta_shell == "on" and meff is not None:
-            h = human.last_h; self.hand = [k for k in range(len(h["rad"])) if int(h["seg"][k]) == 18 and float(h["rad"][k]) > 0]
+        if args.viz_eta_shell in ("on", "arm") and meff is not None:
+            # (live prep2) "arm": shells on every active shape of both forearms and hands (segments 15-18), "on": right hand only
+            segs = range(15, 19) if args.viz_eta_shell == "arm" else (18,)
+            h = human.last_h; self.hand = [k for k in range(len(h["rad"])) if int(h["seg"][k]) in segs and float(h["rad"][k]) > 0]
             for k in self.hand:
                 g = UsdGeom.Capsule.Define(stage, f"/World/viz/eta_shell_{k:02d}"); g.CreateAxisAttr("Z"); x = UsdGeom.Xformable(g)
                 m = UsdShade.Material.Define(stage, f"/World/viz/Looks/shell_{k:02d}"); sh = UsdShade.Shader.Define(stage, f"/World/viz/Looks/shell_{k:02d}/s"); sh.CreateIdAttr("UsdPreviewSurface")
@@ -92,11 +94,15 @@ class Viz:
         sh.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(*rgb)); sh.CreateInput("emissiveColor", Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(*[0.5 * x for x in rgb]))
         m.CreateSurfaceOutput().ConnectToSource(sh.ConnectableAPI(), "surface"); return m
 
-    def _eta(self, mu, mr):
+    def _eta(self, mu, mr, seg=18):
         p = self.meff.par.cpu().numpy() if not hasattr(self, "_par") else self._par; self._par = p
         e0, mref, pw, emin, emax = [float(x) for x in p[1:6]]
         if self.mode == 1:
             return e0
+        if self.mode in (4, 5):   # (live prep2) gain modes, same rule as the kernel (5 = per-part reference mu_iso)
+            inv_r = 1.0 / mr if np.isfinite(mr) and mr > 0 else 0.0
+            ratio = mu * (float(self.meff.inv_iso[seg]) + inv_r) if self.mode == 5 else mu / mref
+            return float(np.clip(e0 + pw * max(np.sqrt(ratio) - 1.0, 0.0), emin, emax))
         if self.mode == 3:
             mu = 1.0 / (float(self.meff.inv_iso[18]) + (1.0 / mr if np.isfinite(mr) and mr > 0 else 0.0))
         return float(np.clip(e0 * (mu / mref) ** pw, emin, emax))
@@ -112,7 +118,7 @@ class Viz:
         if self.shells and self.mode != 0:
             qa = self.meff.query_all(sph); d = qa["dist"].cpu().numpy(); mu = qa["mu"].cpu().numpy(); mr = qa["mr"].cpu().numpy(); h = self.human.last_h
             for k, g, tr, ori, col, dcol in self.shells:
-                s = int(np.argmin(d[:, k])); e = self._eta(float(mu[s, k]), float(mr[s, k])); a, b = h["p0"][k], h["p1"][k]; v = b - a; n = float(np.linalg.norm(v))
+                s = int(np.argmin(d[:, k])); e = self._eta(float(mu[s, k]), float(mr[s, k]), int(h["seg"][k])); a, b = h["p0"][k], h["p1"][k]; v = b - a; n = float(np.linalg.norm(v))
                 g.GetRadiusAttr().Set(float(h["rad"][k]) + e); g.GetHeightAttr().Set(n); tr.Set(Gf.Vec3d(*((a + b) / 2).tolist()))
                 z = np.array([0, 0, 1.0]); vv = v / max(n, 1e-12); ax = np.cross(z, vv); sn = np.linalg.norm(ax)
                 ori.Set(Gf.Quatf(1, 0, 0, 0) if sn < 1e-9 else Gf.Quatf(float(np.cos(np.arctan2(sn, z @ vv) / 2)), *[float(x) for x in ax / sn * np.sin(np.arctan2(sn, z @ vv) / 2)]))
@@ -128,18 +134,33 @@ class Viz:
         if self.rec is None:
             return
         t0 = time.perf_counter(); from PIL import Image
+        if getattr(self, "_pool", None) is None:   # (live prep2) files written by 3 threads; get_data stays in this thread
+            from concurrent.futures import ThreadPoolExecutor
+            self._pool = ThreadPoolExecutor(3); self._fut = []; self.t_get = []
+        ext = os.environ.get("G1_VIZ_REC_EXT", "png")
         for j, a in enumerate(self.rec):
-            dat = np.asarray(a.get_data())
+            dat = np.asarray(a.get_data()); tg = time.perf_counter()
             if dat.size:
-                Image.fromarray(dat[:, :, :3]).save(f"{self.rec_dir}/cam{j}/f{i:05d}.png")
+                im = Image.fromarray(np.ascontiguousarray(dat[:, :, :3])); fp = f"{self.rec_dir}/cam{j}/f{i:05d}.{ext}"
+                self._fut.append(self._pool.submit(im.save, fp, **({"quality": 92} if ext == "jpg" else {"compress_level": 1})))
+            self.t_get.append((tg - t0) * 1000)
+        self._fut = [f for f in self._fut if not f.done()]
+        while len(self._fut) > 24:
+            self._fut.pop(0).result()
         self.t_cap.append((time.perf_counter() - t0) * 1000)
 
     def finish(self, out_dir):
         st = dict(update_ms_mean=float(np.mean(self.t_upd)) if self.t_upd else None, update_ms_p95=float(np.percentile(self.t_upd, 95)) if self.t_upd else None,
                   capture_ms_mean=float(np.mean(self.t_cap)) if self.t_cap else None, n_updates=len(self.t_upd))
+        if self.rec is not None and getattr(self, "_pool", None) is not None:
+            for f in self._fut:
+                f.result()
+            self._pool.shutdown(wait=True); st["get_data_ms_mean"] = float(np.mean(self.t_get)) if self.t_get else None
         if self.rec is not None:
             st["mp4"] = []
             for j in range(len(self.rec)):
+                if not os.path.exists(f"{self.rec_dir}/cam{j}/f00001.png"):   # (live prep2) --viz-record-every > 1: no raw clip
+                    continue
                 mp4 = f"{self.rec_dir.rstrip('/')}_cam{j}.mp4"
                 r = subprocess.run(["/usr/bin/ffmpeg", "-loglevel", "error", "-y", "-framerate", "30", "-i", f"{self.rec_dir}/cam{j}/f%05d.png", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", mp4])
                 st["mp4"].append(mp4 if r.returncode == 0 else None)

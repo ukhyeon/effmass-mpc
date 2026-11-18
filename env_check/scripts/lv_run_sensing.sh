@@ -10,5 +10,5 @@ exec env -i HOME="$HOME" USER="${USER:-$(id -un)}" LOGNAME="${LOGNAME:-$(id -un)
   LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/lib \
   DISPLAY="${DISPLAY:-:0}" XAUTHORITY="${XAUTHORITY:-/run/user/1000/gdm/Xauthority}" XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/1000}" \
   PYTHONDONTWRITEBYTECODE=1 ROS_DOMAIN_ID="${LV_DOMAIN:-30}" ROS_LOCALHOST_ONLY=1 ROS_LOG_DIR="$HOME/effmass_mpc/env_check/ros_log" \
-  LV_SENSING_OUT="$OUT" LV_SENSING_NOVIS="${LV_SENSING_NOVIS:-1}" \
+  LV_SENSING_OUT="$OUT" LV_SENSING_NOVIS="${LV_SENSING_NOVIS:-1}" LV_SENSING_SAVEVIS="${LV_SENSING_SAVEVIS:-0}" \
   bash -c 'cd "$LV_SENSING_OUT"; set +u; source /opt/ros/humble/setup.bash; source "$HOME/hrc_ws/install/setup.bash"; set -u; exec /usr/bin/python3 "$HOME/effmass_mpc/env_check/scripts/lv_sensing_wrapper.py"'

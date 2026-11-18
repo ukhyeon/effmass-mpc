@@ -52,6 +52,15 @@ ap.add_argument("--ros-pose-topic", default="/step3/human_pose", help="3단계 �
 # (goal1 1-2d) 사람 데이터 출처·유효질량 채널. 기본값은 이전 동작 그대로 (dyn, off). inertia/on 은 EFFMASS_WS=1 run_isaac_ros.sh 로 실행
 ap.add_argument("--human-source", default="dyn", choices=["dyn", "inertia", "precomputed"], help="dyn: 원본 노드 HumanDynamicsState (4단계), inertia: 사본 노드 HumanInertiaState, precomputed: 미리 계산한 프레임을 시뮬레이션 시각으로 (1-3)")
 ap.add_argument("--human-pre", default="~/effmass_mpc/goal1/data/human_precomputed_1781524848.npz")
+ap.add_argument("--playback-q", default="", help="(live prep2) re-render: npz with q (n,7) measured joints of a recorded run; step i shows q[i] (robot set directly, MPC output not applied)")
+ap.add_argument("--human-step-frames", default="", help="(live prep2) re-render: npy with the precomputed human frame to show at each step")
+ap.add_argument("--render-every", type=int, default=1, help="(live prep2) GUI: render the window every N physics steps (1 = every step, previous); physics, MPC and the 60 Hz control are unchanged")
+ap.add_argument("--render-hz", type=float, default=0.0, help="(live prep2) GUI: render when at least 1/hz wall seconds passed since the last render (0 = off, use --render-every)")
+ap.add_argument("--gui-viz-defer", type=int, default=0, help="(live prep2) GUI, ROS human: move the human shape display update to just before rendered steps (MPC input unchanged)")
+ap.add_argument("--gui-shot", default="", help="(live prep2) GUI check: 'png_path:step' saves the GUI viewport at that step (comma-separated list allowed)")
+ap.add_argument("--gui-res", default="1280x720", help="(live prep2) GUI window / viewport resolution WxH (default previous 1280x720)")
+ap.add_argument("--gui-hide-ui", type=int, default=0, help="(live prep2) 1: hide the Kit UI panels, viewport only")
+ap.add_argument("--gui-aa", type=int, default=-1, help="(live prep2) anti-aliasing mode for SimulationApp (-1 = default)")
 ap.add_argument("--graceful-stop", type=int, default=0, help="(live) 1: Ctrl+C / SIGTERM / closing the GUI window / --stop-file ends the loop after the current step and the run is saved as usual (steps_done < steps)")
 ap.add_argument("--stop-file", default="", help="(live) with --graceful-stop 1: stop when this file appears (Kit does not pass SIGINT to Python)")
 ap.add_argument("--human-loss-hold-s", type=float, default=0.0, help="(live) inertia (ROS): keep the last human for this long after messages stop, then human cost off until the next message; 0 = off")
@@ -102,7 +111,7 @@ ap.add_argument("--speed-cap-dist", type=float, default=0.4, help="(T1) penalty 
 ap.add_argument("--speed-cap-w", type=float, default=0.0, help="(T1) weight of max(0, v - v_cap)^2 (max over spheres, per rollout step)")
 ap.add_argument("--pose-rot-w", type=float, default=None, help="(T1) pose cost orientation weight (default: particle_mpc.yml, 60)")
 ap.add_argument("--round-trip", type=int, default=0, help="(R1) 1: start at the scene q_start (A), first goal B, then switch goals on arrival (round trips)")
-ap.add_argument("--viz-eta-shell", default="off", choices=["off", "on"], help="(demo) translucent eta shells on the v2 hand shapes (display only)")
+ap.add_argument("--viz-eta-shell", default="off", choices=["off", "on", "arm"], help="(demo) translucent eta shells on the v2 hand shapes (display only)")
 ap.add_argument("--viz-trail", default="off", choices=["off", "on"], help="(demo) TCP trail of the last --viz-trail-sec seconds (display only)")
 ap.add_argument("--viz-trail-sec", type=float, default=3.0)
 ap.add_argument("--viz-hide-com", default="off", choices=["off", "on"], help="(demo) hide the human segment COM markers")
@@ -116,6 +125,7 @@ ap.add_argument("--viz-ghost-tag", default="", help="(demo) saved run tag with {
 ap.add_argument("--viz-cam", default="", help="(demo) camera eye,target (6 numbers): GUI viewport and recording camera")
 ap.add_argument("--viz-record", default="", help="(demo) save frames of --viz-cam every step to this directory (headless render) and make <dir>.mp4")
 ap.add_argument("--viz-record-res", default="1280x720")
+ap.add_argument("--viz-record-every", type=int, default=1, help="(live prep2) with --viz-record: render and save every N-th step only (1 = every step, previous)")
 ap.add_argument("--profile", default="", help="(T1) tuned profile name: loads ~/effmass_mpc/goal1/config/tuned_<name>.yml (keys = option names with _); explicit options win")
 ap.add_argument("--meff-paired-base", default="none", choices=["none", "channel_off", "speedcap_off"], help="(1-3) 짝 측정의 비교 solver: none = 채널 없음, channel_off = 같은 채널(모드 off, 가중치 0)")
 ap.add_argument("--meff-dump-steps", default="", help="이 스텝들에서 디버그 텐서 일부 저장 (CPU 기준 비교용, 시간 측정 실행에서는 쓰지 않음)")
@@ -151,7 +161,14 @@ log(f"start {datetime.datetime.now().isoformat(timespec='seconds')} mode={'GUI' 
 
 from isaacsim import SimulationApp
 
-simulation_app = SimulationApp({"headless": not GUI, "width": 1280, "height": 720})
+_SA_CFG = {"headless": not GUI, "width": 1280, "height": 720}
+if GUI and args.gui_res != "1280x720":       # (live prep2) options only change the GUI; defaults give the previous config
+    _w, _h = (int(v) for v in args.gui_res.lower().split("x")); _SA_CFG.update(width=_w, height=_h)
+if GUI and args.gui_hide_ui:
+    _SA_CFG["hide_ui"] = True
+if GUI and args.gui_aa >= 0:
+    _SA_CFG["anti_aliasing"] = int(args.gui_aa)
+simulation_app = SimulationApp(_SA_CFG)
 log(f"SimulationApp ready {time.perf_counter() - T_START:.1f}s")
 
 import numpy as np
@@ -507,6 +524,9 @@ def one_step(i, timed=True):
     pc = time.perf_counter
     PROF_MARKS.clear(); _PM("start")
     l0 = pc()
+    if PB_Q is not None:   # (live prep2) re-render a recorded run: robot at the recorded measured joints of this step
+        _qq = PB_Q[min(i, len(PB_Q) - 1)]
+        robot.set_joint_positions(_qq, cmd_idx); robot.set_joint_velocities(np.zeros(len(cmd_idx)), cmd_idx)
     if S.HAS_MOVER:
         mp = S.mover_pose(i * S.PHYSICS_DT)
         checker.update_obstacle_pose(S.MOVER_NAME, Pose.from_list(mp, ta))
@@ -514,8 +534,23 @@ def one_step(i, timed=True):
     else:
         mp = [float("nan")] * 7   # g1 장면: 움직이는 장애물 없음
     t1 = pc(); _PM("obst")
-    world.step(render=GUI or VIZ_RENDER)
-    if VIZ is not None and timed:
+    _rec_now = VIZ_RENDER and (args.viz_record_every <= 1 or i % args.viz_record_every == 0)
+    if GUI and args.render_hz > 0:   # (live prep2) wall-clock display rate
+        _tn = time.perf_counter(); _gui_now = _tn - _RENDER_T[0] >= 1.0 / args.render_hz
+        if _gui_now:
+            _RENDER_T[0] = _tn
+    else:
+        _gui_now = GUI and (args.render_every <= 1 or i % args.render_every == 0)
+    if _gui_now and args.gui_viz_defer and HUMAN is not None and hasattr(HUMAN, "flush_viz"):
+        HUMAN.flush_viz()
+    world.step(render=_gui_now or _rec_now)
+    if GUI and args.gui_shot:
+        for _sh in args.gui_shot.split(","):
+            _pp, _ss = _sh.rsplit(":", 1)
+            if int(_ss) == i:
+                from omni.kit.viewport.utility import get_active_viewport, capture_viewport_to_file
+                capture_viewport_to_file(get_active_viewport(), os.path.expanduser(_pp)); log(f"(live prep2) GUI viewport shot step {i} -> {_pp}")
+    if VIZ is not None and timed and (_rec_now or not VIZ_RENDER):
         VIZ.capture(i)
     t2 = pc(); _PM("physics")
     p_dt = t2 - t1
@@ -579,7 +614,10 @@ def one_step(i, timed=True):
         q_cmd = current.position  # 프로토타입 hold-measured
     else:
         q_cmd = cmd.position
-    controller.apply_action(ArticulationAction(q_cmd.reshape(-1).cpu().numpy(), joint_indices=cmd_idx))
+    if PB_Q is not None:
+        controller.apply_action(ArticulationAction(PB_Q[min(i + 1, len(PB_Q) - 1)], joint_indices=cmd_idx))
+    else:
+        controller.apply_action(ArticulationAction(q_cmd.reshape(-1).cpu().numpy(), joint_indices=cmd_idx))
     t6 = pc(); _PM("cmd")
 
     # 목표 판정 (시나리오 동작: 목표 전환에 필요하므로 --no-diag 에서도 유지)
@@ -689,9 +727,18 @@ def one_step(i, timed=True):
 
 
 VIZ = None
-if args.viz_eta_shell == "on" or args.viz_trail == "on" or args.viz_ghost or args.viz_record or args.viz_hide_com == "on" or args.viz_zone or args.viz_zone_seq:
+if args.viz_eta_shell in ("on", "arm") or args.viz_trail == "on" or args.viz_ghost or args.viz_record or args.viz_hide_com == "on" or args.viz_zone or args.viz_zone_seq:
     sys.path.insert(0, os.path.expanduser("~/effmass_mpc/goal1/scripts")); import g1_viz as G1V
     VIZ = G1V.Viz(world.stage, args, MEFF, HUMAN, TAG, log, MEFF_SV if MEFF is not None else 0)
+_RENDER_T = [0.0]
+if args.gui_viz_defer and HUMAN is not None:
+    HUMAN.viz_defer = True
+PB_Q = np.load(os.path.expanduser(args.playback_q))["q"].astype(np.float64) if args.playback_q else None   # (live prep2)
+if PB_Q is not None:
+    log(f"(live prep2) playback of {args.playback_q}: {len(PB_Q)} recorded steps")
+if args.human_step_frames and HUMAN is not None and hasattr(HUMAN, "frame_at"):
+    HUMAN.step_frame_map = np.load(os.path.expanduser(args.human_step_frames)).astype(np.int64)
+    log(f"(live prep2) human frame per step from {args.human_step_frames} ({len(HUMAN.step_frame_map)} steps)")
 STOP_REQ = [None]                    # (live) --graceful-stop: reason of an early stop
 if args.graceful_stop:
     import signal as _signal

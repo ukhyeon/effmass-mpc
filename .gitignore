@@ -32,6 +32,7 @@
 /goal1/live_prep2/*
 !/goal1/live_prep2/*.md
 !/goal1/live_prep2/*.json
+!/goal1/live_prep2/*.png
 !/goal1/live/
 /goal1/live/*
 !/goal1/live/*/

@@ -1,0 +1,13 @@
+{
+ "tag": "run5_ours",
+ "out": "/home/robotics/effmass_mpc/goal1/live/run5_ours/run5_ours_side_by_side.mp4",
+ "ffmpeg_exit": 0,
+ "frames": 2329,
+ "duration_s": 77.63333333333334,
+ "isaac_frames": 1724,
+ "color_frames": 0,
+ "panel_time_diff_s": null,
+ "isaac_offset_s_max": 0.028070449829101562,
+ "color_offset_s_max": null,
+ "within_0_1s": null
+}

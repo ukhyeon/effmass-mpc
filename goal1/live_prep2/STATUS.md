@@ -21,3 +21,44 @@ B residual overlaps: hand moving toward the robot 0.2-0.39 m/s while the nearest
 (speed-capped retreat, pos_err 0.38-0.40); hr1 overlap at a tracking jump (hand 2.75 m/s). Details bundle1_events.json.
 Conclusion: the deep overlap (-7.7 cm, 20 steps) comes from the slow display (human 2.8x faster than simulation); at real time
 a 1 cm overlap remains in 7 steps that no single change removes (prediction and speed cap both help; +1 cm radius 7 -> 2 steps).
+
+## bundle 0 (Kinect back at ~21:50)
+- lp2_smoke300: lv_live_kinect.sh, live_frame_user.yml, 300 steps, isaac exit 0, RTF 0.537, infeasible 0, colour frames 641 saved / 0 dropped.
+  Not strictly without a person: someone sat at the back desk (sensing sent 193 human messages).
+
+## bundle 2 (GUI speed; physics, MPC, cost, 60 Hz unchanged; VIEW 1.6,-2.4,1.3,0.75,-0.05,0.35)
+A. without sensing (Kinect absent at the time), replayed person (lv_live_run.sh sensing 0), 150 s each:
+| change (cumulative) | RTF |
+|---|---|
+| before (render every step, 1280x720) | 0.488 |
+| render every 2nd step | 0.631 |
+| + 960x540 | 0.627 |
+| + hide UI | 0.642 |
+| + anti-aliasing off | 0.667 |
+| render every 3rd step (+ above) | 0.722 |
+| + human capsules moved only before a redraw (defer) | 0.726 |
+| wall-clock 15 Hz redraw + defer | 0.773 |
+| wall-clock 10 Hz redraw + defer | 0.815 |
+| every 4th step + defer | 0.813 |
+| final: 10 Hz, 960x540, AA off, defer, UI kept | 0.832 (repeat with viewport shots 0.801) |
+| same with UI hidden | 0.810 |
+B. with sensing on (real Kinect; a person was in the room and tracked by sensing), replayed person for Isaac, 150 s each:
+| setting | RTF | loop ms | solver ms | physics+render ms |
+|---|---|---|---|---|
+| before | 0.386 | 42.9 | 16.3 | 12.7 |
+| final | 0.577 | 28.7 | 14.8 | 6.7 |
+| final + colour saving (bundle 3) | 0.621 | 26.7 | 14.1 | 6.6 |
+| 5 Hz redraw + saving (reference only) | 0.629 | 26.3 | 15.2 | 5.7 |
+| live lv_live_kinect.sh lp2_rec20 (final + saving, person reaching) | 0.562 | 29.4 | 14.2 | 8.9 |
+Final settings are lv_live_kinect.sh defaults (LV_RENDER_HZ=0 restores the previous display). 0.8 not reached with sensing:
+the rest is the solver slowed by sensing on the same GPU (11.2 -> 14-15 ms) and physics/state in GUI mode (about +4 ms over
+headless); 5 Hz redraw gives no more. Viewport shots gui_final_s600.png / gui_final_s1200.png: robot and human capsules shown.
+Regression: lv_base.sh lp2 bit-equal (gk000, gain).
+
+## bundle 3 (recording)
+- colour: sensing's own colour image (packet bg_img, no overlay render) per frame, capture time burned in, writer thread,
+  goal1/live/<tag>/color (vis_output/*.jpg, vis_times.csv). lp2_rec20: 1264 frames saved, 0 dropped, about 24 fps.
+- lv_make_video.sh lp2_rec20: 1200 steps re-rendered (playback joints, human per step, zone shells on forearms and hands, VIEW of
+  the run), mp4 35.4 s, panel time difference median 0.010 s, p95 0.030 s, max 0.045 s (limit 0.1 s); 2 min 15 s to make.
+- Playback check (run5_ours): re-rendered joints vs recorded max 0.09 deg. Synthetic colour test on run5 (b3_synthetic_sync_run5.json):
+  max 0.031 s; synthetic frames removed.

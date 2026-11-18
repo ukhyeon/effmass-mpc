@@ -154,6 +154,12 @@ class HumanInertiaLink:
                     q = Gf.Quatf(0, 1, 0, 0)
             tr.Set(Gf.Vec3d(*[float(x) for x in c])); ori.Set(q)
 
+    def flush_viz(self):
+        """(live prep2) apply the latest pumped shapes to the stage (called only before steps that render the GUI)."""
+        h = getattr(self, "viz_pending", None)
+        if h is not None and self.shape_ops is not None:
+            self._update_shapes(h); self.viz_pending = None
+
     def pump(self):
         pc = time.perf_counter
         T = dict(pickup=0.0, transform=0.0, disp_instancer=0.0, disp_prims=0.0, tensor=0.0, verify=0.0, new=0, mesh_new=0, mesh_xf=0.0, mesh_usd=0.0, mesh_rt=0.0,
@@ -187,7 +193,10 @@ class HumanInertiaLink:
         if self.shapes_viz:
             if self.shape_ops is None:
                 self._make_shapes(h, d["type"])
-            self._update_shapes(h)
+            if getattr(self, "viz_defer", False):   # (live prep2) display moved to flush_viz() just before a rendered step
+                self.viz_pending = h
+            else:
+                self._update_shapes(h)
         g = pc()
         self.last_h = h; self.last_raw = d       # 실제로 GPU 에 넣은 메시지 (덤프·검증용)
         T.update(new=1, pickup=(b - a) * 1000, transform=(c - b) * 1000, tensor=(e - c) * 1000, disp_instancer=(f - e) * 1000, shapes=(g - f) * 1000)
@@ -328,6 +337,10 @@ class PrecomputedHumanLink(HumanInertiaLink):
 
     def frame_at(self, i):
         t = (i + 1) * self.dt
+        sf = getattr(self, "step_frame_map", None)
+        if sf is not None and i >= 0:   # (live prep2) re-render: recorded human frame per step
+            fc = int(min(max(sf[min(i, len(sf) - 1)], 0), self.F - 1))
+            return t, fc, fc
         if self.lag_s:
             f = int(np.floor((t - self.lag_s) * self.rate + 1e-6)) + self.delay
         else:
