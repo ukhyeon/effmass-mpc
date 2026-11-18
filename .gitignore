@@ -6,6 +6,8 @@
 !/README.md
 !/docs/
 !/media/
+# result analysis: README, figure and GIF/mp4 copies (human npz, mesh vertices, frames excluded below)
+!/analysis/
 
 !/goal1/
 /goal1/*
@@ -84,3 +86,7 @@ __pycache__/
 *.pyc
 human_r1_*
 /goal1/b2a/demo/
+/analysis/**/frames*/
+/analysis/**/rec/
+/analysis/**/*.obj
+/analysis/**/*.ply
