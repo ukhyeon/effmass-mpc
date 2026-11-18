@@ -41,7 +41,10 @@ def main(tag):
     V2 = json.load(open(f"{GG}/data/shapes_v2.json")); E = V2["shapes"] + [V2["inactive"]] * (24 - len(V2["shapes"]))
     core.shapes = ShapeSet([1] * 24, [e["segment"] for e in E], [e["p0_local"] for e in E], [e["p1_local"] for e in E], [e["radius"] for e in E],
                            core.shapes.distal_local)
-    Rl, tl = L.load_frame(f"{GG}/config/live_frame.yml")
+    rlog = open(f"{O}/{tag}.log", errors="replace").read()
+    fm = re.findall(r"\(live\) ROS human: frame file (\S+),", rlog)
+    frame_file = fm[-1] if fm else f"{GG}/config/live_frame.yml"             # the frame the run used
+    Rl, tl = L.load_frame(frame_file)
     F = len(PO); COM = np.zeros((F, 19, 3)); P0 = np.zeros((F, 24, 3)); P1 = np.zeros((F, 24, 3))
     for k in range(F):
         o = core.compute(PO[k], TR[k], betas=betas)
@@ -85,7 +88,8 @@ def main(tag):
     # right hand (segment 18 COM and its shapes) vs the TCP path segment, per sensing frame
     rh = comb[:, 18]; dpath = SM.segdist(rh, A_, B_)
     rh_surf = np.stack([SM.segdist(np.r_[p0b[:, kk], p1b[:, kk]], A_, B_)[:F].clip(0) for kk in rhand], 1).min(1)
-    pel_w = COM[:, 0, :2]; target = np.asarray(sc["live"]["stand_pelvis_world_xy"]); camxy = np.asarray(sc["live"]["camera_world_xy"])
+    pel_w = COM[:, 0, :2]; camxy = np.asarray(sc["live"]["camera_world_xy"])
+    target = (Rl.T @ (np.r_[sc["live"]["stand_pelvis_base_xy"], 0.0] - tl))[:2]   # standing place in world for this frame
     # approach events on the steps: right hand COM within 0.15 m of the path segment
     dstep = np.where(ok, dpath[np.clip(fr, 0, F - 1)], np.nan); app = dstep < 0.15
     ee = TCP
@@ -103,14 +107,14 @@ def main(tag):
         else:
             i += 1
     nsens = len(PO); dur_s = float(wall[-1] - wall[0])
-    res = dict(tag=tag, camera_pose=cam, betas=betas.tolist(), sensing_frames=nsens, steps=n, steps_with_human=int(ok.sum()), realtime_factor=r["realtime_factor"],
+    res = dict(tag=tag, frame_file=frame_file, stand_place_world=target.tolist(), camera_pose=cam, betas=betas.tolist(), sensing_frames=nsens, steps=n, steps_with_human=int(ok.sum()), realtime_factor=r["realtime_factor"],
                solver_ms_mean=r["solver_ms_mean"], infeasible=int(r["infeasible_steps"]), arrivals=int(r["arrivals"]), early_stop=r.get("early_stop"),
                loop_wall_s=dur_s, human_msgs_to_isaac=int(len(upd)), human_rate_hz=float(len(upd) / dur_s) if dur_s > 0 else None,
                age_ms_median=float(np.nanmedian(age)), age_ms_p95=float(np.nanpercentile(age, 95)),
                min_gap_hand=float(np.nanmin(gh)), min_gap_all=float(np.nanmin(ga)), pen_steps_all=int(np.nansum(ga < 0)),
                v_near_p99=float(np.percentile(vnear, 99)) if len(vnear) else None, sphere_steps_near_04=int(near.sum()),
                pelvis_world_median=np.median(pel_w, 0).tolist(), pelvis_offset_from_place_m=float(np.hypot(*(np.median(pel_w, 0) - target))),
-               pelvis_base_dist_m=float(np.hypot(*np.median(pel_w, 0))), pelvis_camera_dist_m=float(np.hypot(*(np.median(pel_w, 0) - camxy))),
+               pelvis_base_dist_m=float(np.hypot(*(Rl @ np.r_[np.median(pel_w, 0), 0.0] + tl)[:2])), pelvis_camera_dist_m=float(np.hypot(*(np.median(pel_w, 0) - camxy))),
                rhand_min_dist_to_path_m=float(dpath.min()), rhand_surface_min_dist_to_path_m=float(rh_surf.min()),
                rhand_base_xyz_at_closest=rh[int(np.argmin(dpath))].tolist(), rhand_frames_within_015=int((dpath < 0.15).sum()),
                approach_events=ev)
