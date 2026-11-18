@@ -1,11 +1,12 @@
-# 올리기 전 점검 (2026-11-19 00:16, push 하지 않음)
+# 올리기 전 점검 (2026-11-19 00:16, 01:31 다시 점검, push 하지 않음)
 
-범위: `origin/main`(10aaa58) 이후 로컬 커밋 18개, 더하거나 바뀐 파일 195개(약 68 MB, 그림·영상 포함). 이 초안 폴더를 커밋하면 더 늘어난다.
+범위: `origin/main`(10aaa58) 이후 로컬 커밋 22개, 더하거나 바뀐 파일 278개(약 138M, 그림·영상 포함; 밤샘 작업과 이 초안 폴더 포함).
 
 | 검사 | 방법 | 결과 |
 |---|---|---|
 | 비공개 대상 파일 | 경로 이름 검사: ws/, iso_15066.json, shapes_v2.json, LICENSE, 원본 컬러 프레임(vis_output, color/), 사람 자세(pose_npz, .npz), 메시 정점(_verts), SMPL 모델(.pkl), 로봇 자산(.usd, .urdf, .stl, .obj, .dae), 타사 코드(curobo, isaacsim) | 범위 안: 해당 자료 없음. 이름에 걸린 것은 스크립트 두 개(`goal1/scripts/lv_mesh_verts.py` = 정점을 만드는 코드, `shapes_v2_fit.py` = 이미 공개됨)이며 자료가 아니다. 저장소 전체(HEAD)에서도 같다 |
-| 비밀 정보 | 내용 검사: password, passwd, ghp_, github_pat_, api_key, secret_key, 개인 키 머리말, AWS 키 모양, token = '...' | 없음 (텍스트 파일 164개와 범위의 커밋 기록 전체) |
+| 비밀 정보 | 내용 검사: password, passwd, ghp_, github_pat_, api_key, secret_key, 개인 키 머리말, AWS 키 모양, token = '...' | 없음 (범위의 텍스트 파일 전체와 커밋 기록) |
+| (참고) | 비밀 정보 검사에서 걸린 줄 | 이 점검 문서가 검사 단어(password 등)를 적어 둔 줄 하나뿐이다. 실제 비밀 정보가 아니다 |
 | 메일 주소 | 내용 검사 | 없음 (커밋 서명의 noreply 제외) |
 | 내부 IP 주소 | 192.168.x, 10.x, 172.16-31.x | 없음 |
 | 파일 크기 | 영상 20 MB, GIF 10 MB 한도 | 넘는 파일 없음. 가장 큰 파일 `goal1/live/live3m/compare/live3m_compare.mp4` 10.6 MB |

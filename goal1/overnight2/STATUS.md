@@ -15,3 +15,4 @@
 - 01:06:10 extra (not a bundle): D0-4 follow-up, path lowered within the allowed height range (compare_tip_low), budget to 02:40
 - 01:10:38 extra: lowered paths (dz -0.06 m, offsets 0.13 / 0.195 / 0.135 m) built; off pass gaps vary a lot (m1 -8.4..+4.8 cm) -> comparison run as exploratory
 - 01:30:01 extra done: lowered paths, elbow front +4.0 cm (front, eta 8.1-8.5), fingertip +1.1 / +1.7 cm; GIF gif_difference_elbow_front_low_motion3.gif 6.3 MB; added to REPORT.md and public_draft/analysis_live
+- 01:30:27 pre-push check rerun: 22 commits, 278 files, about 138 MB; no private files, no secrets (only the check doc's own pattern list), no emails, no internal IPs; largest 10.6 MB
