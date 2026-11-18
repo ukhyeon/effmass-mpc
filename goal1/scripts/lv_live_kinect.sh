@@ -14,6 +14,9 @@ E=$HOME/effmass_mpc/env_check; S=$E/scripts; GG=$HOME/effmass_mpc/goal1; O=$GG/l
 # python / k4aviewer processes only (a shell whose command text mentions these names is not counted)
 busy=$(ps -eo comm=,args= | awk '$1 ~ /^python/ || $1 == "k4aviewer" || $1 == "sensing_start"' | grep -cE "sensing_start|k4aviewer|lv_sensing_wrapper")
 if [[ $busy != 0 ]]; then echo "another sensing / k4aviewer is running ($busy); stop it first"; exit 3; fi
+# the Kinect depth (045e:097c) and colour (045e:097d) cameras are on its USB 3 side; without them sensing stops at the IMU read
+if ! lsusb -d 045e:097c > /dev/null || ! lsusb -d 045e:097d > /dev/null; then
+  echo "Kinect depth/colour camera not on USB (lsusb 045e:097c / 097d missing); reconnect the Kinect (USB-C data cable, power) and retry"; exit 5; fi
 export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
 rm -f $P.ready $P.done; touch ${P}_t0
 echo "[live] $TAG: starting sensing (Kinect + IMU) ..."
