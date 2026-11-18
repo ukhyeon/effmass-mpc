@@ -83,6 +83,7 @@ ap.add_argument("--meff-paired", type=int, default=0, help="1 = 채널 없는 so
 # (goal1 1-3) 조합 1 비용 (채널 --meff on 일 때): 모드·합산·파라미터는 GPU 텐서 (값 변경에 재캡처 없음)
 ap.add_argument("--meff-mode", default="off", choices=["off", "uniform", "mass", "iso", "gain"])
 ap.add_argument("--meff-dbase", type=float, default=0.065, help="(V1) gain mode: base clearance d_base (m), also the lower clamp")
+ap.add_argument("--meff-muref-mode", default="global", choices=["global", "part"], help="(part) gain mode reference: global = one mu_ref for all parts (previous), part = per-part mu_iso = 1/(1/m_iso + 1/m_r) from goal1/data/iso_15066.json")
 ap.add_argument("--meff-gain", type=float, default=0.10, help="(V1) gain mode: k_gain (m) on max(sqrt(mu / mu_ref) - 1, 0)")
 ap.add_argument("--meff-agg", default="max_all", choices=["max_all", "nearest"])
 ap.add_argument("--meff-w", type=float, default=100000.0, help="w (고정). 기본 = 프로토타입·cuRobo primitive_collision weight")
@@ -126,6 +127,7 @@ if args.meff_mode == "gain":   # (V1) gain mode: kernel slots eta0 = d_base, p =
         args.meff_muref = 0.53
     if "--meff-eta-max" not in sys.argv:
         args.meff_eta_max = 0.25
+COST_MODE = "gain_part" if (args.meff_mode == "gain" and args.meff_muref_mode == "part") else args.meff_mode   # (part)
 if args.profile:   # (T1) profile values for options not given explicitly on the command line
     import yaml as _yaml
     _pf = args.profile if args.profile.endswith((".yml", ".yaml")) else f"~/effmass_mpc/goal1/config/tuned_{args.profile}.yml"   # (live) a .yml path is used as given
@@ -292,7 +294,7 @@ if args.meff == "on":
     MEFF_MASS_ON = (_nz > 0).astype(np.int32)
     MEFF = G1M.MeffChannel(mpc, MEFF_INP, impl=args.meff_impl, direction=args.meff_dir, motion=args.meff_motion, hfront=args.meff_hfront,
                            mass_on=MEFF_MASS_ON, record_q=bool(MEFF_DUMP), speed_cap=args.speed_cap == "on")
-    MEFF.set_cost(mode=args.meff_mode, agg=args.meff_agg, w=args.meff_w, eta0=args.meff_eta0, muref=args.meff_muref, p=args.meff_p,
+    MEFF.set_cost(mode=COST_MODE, agg=args.meff_agg, w=args.meff_w, eta0=args.meff_eta0, muref=args.meff_muref, p=args.meff_p,
                   eta_min=args.meff_eta_min, eta_max=args.meff_eta_max)
     MEFF.set_speed_cap(v=args.speed_cap_v, dist=args.speed_cap_dist, w=args.speed_cap_w)
     log(f"(1-3) 비용: {MEFF.cost_state()}")
@@ -321,7 +323,7 @@ if args.meff_paired:
     elif args.meff_paired_base == "speedcap_off":   # (T1) same human cost, no speed cap term
         MEFF_OFF = G1M.MeffChannel(MPC_OFF, MEFF_INP, impl=args.meff_impl, direction=args.meff_dir, motion=args.meff_motion, hfront=args.meff_hfront,
                                    mass_on=MEFF_MASS_ON, record_q=False, speed_cap=False)
-        MEFF_OFF.set_cost(mode=args.meff_mode, agg=args.meff_agg, w=args.meff_w, eta0=args.meff_eta0, muref=args.meff_muref, p=args.meff_p,
+        MEFF_OFF.set_cost(mode=COST_MODE, agg=args.meff_agg, w=args.meff_w, eta0=args.meff_eta0, muref=args.meff_muref, p=args.meff_p,
                           eta_min=args.meff_eta_min, eta_max=args.meff_eta_max)
     log(f"(1-2d) 짝 측정: 비교 solver 하나 더 생성 ({args.meff_paired_base}; 로봇은 주 solver 명령으로 움직임)")
 STEP_ROWS = []

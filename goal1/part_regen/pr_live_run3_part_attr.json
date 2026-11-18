@@ -1,0 +1,25 @@
+{
+ "tag": "pr_live_run3_part",
+ "mode": "part",
+ "steps": 4992,
+ "stop_steps": 144,
+ "unreached_steps": 28,
+ "steps_with_cost": 117,
+ "arrivals": 41,
+ "cost_share": {
+  "hand": 0.3916612905996294,
+  "forearm": 0.0,
+  "upper_arm": 0.0,
+  "torso": 0.0,
+  "head": 0.6083387094003706,
+  "other": 0.0
+ },
+ "argmax_steps": {
+  "hand": 28.0,
+  "forearm": 0.0,
+  "upper_arm": 0.0,
+  "torso": 0.0,
+  "head": 89.0,
+  "other": 0.0
+ }
+}

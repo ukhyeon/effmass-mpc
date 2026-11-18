@@ -1,0 +1,22 @@
+{
+ "front_uniform": {
+  "original": "v1_front_0.38h1_u065_s0",
+  "n": 160,
+  "bit_equal_first_n": true
+ },
+ "front_part": {
+  "original": "pr_v2_front_part_s0",
+  "n": 185,
+  "bit_equal_first_n": true
+ },
+ "top_uniform": {
+  "original": "v1_top_0.455_u065_s0",
+  "n": 238,
+  "bit_equal_first_n": true
+ },
+ "top_part": {
+  "original": "pr_v2_top_part_s0",
+  "n": 221,
+  "bit_equal_first_n": true
+ }
+}

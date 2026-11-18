@@ -220,7 +220,10 @@ def _warp():
                         if mass_on[s] == 1:
                             ark = wp.dot(uk, inv_r[s] * uk)
                         muk = 1.0 / (ahk + ark)
-                        if md == 4:
+                        if md == 5:
+                            # (part) gain with a per-segment reference: mu_iso = 1 / (1/m_iso(segment) + 1/m_r), same robot term as mu
+                            eta = wp.clamp(eta0 + pw * wp.max(wp.sqrt(muk * (inv_iso[sk2] + ark)) - 1.0, 0.0), emin, emax)
+                        elif md == 4:
                             # (V1) gain: eta = clamp(d_base + k_gain * max(sqrt(mu / mu_ref) - 1, 0), d_base, eta_max); par: eta0 = d_base, p = k_gain, eta_min = d_base
                             eta = wp.clamp(eta0 + pw * wp.max(wp.sqrt(muk / muref) - 1.0, 0.0), emin, emax)
                         else:
@@ -319,7 +322,7 @@ class MeffChannel:
 
     def set_cost(self, mode=None, agg=None, w=None, eta0=None, muref=None, p=None, eta_min=None, eta_max=None):
         """비용 파라미터 갱신: pinned → 고정 GPU 텐서 copy_ (주소 불변, 재캡처 없음)"""
-        modes = {"off": 0, "uniform": 1, "mass": 2, "iso": 3, "gain": 4}; aggs = {"max_all": 0, "nearest": 1}
+        modes = {"off": 0, "uniform": 1, "mass": 2, "iso": 3, "gain": 4, "gain_part": 5}; aggs = {"max_all": 0, "nearest": 1}
         cur = self._par_c.numpy()
         for i, v in enumerate((w, eta0, muref, p, eta_min, eta_max)):
             if v is not None:
@@ -332,7 +335,7 @@ class MeffChannel:
 
     def cost_state(self):
         torch.cuda.synchronize()
-        inv = {0: "off", 1: "uniform", 2: "mass", 3: "iso", 4: "gain"}
+        inv = {0: "off", 1: "uniform", 2: "mass", 3: "iso", 4: "gain", 5: "gain_part"}
         return dict(mode=inv[int(self.mode[0])], agg={0: "max_all", 1: "nearest"}[int(self.agg[0])],
                     **dict(zip(["w", "eta0", "muref", "p", "eta_min", "eta_max"], [float(x) for x in self.par.cpu()])))
 

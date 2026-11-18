@@ -1,0 +1,726 @@
+{
+ "definition": "pr_zone_parts.py - (part) direction-wise zone thickness per body part, 7 postures, previous (global mu_ref 0.53) vs proposed (part).\n\nThickness of a part's zone towards a robot approaching along unit direction u (400 Fibonacci directions on the sphere):\neta(u) = clamp(d_base + k max(sqrt(mu(u)/mu_ref) - 1, 0), d_base, eta_max), mu(u) = 1 / (u Lambda_h(part) u + 1/m_r), robot point\nmass m_r 4.6 kg (as v2_zone_lib / on_wp2_zone). global: mu_ref 0.53 kg; part: mu_ref = mu_iso = 1 / (1/m_iso(part) + 1/m_r),\nm_iso from goal1/data/iso_15066.json (feet = calf). Each part is measured with its own segment(s): hand = right hand (18),\nforearm = right lower arm (16), upper arm = right upper arm (14), elbow = union of forearm and upper arm (max over the two),\ntorso = union of pelvis, abdomen, chest (0, 3, 8), head (12). Lambda_h from frame 0 of each posture file (on_wp2_postures.json).\nPer posture and part: min, max, share of directions with eta > d_base. Writes goal1/part_regen/zone_parts.json.\n",
+ "m_iso_kg": {
+  "pelvis": 40.0,
+  "left_thigh": 75.0,
+  "right_thigh": 75.0,
+  "abdomen": 40.0,
+  "left_calf": 75.0,
+  "right_calf": 75.0,
+  "left_foot": 75.0,
+  "right_foot": 75.0,
+  "chest": 40.0,
+  "neck": 1.2,
+  "left_shoulder": 40.0,
+  "right_shoulder": 40.0,
+  "head": 4.4,
+  "left_upper_arm": 3.0,
+  "right_upper_arm": 3.0,
+  "left_lower_arm": 2.0,
+  "right_lower_arm": 2.0,
+  "left_hand": 0.6,
+  "right_hand": 0.6
+ },
+ "per_posture": {
+  "P1_reach": {
+   "hand": {
+    "global": {
+     "min_cm": 6.5,
+     "max_cm": 20.192808426909377,
+     "above_base_share": 0.9725
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 20.175633500094907,
+     "above_base_share": 0.9725
+    }
+   },
+   "forearm": {
+    "global": {
+     "min_cm": 12.52320787653992,
+     "max_cm": 20.454777802413474,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 11.270940057627323,
+     "above_base_share": 0.96
+    }
+   },
+   "upper_arm": {
+    "global": {
+     "min_cm": 19.867007621775038,
+     "max_cm": 21.378416968467047,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 9.124328531576573,
+     "max_cm": 9.940887007834135,
+     "above_base_share": 1.0
+    }
+   },
+   "elbow": {
+    "global": {
+     "min_cm": 19.867007621775038,
+     "max_cm": 21.378416968467047,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 9.124328531576573,
+     "max_cm": 11.270940057627323,
+     "above_base_share": 1.0
+    }
+   },
+   "torso": {
+    "global": {
+     "min_cm": 23.82766082543652,
+     "max_cm": 24.998228278914763,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 6.7144341650537145,
+     "above_base_share": 0.3275
+    }
+   },
+   "head": {
+    "global": {
+     "min_cm": 18.431321070534736,
+     "max_cm": 21.426810079555416,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 7.146790989281687,
+     "max_cm": 8.600982703823764,
+     "above_base_share": 1.0
+    }
+   }
+  },
+  "P2_bend45": {
+   "hand": {
+    "global": {
+     "min_cm": 6.5,
+     "max_cm": 13.668483421604039,
+     "above_base_share": 0.9375
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 13.65603798073572,
+     "above_base_share": 0.9325
+    }
+   },
+   "forearm": {
+    "global": {
+     "min_cm": 12.993644183591119,
+     "max_cm": 20.787225973348704,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.670272985922342,
+     "max_cm": 11.475933485061967,
+     "above_base_share": 1.0
+    }
+   },
+   "upper_arm": {
+    "global": {
+     "min_cm": 18.116810262356474,
+     "max_cm": 21.464899656794305,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 8.178761738513693,
+     "max_cm": 9.987610400380124,
+     "above_base_share": 1.0
+    }
+   },
+   "elbow": {
+    "global": {
+     "min_cm": 18.116810262356474,
+     "max_cm": 21.464899656794305,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 8.178761738513693,
+     "max_cm": 11.475933485061967,
+     "above_base_share": 1.0
+    }
+   },
+   "torso": {
+    "global": {
+     "min_cm": 23.826469086920035,
+     "max_cm": 25.0,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 6.71827551284046,
+     "above_base_share": 0.33
+    }
+   },
+   "head": {
+    "global": {
+     "min_cm": 18.431268051623288,
+     "max_cm": 21.385340608345818,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 7.1467652506922565,
+     "max_cm": 8.580850911900027,
+     "above_base_share": 1.0
+    }
+   }
+  },
+  "P3_bend90": {
+   "hand": {
+    "global": {
+     "min_cm": 6.5,
+     "max_cm": 10.738062031549758,
+     "above_base_share": 0.8475
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 10.727740854382173,
+     "above_base_share": 0.8375
+    }
+   },
+   "forearm": {
+    "global": {
+     "min_cm": 13.071533699764537,
+     "max_cm": 21.281467681261194,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.718301040450957,
+     "max_cm": 11.780691671582035,
+     "above_base_share": 1.0
+    }
+   },
+   "upper_arm": {
+    "global": {
+     "min_cm": 17.55298552229732,
+     "max_cm": 21.467853536381273,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 7.874148119690521,
+     "max_cm": 9.989206272087452,
+     "above_base_share": 1.0
+    }
+   },
+   "elbow": {
+    "global": {
+     "min_cm": 17.55298552229732,
+     "max_cm": 21.467853536381273,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 7.874148119690521,
+     "max_cm": 11.780691671582035,
+     "above_base_share": 1.0
+    }
+   },
+   "torso": {
+    "global": {
+     "min_cm": 23.83425523028035,
+     "max_cm": 25.0,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 6.724244615594949,
+     "above_base_share": 0.3375
+    }
+   },
+   "head": {
+    "global": {
+     "min_cm": 18.431296388193548,
+     "max_cm": 21.34788562281861,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 7.146779006978981,
+     "max_cm": 8.562667994367052,
+     "above_base_share": 1.0
+    }
+   }
+  },
+  "P4_side": {
+   "hand": {
+    "global": {
+     "min_cm": 6.5,
+     "max_cm": 22.83636409895632,
+     "above_base_share": 0.975
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 22.817272857521,
+     "above_base_share": 0.9725
+    }
+   },
+   "forearm": {
+    "global": {
+     "min_cm": 12.498474609320265,
+     "max_cm": 23.254186311998897,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 12.997104901775119,
+     "above_base_share": 0.9625
+    }
+   },
+   "upper_arm": {
+    "global": {
+     "min_cm": 19.084908744525833,
+     "max_cm": 23.21044731223309,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 8.701789482915062,
+     "max_cm": 10.930665130642092,
+     "above_base_share": 1.0
+    }
+   },
+   "elbow": {
+    "global": {
+     "min_cm": 19.084908744525833,
+     "max_cm": 23.254186311998897,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 8.701789482915062,
+     "max_cm": 12.997104901775119,
+     "above_base_share": 1.0
+    }
+   },
+   "torso": {
+    "global": {
+     "min_cm": 23.851988363451255,
+     "max_cm": 24.999586033635875,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 6.71492081622639,
+     "above_base_share": 0.3275
+    }
+   },
+   "head": {
+    "global": {
+     "min_cm": 18.43132576572809,
+     "max_cm": 21.34788597459271,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 7.146793268612791,
+     "max_cm": 8.562668165139499,
+     "above_base_share": 1.0
+    }
+   }
+  },
+  "P5_up": {
+   "hand": {
+    "global": {
+     "min_cm": 6.5,
+     "max_cm": 20.668884201150235,
+     "above_base_share": 0.9725
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 20.651364166806363,
+     "above_base_share": 0.9725
+    }
+   },
+   "forearm": {
+    "global": {
+     "min_cm": 12.590580976016952,
+     "max_cm": 20.85861859737358,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 11.519955440879148,
+     "above_base_share": 0.9725
+    }
+   },
+   "upper_arm": {
+    "global": {
+     "min_cm": 19.358155824731696,
+     "max_cm": 22.30470010281424,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 8.8494147572612,
+     "max_cm": 10.441323468956377,
+     "above_base_share": 1.0
+    }
+   },
+   "elbow": {
+    "global": {
+     "min_cm": 19.358155824731696,
+     "max_cm": 22.30470010281424,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 8.8494147572612,
+     "max_cm": 11.519955440879148,
+     "above_base_share": 1.0
+    }
+   },
+   "torso": {
+    "global": {
+     "min_cm": 23.853852007493128,
+     "max_cm": 25.0,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 6.717573782962018,
+     "above_base_share": 0.34
+    }
+   },
+   "head": {
+    "global": {
+     "min_cm": 18.431352629739646,
+     "max_cm": 21.40453722053933,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 7.146806310030371,
+     "max_cm": 8.590170109638699,
+     "above_base_share": 1.0
+    }
+   }
+  },
+  "P6_handover": {
+   "hand": {
+    "global": {
+     "min_cm": 6.5,
+     "max_cm": 12.056481859481124,
+     "above_base_share": 0.9375
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 12.045204959224598,
+     "above_base_share": 0.935
+    }
+   },
+   "forearm": {
+    "global": {
+     "min_cm": 12.705627326473406,
+     "max_cm": 21.059636084674764,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 11.643906382104808,
+     "above_base_share": 0.9925
+    }
+   },
+   "upper_arm": {
+    "global": {
+     "min_cm": 17.755689359481657,
+     "max_cm": 21.77326066873938,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 7.983661493274635,
+     "max_cm": 10.154206431165699,
+     "above_base_share": 1.0
+    }
+   },
+   "elbow": {
+    "global": {
+     "min_cm": 17.755689359481657,
+     "max_cm": 21.77326066873938,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 7.983661493274635,
+     "max_cm": 11.643906382104808,
+     "above_base_share": 1.0
+    }
+   },
+   "torso": {
+    "global": {
+     "min_cm": 23.83280867086801,
+     "max_cm": 25.0,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 6.720865272600472,
+     "above_base_share": 0.3325
+    }
+   },
+   "head": {
+    "global": {
+     "min_cm": 18.43129966593627,
+     "max_cm": 21.36954421003412,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 7.146780598193738,
+     "max_cm": 8.573182383831556,
+     "above_base_share": 1.0
+    }
+   }
+  },
+  "P7_down": {
+   "hand": {
+    "global": {
+     "min_cm": 6.5,
+     "max_cm": 14.4565338452835,
+     "above_base_share": 0.97
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 14.443517146330914,
+     "above_base_share": 0.97
+    }
+   },
+   "forearm": {
+    "global": {
+     "min_cm": 12.672581561456875,
+     "max_cm": 21.10370174177832,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 11.671078046356728,
+     "above_base_share": 0.9925
+    }
+   },
+   "upper_arm": {
+    "global": {
+     "min_cm": 19.24814175606499,
+     "max_cm": 21.91314640334994,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 8.78997823169386,
+     "max_cm": 10.229781511175476,
+     "above_base_share": 1.0
+    }
+   },
+   "elbow": {
+    "global": {
+     "min_cm": 19.24814175606499,
+     "max_cm": 21.91314640334994,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 8.78997823169386,
+     "max_cm": 11.671078046356728,
+     "above_base_share": 1.0
+    }
+   },
+   "torso": {
+    "global": {
+     "min_cm": 23.829061586921526,
+     "max_cm": 25.0,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 6.5,
+     "max_cm": 6.719400029540225,
+     "above_base_share": 0.33
+    }
+   },
+   "head": {
+    "global": {
+     "min_cm": 18.43127695557189,
+     "max_cm": 21.38201764022501,
+     "above_base_share": 1.0
+    },
+    "part": {
+     "min_cm": 7.146769573207959,
+     "max_cm": 8.579237741998748,
+     "above_base_share": 1.0
+    }
+   }
+  }
+ },
+ "summary": {
+  "hand": {
+   "global": {
+    "min_cm_range": [
+     6.5,
+     6.5
+    ],
+    "max_cm_range": [
+     10.738062031549758,
+     22.83636409895632
+    ],
+    "above_base_share_range": [
+     0.8475,
+     0.975
+    ]
+   },
+   "part": {
+    "min_cm_range": [
+     6.5,
+     6.5
+    ],
+    "max_cm_range": [
+     10.727740854382173,
+     22.817272857521
+    ],
+    "above_base_share_range": [
+     0.8375,
+     0.9725
+    ]
+   }
+  },
+  "forearm": {
+   "global": {
+    "min_cm_range": [
+     12.498474609320265,
+     13.071533699764537
+    ],
+    "max_cm_range": [
+     20.454777802413474,
+     23.254186311998897
+    ],
+    "above_base_share_range": [
+     1.0,
+     1.0
+    ]
+   },
+   "part": {
+    "min_cm_range": [
+     6.5,
+     6.718301040450957
+    ],
+    "max_cm_range": [
+     11.270940057627323,
+     12.997104901775119
+    ],
+    "above_base_share_range": [
+     0.96,
+     1.0
+    ]
+   }
+  },
+  "upper_arm": {
+   "global": {
+    "min_cm_range": [
+     17.55298552229732,
+     19.867007621775038
+    ],
+    "max_cm_range": [
+     21.378416968467047,
+     23.21044731223309
+    ],
+    "above_base_share_range": [
+     1.0,
+     1.0
+    ]
+   },
+   "part": {
+    "min_cm_range": [
+     7.874148119690521,
+     9.124328531576573
+    ],
+    "max_cm_range": [
+     9.940887007834135,
+     10.930665130642092
+    ],
+    "above_base_share_range": [
+     1.0,
+     1.0
+    ]
+   }
+  },
+  "elbow": {
+   "global": {
+    "min_cm_range": [
+     17.55298552229732,
+     19.867007621775038
+    ],
+    "max_cm_range": [
+     21.378416968467047,
+     23.254186311998897
+    ],
+    "above_base_share_range": [
+     1.0,
+     1.0
+    ]
+   },
+   "part": {
+    "min_cm_range": [
+     7.874148119690521,
+     9.124328531576573
+    ],
+    "max_cm_range": [
+     11.270940057627323,
+     12.997104901775119
+    ],
+    "above_base_share_range": [
+     1.0,
+     1.0
+    ]
+   }
+  },
+  "torso": {
+   "global": {
+    "min_cm_range": [
+     23.826469086920035,
+     23.853852007493128
+    ],
+    "max_cm_range": [
+     24.998228278914763,
+     25.0
+    ],
+    "above_base_share_range": [
+     1.0,
+     1.0
+    ]
+   },
+   "part": {
+    "min_cm_range": [
+     6.5,
+     6.5
+    ],
+    "max_cm_range": [
+     6.7144341650537145,
+     6.724244615594949
+    ],
+    "above_base_share_range": [
+     0.3275,
+     0.34
+    ]
+   }
+  },
+  "head": {
+   "global": {
+    "min_cm_range": [
+     18.431268051623288,
+     18.431352629739646
+    ],
+    "max_cm_range": [
+     21.34788562281861,
+     21.426810079555416
+    ],
+    "above_base_share_range": [
+     1.0,
+     1.0
+    ]
+   },
+   "part": {
+    "min_cm_range": [
+     7.1467652506922565,
+     7.146806310030371
+    ],
+    "max_cm_range": [
+     8.562667994367052,
+     8.600982703823764
+    ],
+    "above_base_share_range": [
+     1.0,
+     1.0
+    ]
+   }
+  }
+ }
+}

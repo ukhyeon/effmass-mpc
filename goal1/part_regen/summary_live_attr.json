@@ -1,0 +1,102 @@
+{
+ "run3_global": {
+  "tag": "pr_live_run3_global",
+  "mode": "global",
+  "steps": 4992,
+  "stop_steps": 327,
+  "unreached_steps": 13,
+  "steps_with_cost": 288,
+  "arrivals": 35,
+  "cost_share": {
+   "hand": 0.13266040963978531,
+   "forearm": 0.02898510793201072,
+   "upper_arm": 0.0,
+   "torso": 0.0,
+   "head": 0.8383544824282039,
+   "other": 0.0
+  },
+  "argmax_steps": {
+   "hand": 33.0,
+   "forearm": 22.0,
+   "upper_arm": 0.0,
+   "torso": 0.0,
+   "head": 233.0,
+   "other": 0.0
+  }
+ },
+ "run3_part": {
+  "tag": "pr_live_run3_part",
+  "mode": "part",
+  "steps": 4992,
+  "stop_steps": 144,
+  "unreached_steps": 28,
+  "steps_with_cost": 117,
+  "arrivals": 41,
+  "cost_share": {
+   "hand": 0.3916612905996294,
+   "forearm": 0.0,
+   "upper_arm": 0.0,
+   "torso": 0.0,
+   "head": 0.6083387094003706,
+   "other": 0.0
+  },
+  "argmax_steps": {
+   "hand": 28.0,
+   "forearm": 0.0,
+   "upper_arm": 0.0,
+   "torso": 0.0,
+   "head": 89.0,
+   "other": 0.0
+  }
+ },
+ "run5_ours_global": {
+  "tag": "pr_live_run5_ours_global",
+  "mode": "global",
+  "steps": 4668,
+  "stop_steps": 452,
+  "unreached_steps": 10,
+  "steps_with_cost": 452,
+  "arrivals": 13,
+  "cost_share": {
+   "hand": 0.0,
+   "forearm": 0.7411458525488284,
+   "upper_arm": 0.1664256606280788,
+   "torso": 0.0,
+   "head": 0.09242848682309282,
+   "other": 0.0
+  },
+  "argmax_steps": {
+   "hand": 0.0,
+   "forearm": 203.0,
+   "upper_arm": 165.0,
+   "torso": 0.0,
+   "head": 84.0,
+   "other": 0.0
+  }
+ },
+ "run5_ours_part": {
+  "tag": "pr_live_run5_ours_part",
+  "mode": "part",
+  "steps": 4668,
+  "stop_steps": 597,
+  "unreached_steps": 10,
+  "steps_with_cost": 597,
+  "arrivals": 20,
+  "cost_share": {
+   "hand": 0.0,
+   "forearm": 0.17778898138527213,
+   "upper_arm": 0.6873179660726941,
+   "torso": 0.0,
+   "head": 0.13489305254203374,
+   "other": 0.0
+  },
+  "argmax_steps": {
+   "hand": 0.0,
+   "forearm": 90.0,
+   "upper_arm": 455.0,
+   "torso": 0.0,
+   "head": 52.0,
+   "other": 0.0
+  }
+ }
+}

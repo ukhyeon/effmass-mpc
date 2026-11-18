@@ -1,0 +1,2348 @@
+[
+ {
+  "tag": "on4_M1_v025_gk000_s0",
+  "human": "human_on4_M1_v025_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v025",
+  "cond": "gk000",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.169,
+  "solver_ms_mean": 9.572667520891363,
+  "solver_ms_p99": 11.017154999999999,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 27,
+  "round_trip_s": 4.339506172839506,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.053016402360507225,
+  "min_gap_mesh": 0.04914908562776949,
+  "v_near_p99": 0.4759169301606261,
+  "stalls": 1,
+  "stall_time_s": 0.55,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 58.11666666666667,
+    "dur_s": 0.55,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.141070514643349,
+  "jerk_rms": 23.83535163523834,
+  "arrived": true,
+  "arrival_s": 2.15
+ },
+ {
+  "tag": "on4_M1_v025_gk000_s1",
+  "human": "human_on4_M1_v025_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v025",
+  "cond": "gk000",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.184,
+  "solver_ms_mean": 9.52241426183844,
+  "solver_ms_p99": 10.596029,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 26,
+  "round_trip_s": 4.492307692307692,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.027985695178718573,
+  "min_gap_mesh": 0.024483357332432204,
+  "v_near_p99": 0.4723620409803095,
+  "stalls": 3,
+  "stall_time_s": 1.9666666666666666,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 3.8,
+    "dur_s": 0.7833333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 46.05,
+    "dur_s": 0.5666666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 52.9,
+    "dur_s": 0.6166666666666667,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.1928770359253422,
+  "jerk_rms": 23.734864296350615,
+  "arrived": true,
+  "arrival_s": 1.9833333333333334
+ },
+ {
+  "tag": "on4_M1_v025_gk000_s2",
+  "human": "human_on4_M1_v025_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v025",
+  "cond": "gk000",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.188,
+  "solver_ms_mean": 9.47612339832869,
+  "solver_ms_p99": 10.404933000000002,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 27,
+  "round_trip_s": 4.286419753086419,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.04131792194069725,
+  "min_gap_mesh": 0.036863994718565773,
+  "v_near_p99": 0.49324858518843867,
+  "stalls": 2,
+  "stall_time_s": 1.3833333333333333,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 15.416666666666666,
+    "dur_s": 0.7333333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 24.516666666666666,
+    "dur_s": 0.65,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.2488403987759635,
+  "jerk_rms": 26.158153050994212,
+  "arrived": true,
+  "arrival_s": 1.9666666666666666
+ },
+ {
+  "tag": "on4_M1_v025_gain_s0",
+  "human": "human_on4_M1_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v025",
+  "cond": "gain",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.189,
+  "solver_ms_mean": 9.48204103064067,
+  "solver_ms_p99": 10.279768,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 27,
+  "round_trip_s": 4.423456790123457,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.07530918001059894,
+  "min_gap_mesh": 0.07033376178687945,
+  "v_near_p99": 0.47346707108066255,
+  "stalls": 0,
+  "stall_time_s": 0.0,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [],
+  "acc_rms": 1.1980938970243347,
+  "jerk_rms": 25.10696084894501,
+  "arrived": true,
+  "arrival_s": 2.316666666666667
+ },
+ {
+  "tag": "on4_M1_v025_gain_s1",
+  "human": "human_on4_M1_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v025",
+  "cond": "gain",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.192,
+  "solver_ms_mean": 9.457159025069636,
+  "solver_ms_p99": 10.351492,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 25,
+  "round_trip_s": 4.613333333333333,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.06566176691600797,
+  "min_gap_mesh": 0.06092983608865323,
+  "v_near_p99": 0.47213449396150137,
+  "stalls": 4,
+  "stall_time_s": 2.216666666666667,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 13.033333333333333,
+    "dur_s": 0.5166666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 15.666666666666666,
+    "dur_s": 0.5333333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 18.466666666666665,
+    "dur_s": 0.6666666666666666,
+    "at_goal": true
+   },
+   {
+    "start_s": 22.783333333333335,
+    "dur_s": 0.5,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.2239923511607227,
+  "jerk_rms": 23.94069720035621,
+  "arrived": true,
+  "arrival_s": 1.9666666666666666
+ },
+ {
+  "tag": "on4_M1_v025_gain_s2",
+  "human": "human_on4_M1_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v025",
+  "cond": "gain",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.201,
+  "solver_ms_mean": 9.382059442896935,
+  "solver_ms_p99": 10.217918000000003,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 27,
+  "round_trip_s": 4.42962962962963,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.0759956811381926,
+  "min_gap_mesh": 0.07298005786905234,
+  "v_near_p99": 0.48545028417201863,
+  "stalls": 3,
+  "stall_time_s": 1.9,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 6.333333333333333,
+    "dur_s": 0.5,
+    "at_goal": true
+   },
+   {
+    "start_s": 31.216666666666665,
+    "dur_s": 0.6833333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 56.95,
+    "dur_s": 0.7166666666666667,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.2797690330318632,
+  "jerk_rms": 26.049627739102533,
+  "arrived": true,
+  "arrival_s": 1.8666666666666667
+ },
+ {
+  "tag": "on4_M1_v025_part_s0",
+  "human": "human_on4_M1_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v025",
+  "cond": "part",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.016,
+  "solver_ms_mean": 10.796871977715877,
+  "solver_ms_p99": 13.215623000000003,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 26,
+  "round_trip_s": 4.415384615384616,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.06288028652883232,
+  "min_gap_mesh": 0.0570127000954535,
+  "v_near_p99": 0.47295047893650305,
+  "stalls": 0,
+  "stall_time_s": 0.0,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [],
+  "acc_rms": 1.1574445522295678,
+  "jerk_rms": 24.617494637158195,
+  "arrived": true,
+  "arrival_s": 2.15
+ },
+ {
+  "tag": "on4_M1_v025_part_s1",
+  "human": "human_on4_M1_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v025",
+  "cond": "part",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.121,
+  "solver_ms_mean": 9.930175988857938,
+  "solver_ms_p99": 16.138559,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 26,
+  "round_trip_s": 4.5346153846153845,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.06779583251307555,
+  "min_gap_mesh": 0.06302106496951411,
+  "v_near_p99": 0.47164390634551684,
+  "stalls": 3,
+  "stall_time_s": 1.9166666666666667,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 3.8,
+    "dur_s": 0.7833333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 24.266666666666666,
+    "dur_s": 0.5166666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 40.583333333333336,
+    "dur_s": 0.6166666666666667,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.2318341676960005,
+  "jerk_rms": 24.440388783970093,
+  "arrived": true,
+  "arrival_s": 1.9833333333333334
+ },
+ {
+  "tag": "on4_M1_v025_part_s2",
+  "human": "human_on4_M1_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v025",
+  "cond": "part",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.162,
+  "solver_ms_mean": 9.634564456824513,
+  "solver_ms_p99": 11.435866,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 27,
+  "round_trip_s": 4.404938271604939,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.06911880197912515,
+  "min_gap_mesh": 0.06527900441042511,
+  "v_near_p99": 0.4898943358411522,
+  "stalls": 3,
+  "stall_time_s": 1.7333333333333334,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 6.35,
+    "dur_s": 0.5833333333333334,
+    "at_goal": true
+   },
+   {
+    "start_s": 39.583333333333336,
+    "dur_s": 0.6,
+    "at_goal": true
+   },
+   {
+    "start_s": 48.38333333333333,
+    "dur_s": 0.55,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.2312393695350898,
+  "jerk_rms": 25.36385976635437,
+  "arrived": true,
+  "arrival_s": 1.9666666666666666
+ },
+ {
+  "tag": "on4_M1_v050_gk000_s0",
+  "human": "human_on4_M1_v050_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v050",
+  "cond": "gk000",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.192,
+  "solver_ms_mean": 9.464956991643454,
+  "solver_ms_p99": 10.44638,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 28,
+  "round_trip_s": 4.283333333333333,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.030348796519655635,
+  "min_gap_mesh": 0.029224398089397446,
+  "v_near_p99": 0.4745986689187139,
+  "stalls": 0,
+  "stall_time_s": 0.0,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [],
+  "acc_rms": 1.1779337929620692,
+  "jerk_rms": 24.43881713362801,
+  "arrived": true,
+  "arrival_s": 2.15
+ },
+ {
+  "tag": "on4_M1_v050_gk000_s1",
+  "human": "human_on4_M1_v050_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v050",
+  "cond": "gk000",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.195,
+  "solver_ms_mean": 9.457262534818941,
+  "solver_ms_p99": 10.482124,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 26,
+  "round_trip_s": 4.574358974358974,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.035073064725502145,
+  "min_gap_mesh": 0.036923329489994855,
+  "v_near_p99": 0.4717671085340561,
+  "stalls": 3,
+  "stall_time_s": 1.95,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 9.05,
+    "dur_s": 0.6,
+    "at_goal": true
+   },
+   {
+    "start_s": 11.666666666666666,
+    "dur_s": 0.7166666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 36.85,
+    "dur_s": 0.6333333333333333,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.1637156025062494,
+  "jerk_rms": 23.60850373512502,
+  "arrived": true,
+  "arrival_s": 1.9833333333333334
+ },
+ {
+  "tag": "on4_M1_v050_gk000_s2",
+  "human": "human_on4_M1_v050_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v050",
+  "cond": "gk000",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.205,
+  "solver_ms_mean": 9.363592116991644,
+  "solver_ms_p99": 10.148954999999999,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 27,
+  "round_trip_s": 4.355555555555555,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.0389388791655623,
+  "min_gap_mesh": 0.03029548072112464,
+  "v_near_p99": 0.4923332955811653,
+  "stalls": 3,
+  "stall_time_s": 1.85,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 4.166666666666667,
+    "dur_s": 0.7333333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 11.116666666666667,
+    "dur_s": 0.6166666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 56.4,
+    "dur_s": 0.5,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.2432277319550717,
+  "jerk_rms": 26.110010961855984,
+  "arrived": true,
+  "arrival_s": 1.9666666666666666
+ },
+ {
+  "tag": "on4_M1_v050_gain_s0",
+  "human": "human_on4_M1_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v050",
+  "cond": "gain",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.185,
+  "solver_ms_mean": 9.525166378830084,
+  "solver_ms_p99": 10.385800000000001,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 27,
+  "round_trip_s": 4.393827160493827,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.047387946733624314,
+  "min_gap_mesh": 0.046574088927531426,
+  "v_near_p99": 0.47452341661572695,
+  "stalls": 0,
+  "stall_time_s": 0.0,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [],
+  "acc_rms": 1.2015013307593676,
+  "jerk_rms": 24.51525209276557,
+  "arrived": true,
+  "arrival_s": 2.316666666666667
+ },
+ {
+  "tag": "on4_M1_v050_gain_s1",
+  "human": "human_on4_M1_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v050",
+  "cond": "gain",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.191,
+  "solver_ms_mean": 9.471533788300835,
+  "solver_ms_p99": 10.394953000000001,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 25,
+  "round_trip_s": 4.6786666666666665,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.07695034218501272,
+  "min_gap_mesh": 0.07919413171313222,
+  "v_near_p99": 0.47047465264125,
+  "stalls": 4,
+  "stall_time_s": 2.3666666666666667,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 4.166666666666667,
+    "dur_s": 0.5166666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 9.1,
+    "dur_s": 0.5833333333333334,
+    "at_goal": true
+   },
+   {
+    "start_s": 28.266666666666666,
+    "dur_s": 0.65,
+    "at_goal": true
+   },
+   {
+    "start_s": 37.416666666666664,
+    "dur_s": 0.6166666666666667,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.2252915579750459,
+  "jerk_rms": 24.407013510101002,
+  "arrived": true,
+  "arrival_s": 1.9666666666666666
+ },
+ {
+  "tag": "on4_M1_v050_gain_s2",
+  "human": "human_on4_M1_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v050",
+  "cond": "gain",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.184,
+  "solver_ms_mean": 9.519805682451254,
+  "solver_ms_p99": 10.433378000000001,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 27,
+  "round_trip_s": 4.403703703703704,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.06473285320940794,
+  "min_gap_mesh": 0.05785563555698272,
+  "v_near_p99": 0.48819496224097053,
+  "stalls": 1,
+  "stall_time_s": 0.65,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 10.916666666666666,
+    "dur_s": 0.65,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.2764086393774914,
+  "jerk_rms": 26.52481661793832,
+  "arrived": true,
+  "arrival_s": 1.8666666666666667
+ },
+ {
+  "tag": "on4_M1_v050_part_s0",
+  "human": "human_on4_M1_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v050",
+  "cond": "part",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.117,
+  "solver_ms_mean": 9.985354763231198,
+  "solver_ms_p99": 12.371384,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 27,
+  "round_trip_s": 4.333333333333333,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.0449462826489519,
+  "min_gap_mesh": 0.037524491051265436,
+  "v_near_p99": 0.4735963164620945,
+  "stalls": 2,
+  "stall_time_s": 1.1166666666666667,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 9.133333333333333,
+    "dur_s": 0.6166666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 14.366666666666667,
+    "dur_s": 0.5,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.180371630984765,
+  "jerk_rms": 24.454979517223798,
+  "arrived": true,
+  "arrival_s": 2.15
+ },
+ {
+  "tag": "on4_M1_v050_part_s1",
+  "human": "human_on4_M1_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v050",
+  "cond": "part",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.148,
+  "solver_ms_mean": 9.744750863509749,
+  "solver_ms_p99": 11.568491000000002,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 26,
+  "round_trip_s": 4.521794871794872,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.040649667311728484,
+  "min_gap_mesh": 0.03331610294034642,
+  "v_near_p99": 0.4728405983647457,
+  "stalls": 3,
+  "stall_time_s": 1.7333333333333334,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 8.5,
+    "dur_s": 0.6,
+    "at_goal": true
+   },
+   {
+    "start_s": 13.833333333333334,
+    "dur_s": 0.5833333333333334,
+    "at_goal": true
+   },
+   {
+    "start_s": 25.483333333333334,
+    "dur_s": 0.55,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.1920962031774942,
+  "jerk_rms": 24.845970908690365,
+  "arrived": true,
+  "arrival_s": 1.9833333333333334
+ },
+ {
+  "tag": "on4_M1_v050_part_s2",
+  "human": "human_on4_M1_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "hold",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M1",
+  "speed": "v050",
+  "cond": "part",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.169,
+  "solver_ms_mean": 9.60567069637883,
+  "solver_ms_p99": 10.979271,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 27,
+  "round_trip_s": 4.419753086419753,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.042736020135498966,
+  "min_gap_mesh": 0.036172045165858056,
+  "v_near_p99": 0.4895938391513175,
+  "stalls": 3,
+  "stall_time_s": 1.6166666666666667,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 11.166666666666666,
+    "dur_s": 0.5833333333333334,
+    "at_goal": true
+   },
+   {
+    "start_s": 44.31666666666667,
+    "dur_s": 0.5333333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 57.516666666666666,
+    "dur_s": 0.5,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 1.2792860372574373,
+  "jerk_rms": 25.5602456343285,
+  "arrived": true,
+  "arrival_s": 1.9666666666666666
+ },
+ {
+  "tag": "on4_M2_v025_gk000_s0",
+  "human": "human_on4_M2_v025_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v025",
+  "cond": "gk000",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.181,
+  "solver_ms_mean": 9.59677356545961,
+  "solver_ms_p99": 10.553399,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 18,
+  "round_trip_s": 6.111111111111111,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.02625641652336899,
+  "min_gap_mesh": 0.036514764529485946,
+  "v_near_p99": 0.47324416924655716,
+  "stalls": 6,
+  "stall_time_s": 11.1,
+  "stalls_not_at_goal": 4,
+  "stall_time_not_at_goal_s": 9.950000000000001,
+  "stall_list": [
+   {
+    "start_s": 4.466666666666667,
+    "dur_s": 0.5833333333333334,
+    "at_goal": true
+   },
+   {
+    "start_s": 13.1,
+    "dur_s": 2.783333333333333,
+    "at_goal": false
+   },
+   {
+    "start_s": 31.116666666666667,
+    "dur_s": 2.683333333333333,
+    "at_goal": false
+   },
+   {
+    "start_s": 38.75,
+    "dur_s": 0.5666666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 40.1,
+    "dur_s": 2.65,
+    "at_goal": false
+   },
+   {
+    "start_s": 58.166666666666664,
+    "dur_s": 1.8333333333333333,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.8532756974409204,
+  "jerk_rms": 20.44530379382924,
+  "arrived": true,
+  "arrival_s": 2.183333333333333
+ },
+ {
+  "tag": "on4_M2_v025_gk000_s1",
+  "human": "human_on4_M2_v025_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v025",
+  "cond": "gk000",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.186,
+  "solver_ms_mean": 9.553697883008356,
+  "solver_ms_p99": 10.464958000000001,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 16,
+  "round_trip_s": 6.908333333333333,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.02525633808852304,
+  "min_gap_mesh": 0.03434575796490341,
+  "v_near_p99": 0.47134607359617947,
+  "stalls": 10,
+  "stall_time_s": 15.733333333333333,
+  "stalls_not_at_goal": 5,
+  "stall_time_not_at_goal_s": 12.633333333333335,
+  "stall_list": [
+   {
+    "start_s": 4.383333333333334,
+    "dur_s": 0.55,
+    "at_goal": true
+   },
+   {
+    "start_s": 9.6,
+    "dur_s": 0.5333333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 14.733333333333333,
+    "dur_s": 0.6333333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 22.216666666666665,
+    "dur_s": 2.6333333333333333,
+    "at_goal": false
+   },
+   {
+    "start_s": 31.233333333333334,
+    "dur_s": 2.65,
+    "at_goal": false
+   },
+   {
+    "start_s": 40.266666666666666,
+    "dur_s": 2.4833333333333334,
+    "at_goal": false
+   },
+   {
+    "start_s": 46.0,
+    "dur_s": 0.8,
+    "at_goal": true
+   },
+   {
+    "start_s": 49.25,
+    "dur_s": 2.966666666666667,
+    "at_goal": false
+   },
+   {
+    "start_s": 54.75,
+    "dur_s": 0.5833333333333334,
+    "at_goal": true
+   },
+   {
+    "start_s": 58.1,
+    "dur_s": 1.9,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.809950849281185,
+  "jerk_rms": 18.63227215078178,
+  "arrived": true,
+  "arrival_s": 2.1166666666666667
+ },
+ {
+  "tag": "on4_M2_v025_gk000_s2",
+  "human": "human_on4_M2_v025_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v025",
+  "cond": "gk000",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.17,
+  "solver_ms_mean": 9.659183621169918,
+  "solver_ms_p99": 10.640160000000002,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 18,
+  "round_trip_s": 6.651851851851852,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.03267345503002675,
+  "min_gap_mesh": 0.031150133627040305,
+  "v_near_p99": 0.47296018005393303,
+  "stalls": 5,
+  "stall_time_s": 10.45,
+  "stalls_not_at_goal": 4,
+  "stall_time_not_at_goal_s": 9.95,
+  "stall_list": [
+   {
+    "start_s": 1.9666666666666666,
+    "dur_s": 0.5,
+    "at_goal": true
+   },
+   {
+    "start_s": 13.433333333333334,
+    "dur_s": 2.3666666666666667,
+    "at_goal": false
+   },
+   {
+    "start_s": 22.05,
+    "dur_s": 2.8,
+    "at_goal": false
+   },
+   {
+    "start_s": 31.383333333333333,
+    "dur_s": 2.2666666666666666,
+    "at_goal": false
+   },
+   {
+    "start_s": 40.2,
+    "dur_s": 2.5166666666666666,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.8290624027157129,
+  "jerk_rms": 20.210463420889745,
+  "arrived": true,
+  "arrival_s": 2.35
+ },
+ {
+  "tag": "on4_M2_v025_gain_s0",
+  "human": "human_on4_M2_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v025",
+  "cond": "gain",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.173,
+  "solver_ms_mean": 9.636858718662953,
+  "solver_ms_p99": 10.561931000000001,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 14,
+  "round_trip_s": 7.940476190476192,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.03557585351624319,
+  "min_gap_mesh": 0.04421054061466877,
+  "v_near_p99": 0.471340766709379,
+  "stalls": 10,
+  "stall_time_s": 13.583333333333334,
+  "stalls_not_at_goal": 6,
+  "stall_time_not_at_goal_s": 11.233333333333333,
+  "stall_list": [
+   {
+    "start_s": 8.016666666666667,
+    "dur_s": 0.5166666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 10.65,
+    "dur_s": 0.5333333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 13.8,
+    "dur_s": 1.8333333333333333,
+    "at_goal": false
+   },
+   {
+    "start_s": 19.616666666666667,
+    "dur_s": 0.65,
+    "at_goal": true
+   },
+   {
+    "start_s": 22.8,
+    "dur_s": 1.8166666666666667,
+    "at_goal": false
+   },
+   {
+    "start_s": 28.666666666666668,
+    "dur_s": 0.65,
+    "at_goal": true
+   },
+   {
+    "start_s": 32.13333333333333,
+    "dur_s": 1.4833333333333334,
+    "at_goal": false
+   },
+   {
+    "start_s": 40.666666666666664,
+    "dur_s": 2.05,
+    "at_goal": false
+   },
+   {
+    "start_s": 49.266666666666666,
+    "dur_s": 2.3333333333333335,
+    "at_goal": false
+   },
+   {
+    "start_s": 58.28333333333333,
+    "dur_s": 1.7166666666666666,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.8219415644585779,
+  "jerk_rms": 19.724412235285367,
+  "arrived": true,
+  "arrival_s": 2.3666666666666667
+ },
+ {
+  "tag": "on4_M2_v025_gain_s1",
+  "human": "human_on4_M2_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v025",
+  "cond": "gain",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.171,
+  "solver_ms_mean": 9.671230612813371,
+  "solver_ms_p99": 10.651863,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 12,
+  "round_trip_s": 9.344444444444443,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.04238106716438586,
+  "min_gap_mesh": 0.06225193966100477,
+  "v_near_p99": 0.46989177633082857,
+  "stalls": 11,
+  "stall_time_s": 18.333333333333332,
+  "stalls_not_at_goal": 8,
+  "stall_time_not_at_goal_s": 16.4,
+  "stall_list": [
+   {
+    "start_s": 4.216666666666667,
+    "dur_s": 2.5833333333333335,
+    "at_goal": false
+   },
+   {
+    "start_s": 9.2,
+    "dur_s": 0.6333333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 13.166666666666666,
+    "dur_s": 2.65,
+    "at_goal": false
+   },
+   {
+    "start_s": 22.233333333333334,
+    "dur_s": 1.6,
+    "at_goal": false
+   },
+   {
+    "start_s": 23.866666666666667,
+    "dur_s": 0.9333333333333333,
+    "at_goal": false
+   },
+   {
+    "start_s": 27.95,
+    "dur_s": 0.6666666666666666,
+    "at_goal": true
+   },
+   {
+    "start_s": 31.066666666666666,
+    "dur_s": 2.566666666666667,
+    "at_goal": false
+   },
+   {
+    "start_s": 40.4,
+    "dur_s": 2.433333333333333,
+    "at_goal": false
+   },
+   {
+    "start_s": 46.333333333333336,
+    "dur_s": 0.6333333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 49.71666666666667,
+    "dur_s": 2.1666666666666665,
+    "at_goal": false
+   },
+   {
+    "start_s": 58.53333333333333,
+    "dur_s": 1.4666666666666666,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.7572466889472972,
+  "jerk_rms": 17.726469148489606,
+  "arrived": true,
+  "arrival_s": 9.75
+ },
+ {
+  "tag": "on4_M2_v025_gain_s2",
+  "human": "human_on4_M2_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v025",
+  "cond": "gain",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.159,
+  "solver_ms_mean": 9.784258913649024,
+  "solver_ms_p99": 10.6751,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 14,
+  "round_trip_s": 7.995238095238094,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.04298253930792505,
+  "min_gap_mesh": 0.06454170670692724,
+  "v_near_p99": 0.4728282556355003,
+  "stalls": 10,
+  "stall_time_s": 13.516666666666667,
+  "stalls_not_at_goal": 6,
+  "stall_time_not_at_goal_s": 11.233333333333334,
+  "stall_list": [
+   {
+    "start_s": 8.35,
+    "dur_s": 0.7333333333333333,
+    "at_goal": true
+   },
+   {
+    "start_s": 11.066666666666666,
+    "dur_s": 0.55,
+    "at_goal": true
+   },
+   {
+    "start_s": 14.25,
+    "dur_s": 1.4,
+    "at_goal": false
+   },
+   {
+    "start_s": 17.3,
+    "dur_s": 0.5,
+    "at_goal": true
+   },
+   {
+    "start_s": 22.466666666666665,
+    "dur_s": 2.2,
+    "at_goal": false
+   },
+   {
+    "start_s": 31.433333333333334,
+    "dur_s": 2.3,
+    "at_goal": false
+   },
+   {
+    "start_s": 35.2,
+    "dur_s": 0.5,
+    "at_goal": true
+   },
+   {
+    "start_s": 40.88333333333333,
+    "dur_s": 1.6833333333333333,
+    "at_goal": false
+   },
+   {
+    "start_s": 49.516666666666666,
+    "dur_s": 2.2,
+    "at_goal": false
+   },
+   {
+    "start_s": 58.55,
+    "dur_s": 1.45,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.7919728176936384,
+  "jerk_rms": 20.12064200184543,
+  "arrived": true,
+  "arrival_s": 2.2666666666666666
+ },
+ {
+  "tag": "on4_M2_v025_part_s0",
+  "human": "human_on4_M2_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v025",
+  "cond": "part",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.094,
+  "solver_ms_mean": 10.23990766016713,
+  "solver_ms_p99": 12.942986000000003,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 20,
+  "round_trip_s": 5.545,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.03636439055823912,
+  "min_gap_mesh": 0.04065128691314862,
+  "v_near_p99": 0.4730492592866426,
+  "stalls": 3,
+  "stall_time_s": 6.383333333333334,
+  "stalls_not_at_goal": 3,
+  "stall_time_not_at_goal_s": 6.383333333333334,
+  "stall_list": [
+   {
+    "start_s": 13.366666666666667,
+    "dur_s": 2.2666666666666666,
+    "at_goal": false
+   },
+   {
+    "start_s": 31.266666666666666,
+    "dur_s": 2.35,
+    "at_goal": false
+   },
+   {
+    "start_s": 58.233333333333334,
+    "dur_s": 1.7666666666666666,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.9404303616800194,
+  "jerk_rms": 20.85850730169594,
+  "arrived": true,
+  "arrival_s": 2.1166666666666667
+ },
+ {
+  "tag": "on4_M2_v025_part_s1",
+  "human": "human_on4_M2_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v025",
+  "cond": "part",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.125,
+  "solver_ms_mean": 9.985330083565461,
+  "solver_ms_p99": 11.867088,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 14,
+  "round_trip_s": 7.895238095238095,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.03553148162093801,
+  "min_gap_mesh": 0.042962415792502956,
+  "v_near_p99": 0.46791792591248327,
+  "stalls": 8,
+  "stall_time_s": 14.783333333333333,
+  "stalls_not_at_goal": 6,
+  "stall_time_not_at_goal_s": 13.483333333333334,
+  "stall_list": [
+   {
+    "start_s": 4.75,
+    "dur_s": 0.5833333333333334,
+    "at_goal": true
+   },
+   {
+    "start_s": 9.85,
+    "dur_s": 0.7166666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 13.166666666666666,
+    "dur_s": 2.566666666666667,
+    "at_goal": false
+   },
+   {
+    "start_s": 22.35,
+    "dur_s": 2.283333333333333,
+    "at_goal": false
+   },
+   {
+    "start_s": 31.5,
+    "dur_s": 2.2333333333333334,
+    "at_goal": false
+   },
+   {
+    "start_s": 40.333333333333336,
+    "dur_s": 2.35,
+    "at_goal": false
+   },
+   {
+    "start_s": 49.266666666666666,
+    "dur_s": 2.4,
+    "at_goal": false
+   },
+   {
+    "start_s": 58.35,
+    "dur_s": 1.65,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.7615871520811007,
+  "jerk_rms": 18.442473740733163,
+  "arrived": true,
+  "arrival_s": 2.3333333333333335
+ },
+ {
+  "tag": "on4_M2_v025_part_s2",
+  "human": "human_on4_M2_v025_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v025",
+  "cond": "part",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.122,
+  "solver_ms_mean": 9.990473676880223,
+  "solver_ms_p99": 11.927457000000002,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 18,
+  "round_trip_s": 6.161111111111111,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.03831425615112101,
+  "min_gap_mesh": 0.04173280402722676,
+  "v_near_p99": 0.4729009799579384,
+  "stalls": 4,
+  "stall_time_s": 8.75,
+  "stalls_not_at_goal": 4,
+  "stall_time_not_at_goal_s": 8.75,
+  "stall_list": [
+   {
+    "start_s": 13.316666666666666,
+    "dur_s": 2.3,
+    "at_goal": false
+   },
+   {
+    "start_s": 22.166666666666668,
+    "dur_s": 2.433333333333333,
+    "at_goal": false
+   },
+   {
+    "start_s": 40.25,
+    "dur_s": 2.3333333333333335,
+    "at_goal": false
+   },
+   {
+    "start_s": 58.31666666666667,
+    "dur_s": 1.6833333333333333,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.8636923451890024,
+  "jerk_rms": 20.91546159816581,
+  "arrived": true,
+  "arrival_s": 2.3333333333333335
+ },
+ {
+  "tag": "on4_M2_v050_gk000_s0",
+  "human": "human_on4_M2_v050_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v050",
+  "cond": "gk000",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.174,
+  "solver_ms_mean": 9.619820417827297,
+  "solver_ms_p99": 10.580305000000001,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 21,
+  "round_trip_s": 5.676190476190477,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.006179481581620211,
+  "min_gap_mesh": 0.015776259790999184,
+  "v_near_p99": 0.47357287078492794,
+  "stalls": 7,
+  "stall_time_s": 6.65,
+  "stalls_not_at_goal": 7,
+  "stall_time_not_at_goal_s": 6.6499999999999995,
+  "stall_list": [
+   {
+    "start_s": 22.15,
+    "dur_s": 0.7,
+    "at_goal": false
+   },
+   {
+    "start_s": 27.8,
+    "dur_s": 1.0666666666666667,
+    "at_goal": false
+   },
+   {
+    "start_s": 33.78333333333333,
+    "dur_s": 1.1,
+    "at_goal": false
+   },
+   {
+    "start_s": 39.983333333333334,
+    "dur_s": 0.9,
+    "at_goal": false
+   },
+   {
+    "start_s": 46.21666666666667,
+    "dur_s": 0.6833333333333333,
+    "at_goal": false
+   },
+   {
+    "start_s": 51.75,
+    "dur_s": 1.1166666666666667,
+    "at_goal": false
+   },
+   {
+    "start_s": 57.766666666666666,
+    "dur_s": 1.0833333333333333,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.9316438786658335,
+  "jerk_rms": 21.571866537247804,
+  "arrived": true,
+  "arrival_s": 2.183333333333333
+ },
+ {
+  "tag": "on4_M2_v050_gk000_s1",
+  "human": "human_on4_M2_v050_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v050",
+  "cond": "gk000",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.182,
+  "solver_ms_mean": 9.582041281337048,
+  "solver_ms_p99": 10.516491,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 21,
+  "round_trip_s": 5.6682539682539685,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.01208852740077887,
+  "min_gap_mesh": 0.021501207591020567,
+  "v_near_p99": 0.46775428074191444,
+  "stalls": 6,
+  "stall_time_s": 3.933333333333333,
+  "stalls_not_at_goal": 3,
+  "stall_time_not_at_goal_s": 2.083333333333333,
+  "stall_list": [
+   {
+    "start_s": 9.216666666666667,
+    "dur_s": 0.5166666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 22.166666666666668,
+    "dur_s": 0.7166666666666667,
+    "at_goal": false
+   },
+   {
+    "start_s": 28.183333333333334,
+    "dur_s": 0.6666666666666666,
+    "at_goal": false
+   },
+   {
+    "start_s": 31.783333333333335,
+    "dur_s": 0.5,
+    "at_goal": true
+   },
+   {
+    "start_s": 37.7,
+    "dur_s": 0.8333333333333334,
+    "at_goal": true
+   },
+   {
+    "start_s": 46.2,
+    "dur_s": 0.7,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.8916473711275126,
+  "jerk_rms": 20.409780379195432,
+  "arrived": true,
+  "arrival_s": 2.1166666666666667
+ },
+ {
+  "tag": "on4_M2_v050_gk000_s2",
+  "human": "human_on4_M2_v050_v2",
+  "k": 0.0,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v050",
+  "cond": "gk000",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.171,
+  "solver_ms_mean": 9.671171169916434,
+  "solver_ms_p99": 10.690986000000002,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 21,
+  "round_trip_s": 5.661904761904762,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.0002649194019956752,
+  "min_gap_mesh": 0.009567126678025721,
+  "v_near_p99": 0.4769195083787354,
+  "stalls": 7,
+  "stall_time_s": 4.95,
+  "stalls_not_at_goal": 7,
+  "stall_time_not_at_goal_s": 4.949999999999999,
+  "stall_list": [
+   {
+    "start_s": 22.266666666666666,
+    "dur_s": 0.5666666666666667,
+    "at_goal": false
+   },
+   {
+    "start_s": 28.183333333333334,
+    "dur_s": 0.6666666666666666,
+    "at_goal": false
+   },
+   {
+    "start_s": 34.1,
+    "dur_s": 0.75,
+    "at_goal": false
+   },
+   {
+    "start_s": 39.983333333333334,
+    "dur_s": 0.85,
+    "at_goal": false
+   },
+   {
+    "start_s": 46.166666666666664,
+    "dur_s": 0.7,
+    "at_goal": false
+   },
+   {
+    "start_s": 52.0,
+    "dur_s": 0.8333333333333334,
+    "at_goal": false
+   },
+   {
+    "start_s": 58.2,
+    "dur_s": 0.5833333333333334,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.9020788594713924,
+  "jerk_rms": 21.62660347284807,
+  "arrived": true,
+  "arrival_s": 2.35
+ },
+ {
+  "tag": "on4_M2_v050_gain_s0",
+  "human": "human_on4_M2_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v050",
+  "cond": "gain",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.184,
+  "solver_ms_mean": 9.554045682451253,
+  "solver_ms_p99": 10.406897000000003,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 18,
+  "round_trip_s": 6.231481481481481,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.06389960374182818,
+  "min_gap_mesh": 0.07378306960407008,
+  "v_near_p99": 0.47187747206782166,
+  "stalls": 2,
+  "stall_time_s": 1.9833333333333334,
+  "stalls_not_at_goal": 1,
+  "stall_time_not_at_goal_s": 1.4666666666666666,
+  "stall_list": [
+   {
+    "start_s": 3.3833333333333333,
+    "dur_s": 1.4666666666666666,
+    "at_goal": false
+   },
+   {
+    "start_s": 8.316666666666666,
+    "dur_s": 0.5166666666666667,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 0.9385401453399405,
+  "jerk_rms": 21.462399002378252,
+  "arrived": true,
+  "arrival_s": 6.15
+ },
+ {
+  "tag": "on4_M2_v050_gain_s1",
+  "human": "human_on4_M2_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v050",
+  "cond": "gain",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.177,
+  "solver_ms_mean": 9.612235236768802,
+  "solver_ms_p99": 10.530207000000003,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 19,
+  "round_trip_s": 6.305263157894737,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.06679368231632542,
+  "min_gap_mesh": 0.07569755660808045,
+  "v_near_p99": 0.4655425905392978,
+  "stalls": 4,
+  "stall_time_s": 3.5166666666666666,
+  "stalls_not_at_goal": 1,
+  "stall_time_not_at_goal_s": 1.7666666666666666,
+  "stall_list": [
+   {
+    "start_s": 3.1,
+    "dur_s": 1.7666666666666666,
+    "at_goal": false
+   },
+   {
+    "start_s": 8.183333333333334,
+    "dur_s": 0.5666666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 44.416666666666664,
+    "dur_s": 0.5833333333333334,
+    "at_goal": true
+   },
+   {
+    "start_s": 50.2,
+    "dur_s": 0.6,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 0.9274216269181401,
+  "jerk_rms": 20.518477619177155,
+  "arrived": true,
+  "arrival_s": 6.133333333333334
+ },
+ {
+  "tag": "on4_M2_v050_gain_s2",
+  "human": "human_on4_M2_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v050",
+  "cond": "gain",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.172,
+  "solver_ms_mean": 9.650403259052924,
+  "solver_ms_p99": 10.595451,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 18,
+  "round_trip_s": 6.277777777777778,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.037573594510471486,
+  "min_gap_mesh": 0.04964660563807702,
+  "v_near_p99": 0.4709210242635155,
+  "stalls": 2,
+  "stall_time_s": 2.5833333333333335,
+  "stalls_not_at_goal": 1,
+  "stall_time_not_at_goal_s": 1.7833333333333334,
+  "stall_list": [
+   {
+    "start_s": 3.05,
+    "dur_s": 1.7833333333333334,
+    "at_goal": false
+   },
+   {
+    "start_s": 17.966666666666665,
+    "dur_s": 0.8,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 0.9484259504101376,
+  "jerk_rms": 23.873985485075465,
+  "arrived": true,
+  "arrival_s": 5.966666666666667
+ },
+ {
+  "tag": "on4_M2_v050_part_s0",
+  "human": "human_on4_M2_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v050",
+  "cond": "part",
+  "seed": 0,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.125,
+  "solver_ms_mean": 9.95688835654596,
+  "solver_ms_p99": 11.878536000000004,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 21,
+  "round_trip_s": 5.674603174603176,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.0015655872688289524,
+  "min_gap_mesh": 0.02004798746984917,
+  "v_near_p99": 0.4739017318740363,
+  "stalls": 1,
+  "stall_time_s": 0.5333333333333333,
+  "stalls_not_at_goal": 1,
+  "stall_time_not_at_goal_s": 0.5333333333333333,
+  "stall_list": [
+   {
+    "start_s": 46.25,
+    "dur_s": 0.5333333333333333,
+    "at_goal": false
+   }
+  ],
+  "acc_rms": 0.9131258738113779,
+  "jerk_rms": 22.126029959000892,
+  "arrived": true,
+  "arrival_s": 2.1166666666666667
+ },
+ {
+  "tag": "on4_M2_v050_part_s1",
+  "human": "human_on4_M2_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v050",
+  "cond": "part",
+  "seed": 1,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.151,
+  "solver_ms_mean": 9.802117855153204,
+  "solver_ms_p99": 11.311796000000001,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 21,
+  "round_trip_s": 5.695238095238095,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.009549711076194553,
+  "min_gap_mesh": 0.02735803973129646,
+  "v_near_p99": 0.46907232344076794,
+  "stalls": 5,
+  "stall_time_s": 2.95,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [
+   {
+    "start_s": 9.666666666666666,
+    "dur_s": 0.5,
+    "at_goal": true
+   },
+   {
+    "start_s": 19.95,
+    "dur_s": 0.5,
+    "at_goal": true
+   },
+   {
+    "start_s": 31.85,
+    "dur_s": 0.5166666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 49.85,
+    "dur_s": 0.7166666666666667,
+    "at_goal": true
+   },
+   {
+    "start_s": 55.65,
+    "dur_s": 0.7166666666666667,
+    "at_goal": true
+   }
+  ],
+  "acc_rms": 0.8838759315533822,
+  "jerk_rms": 20.511885338975773,
+  "arrived": true,
+  "arrival_s": 2.3333333333333335
+ },
+ {
+  "tag": "on4_M2_v050_part_s2",
+  "human": "human_on4_M2_v050_v2",
+  "k": 0.1,
+  "scene": "/home/robotics/effmass_mpc/goal1/b2a/g2/scene_b2a4_front_0.38h1.json",
+  "target_segs": [
+   18
+  ],
+  "ref_label": "cross_out",
+  "cost_split": false,
+  "group": "wp4",
+  "motion": "M2",
+  "speed": "v050",
+  "cond": "part",
+  "seed": 2,
+  "variant": "base",
+  "end_excl_m": 0.1,
+  "no_series": true,
+  "steps": 3600,
+  "realtime_factor": 1.172,
+  "solver_ms_mean": 9.633588941504179,
+  "solver_ms_p99": 10.714546,
+  "captures": {
+   "warmup": 1
+  },
+  "recapture": 0,
+  "infeasible": 0,
+  "passes_completed": 21,
+  "round_trip_s": 5.707936507936507,
+  "pen_shape_hand": 0,
+  "pen_shape_all": 0,
+  "pen_mesh_hand": 0,
+  "min_gap_shape": 0.012440181167406916,
+  "min_gap_mesh": 0.029240220564839804,
+  "v_near_p99": 0.47253970507540816,
+  "stalls": 0,
+  "stall_time_s": 0.0,
+  "stalls_not_at_goal": 0,
+  "stall_time_not_at_goal_s": 0.0,
+  "stall_list": [],
+  "acc_rms": 0.9485099166572449,
+  "jerk_rms": 22.15910925213524,
+  "arrived": true,
+  "arrival_s": 2.3333333333333335
+ }
+]

@@ -4,12 +4,14 @@
 #      IMU roll/pitch + camera_pose.yaml yaw/t -> /hrc/camera_pose; body tracking -> /hrc/human_pose (after the body shape is estimated)
 #   2) effmass_human node: /hrc/human_pose -> /effmass/human_inertia_state (pelvis correction, shapes v2, CPU 1 thread)
 #   3) Isaac GUI: scene_live_front.json, live_frame.yml, live_t1.yml (prediction, filter, speed cap 0.5 m, loss hold 0.5 s),
-#      ours k 0.10 (K_GAIN env to change), human capsules shown, status window "human status"
+#      ours k 0.10 (K_GAIN env to change), human capsules shown, status window "human status";
+#      LV_MUREF_MODE=part uses the per-part reference (proposed, part_regen), default global (previous)
 #   4) a terminal "stand monitor": pelvis offset from the standing place, distances, right hand vs the robot path
 #   steps: Isaac physics steps (default 36000 = 10 min of simulated time). Stop early: Ctrl+C here (once) or close the Isaac
 #   window; the loop ends after the current step and the run is saved (--graceful-stop 1, --stop-file <tag>.stopreq).
 #   LV_FRAME=<file>: world -> Franka base transform (default goal1/config/live_frame.yml; goal1/config/live_frame_user.yml from
 #   lv_live_place.sh puts the virtual robot in front of where you stood facing the monitor). The stand monitor follows it.
+#   The reaching arm comes from the frame file (arm: right / left; LV_ARM overrides); left uses scene_live_front_left.json.
 #   GUI camera: VIEW_MODE=shoulder (default: above and behind your right shoulder looking at the robot, so reaching forward goes
 #   into the screen) or side (behind-left of the robot, you seen from the front); VIEW="eye_x,eye_y,eye_z,target_x,target_y,target_z"
 #   (Franka base frame) overrides both.
@@ -35,7 +37,9 @@ $GG/scripts/g1_run_human.sh node -p shapes:=v2 -p pelvis_correction:=true -p per
 NP=$!
 FRAME=${LV_FRAME:-$GG/config/live_frame.yml}
 [[ -f $FRAME ]] || { echo "frame file $FRAME not found (run lv_live_place.sh first)"; kill -INT $NP $SP 2>/dev/null; exit 6; }
-echo "[live] frame file $FRAME"
+ARMF=$(python3 -c "import yaml,sys; d=yaml.safe_load(open(sys.argv[1])) or {}; print(d.get('arm','right'))" $FRAME 2>/dev/null || echo right)
+ARM=${LV_ARM:-$ARMF}; SCENE=$G/scene_live_front.json; [[ $ARM == left ]] && SCENE=$G/scene_live_front_left.json
+echo "[live] frame file $FRAME, reaching arm $ARM, scene $SCENE"
 DISPLAY=${DISPLAY:-:0} gnome-terminal --title "stand monitor ($TAG)" --geometry 150x20 -- $GG/scripts/g1_run_human.sh py $GG/scripts/lv_stand_monitor.py --frame $FRAME 2>/dev/null
 echo "[live] Isaac GUI starting (about 30-60 s). Stand in view first so sensing can estimate the body shape, then go to the standing place."
 # Ctrl+C here: the trap writes $P.stopreq; Isaac (own session, so the terminal's Ctrl+C does not reach Kit) stops after the
@@ -46,9 +50,9 @@ if [[ ${VIEW_MODE:-shoulder} == side ]]; then DEFVIEW="-1.2,-1.7,1.6,0.6,0.0,0.2
 VIEW=${VIEW:-$DEFVIEW}   # GUI camera eye,target in the Franka base frame
 EFFMASS_WS=1 RUN_ISAAC_NO_DISPLAY=0 ROS_METHOD=min setsid $S/run_isaac_ros.sh $S/step2b_mpc_isaac.py --gui --scene g2 --robot fr3v2_1 --no-diag --warmup 10 \
   --tag $TAG --ros --ros-pose-topic none --human --human-mode full --human-source inertia --ready-file $P.ready --done-file $P.done --ros-out $P \
-  --human-dir $G --human-frame $FRAME --scene-json $G/scene_live_front.json --round-trip 1 --profile $GG/config/live_t1.yml \
+  --human-dir $G --human-frame $FRAME --scene-json $SCENE --round-trip 1 --profile $GG/config/live_t1.yml \
   --u-def nearest --meff on --meff-mode gain --meff-dbase 0.065 --meff-muref 0.53 --meff-eta-max 0.25 --meff-agg max_all --b1-log 0 --cost-agg 0 \
-  --meff-gain ${K_GAIN:-0.10} --mppi-seed 0 --meff-viz shapes --steps $STEPS --graceful-stop 1 --stop-file $P.stopreq --viz-cam="$VIEW" > $P.log 2>&1 &
+  --meff-gain ${K_GAIN:-0.10} --meff-muref-mode ${LV_MUREF_MODE:-global} --mppi-seed 0 --meff-viz shapes --steps $STEPS --graceful-stop 1 --stop-file $P.stopreq --viz-cam="$VIEW" > $P.log 2>&1 &
 IP=$!
 while kill -0 $IP 2>/dev/null; do wait $IP; done
 wait $IP; echo "isaac exit=$?"

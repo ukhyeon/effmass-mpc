@@ -1,0 +1,32 @@
+{
+ "lv_base_gain_s0_b11": {
+  "solver_mean": 10.696959523809525,
+  "solver_p95": 12.252585,
+  "solver_p99": 13.561952999999995,
+  "rtf": 1.038
+ },
+ "pr_check_timing_front_s0": {
+  "solver_mean": 9.974556122448979,
+  "solver_p95": 11.277595,
+  "solver_p99": 12.597595,
+  "rtf": 1.12
+ },
+ "lv_base_gk000_s0_b11": {
+  "solver_mean": 9.920865986394556,
+  "solver_p95": 11.392759999999997,
+  "solver_p99": 12.041930999999998,
+  "rtf": 1.129
+ },
+ "pr_check_k0_front_s0": {
+  "solver_mean": 9.84954387755102,
+  "solver_p95": 11.118635,
+  "solver_p99": 11.475238,
+  "rtf": 1.139
+ },
+ "on_base_gain_s0": {
+  "solver_mean": 9.541298299319728,
+  "solver_p95": 10.63617,
+  "solver_p99": 11.211661,
+  "rtf": 1.179
+ }
+}

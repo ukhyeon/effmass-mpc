@@ -20,6 +20,15 @@
 !/goal1/config/
 !/goal1/scene_g1.json
 
+# part_regen: per-part reference comparison (report, figures, summaries, composed video); no npz (zone mesh), no rec/ clips
+!/goal1/part_regen/
+/goal1/part_regen/*
+!/goal1/part_regen/REPORT.md
+!/goal1/part_regen/*.png
+!/goal1/part_regen/*.json
+!/goal1/part_regen/*.mp4
+!/goal1/part_regen/runs.tsv
+
 # reports
 !/goal1/step1_2_report.md
 !/goal1/step1_3_report.md

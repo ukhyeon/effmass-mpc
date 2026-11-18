@@ -1,0 +1,30 @@
+{
+ "random_mode4": {
+  "pairs_in_range": 544,
+  "same_shape": 1.0,
+  "cost_rel_err_max": 3.5953908395238316e-05,
+  "eta_abs_err_max": 1.94703375366867e-08,
+  "eta_min": 0.06499999761581421,
+  "eta_max": 0.12870894372463226,
+  "eta_above_base_frac": 0.07536764705882353
+ },
+ "random_mode5": {
+  "pairs_in_range": 531,
+  "same_shape": 1.0,
+  "cost_rel_err_max": 5.004858639380295e-05,
+  "eta_abs_err_max": 1.637822719113835e-08,
+  "eta_min": 0.06499999761581421,
+  "eta_max": 0.08534075319766998,
+  "eta_above_base_frac": 0.02448210922787194
+ },
+ "m_h_equals_m_iso_mode5": {
+  "pairs_in_range": 544,
+  "same_shape": 1.0,
+  "cost_rel_err_max": 1.1227652175121481e-05,
+  "eta_abs_err_max": 8.675239832056647e-09,
+  "eta_min": 0.06499999761581421,
+  "eta_max": 0.06499999761581421,
+  "eta_above_base_frac": 0.0,
+  "all_eta_equal_d_base": true
+ }
+}
