@@ -1,17 +1,23 @@
 """on_wp3_summary.py - WP3 static scene matrix summary from on_analyze outputs (no runs). Per scene x condition (seeds pooled): target gap (shape, mesh;
 target = forearm + hand shapes), side, u vs front, mu, eta, gap / eta, pass time, near-human speed p99, arrival, infeasible, cost shape at the executed
-state (not the rollout aggregate). Classification per scene (uniform vs ours, seed means): seed spread s = max over conditions of the seed range of the gap.
-  'ours farther'          : ours - uniform > max(1 cm, s)
-  'no difference (light)' : |ours - uniform| <= max(1 cm, s) and ours eta at the minimum < 7.5 cm (mu near or below mu_ref)
-  'no difference'         : |ours - uniform| <= max(1 cm, s) otherwise
+state (not the rollout aggregate). Classification per scene (uniform vs ours, seed means; 1118 rule): d = ours mean - uniform mean, seed spread s = max over the two conditions of the
+seed range (max - min) of the gap.
+  'ours farther'          : d > max(1 cm, s)
+  'small, uncertain'      : 1 cm < |d| <= s (mean difference above 1 cm but inside the seed range; sign given)
+  'no difference (light)' : |d| <= 1 cm and ours eta at the minimum < 7.5 cm (mu near or below mu_ref)
+  'no difference'         : |d| <= 1 cm otherwise
+  'ours closer'           : d < -max(1 cm, s)
   'path changed'          : passing side differs between the conditions in the majority of seeds (checked first)
   'saturation / arrival / time' : any run not arrived or infeasible > 0, or ours pass time > 1.3 x uniform, or ours eta at eta_max (checked first)
+Pass minimum (1118 fix): from on_wp3e_passes.json = on_analyze with end_excl_m 0.10, i.e. steps with the TCP within 0.10 m of the start or goal TCP are
+left out (P6_forearmside18 starts 11.2 cm from the hand, and the overnight minimum of ours was that start pose). The overnight version (whole leg,
+old rule 'no difference' for |d| <= max(1 cm, s)) is kept in logs/meff_isaac/on_wp3_summary_overnight.json.
 Outputs logs/meff_isaac/on_wp3_summary.json, goal1/overnight/wp3_scene_gap.png, goal1/overnight/wp3_effect_table.png."""
 import json, os, sys
 import numpy as np
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
 H = os.path.expanduser("~"); O = f"{H}/effmass_mpc/goal1/logs/meff_isaac"; OV = f"{H}/effmass_mpc/goal1/overnight"
-P = json.load(open(f"{O}/on_wp3_passes.json")); R = json.load(open(f"{O}/on_wp3_runs.json"))
+P = json.load(open(f"{O}/on_wp3e_passes.json")); R = json.load(open(f"{O}/on_wp3_runs.json"))
 scenes = sorted({p["scene_name"] for p in P}, key=lambda s: (s.split("_")[0], s)); out = {}
 for sc in scenes:
     row = {}
@@ -37,13 +43,15 @@ for sc in scenes:
             cl = "path changed"
         elif d > thr:
             cl = "ours farther"
-        elif abs(d) <= thr and max(o["eta"]) < 0.075:
-            cl = "no difference (light)"
-        elif abs(d) <= thr:
-            cl = "no difference"
-        else:
+        elif d < -thr:
             cl = "ours closer"
-        row["class"] = cl; row["diff_m"] = float(d); row["threshold_m"] = float(thr); row["pass_time_ratio"] = float(pt_o / pt_u) if (pt_u and pt_o) else None
+        elif abs(d) > 0.01:
+            cl = "small, uncertain (%s)" % ("ours farther" if d > 0 else "ours closer")
+        elif max(o["eta"]) < 0.075:
+            cl = "no difference (light)"
+        else:
+            cl = "no difference"
+        row["class"] = cl; row["diff_m"] = float(d); row["threshold_m"] = float(thr); row["seed_spread_m"] = float(s); row["pass_time_ratio"] = float(pt_o / pt_u) if (pt_u and pt_o) else None
     row["torso_min_m"] = 0.25 if sc.endswith("25") else (0.18 if sc.endswith("18") else 0.35)
     out[sc] = row
 json.dump(out, open(f"{O}/on_wp3_summary.json", "w"), indent=1)

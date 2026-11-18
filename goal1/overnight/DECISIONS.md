@@ -203,3 +203,17 @@ Format: time / situation / alternatives / choice and reason / original criterion
 - Question: does the full Kinect candidate also hold in the collaboration motions (M1 hand-over, M2 crossing) at 0.5 m/s?
 - Expected: M1 like R1 (gaps up, no cost); M2 gaps up as in F1, waiting in front of the resting hand unchanged.
 - Runs (8): M1, M2 0.5 m/s x uniform / ours x seeds 0-1 with P+F+C2.
+
+## D1118-1 11-18 figure checks requested by the user (no new runs, existing logs only)
+- WP2 thickness: the overnight ray thickness used the union of all right-arm shapes, so a ray from one part could continue in a neighbouring part's
+  zone (P3 forearm top 37.3 cm = forearm ray running into the upper-arm zone). Changed to own-part thickness (hand / forearm / upper arm; elbow =
+  forearm + upper arm). 14 of 63 cells change; P3 forearm top 37.3 -> 17.9 cm. WP3 pick unchanged (same set with own-part values).
+  Old values kept: on_wp2_zone_overnight.json and the 'ours' fields of on_wp2_zone.json.
+- WP3 pass minimum: P6_forearmside18 ours 11.2 cm in all 3 seeds was the start pose (t 0.02 s, TCP 0.2 cm from the start). Rule: pass-section
+  minimum = steps with the TCP more than 0.10 m from the start and goal TCP (path 0.74 m). Other 8 scenes unaffected (identical at 5 / 10 / 15 cm).
+  P6_forearmside18 ours 11.2 -> 12.1 cm mean (class unchanged). Old summary kept: on_wp3_summary_overnight.json.
+- WP3 class rule: added 'small, uncertain' for 1 cm < |d| <= seed range s (the old rule called these 'no difference'). P2_top (d +1.4, s 2.6 cm)
+  moves to 'small, uncertain (ours farther)'; no other scene changes.
+- Same end-point scan over the 194 non-WP3 analysed runs: run minimum within 0.10 m of a path end in 5 runs: R3 M3 ours s0-s2 (8.6 / 7.8 / 9.0 ->
+  pass section 10.4 / 8.0 / 9.5), F8 on4_M1_v050_gain_s1_P_F_C2 (9.9 -> 10.1), WP6 on6_P6_forearmside18_gain_s2_c1 (11.2 -> 11.8; the t1 run it was
+  compared with was also the start pose, 11.2 -> 11.6, so the WP6 verdict does not change). Noted in REPORT (R3); other tables unchanged.

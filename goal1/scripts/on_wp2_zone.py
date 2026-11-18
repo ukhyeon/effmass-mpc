@@ -5,7 +5,8 @@ thickness = r_z - r_s; mu and eta of the nearest shape at the surface point. Dir
 (toward the body midline) / outer side, forearm top / outer side, elbow (point of the elbow; for a straight arm the downward perpendicular), upper arm
 outer side. mu range over 400 directions from the hand, forearm and upper-arm anchors; parts where eta reaches eta_max. Picks 4 postures for WP3 whose
 ours thickness patterns differ most (greedy max-min distance on the direction vector, the reference reach pose excluded because its front and top
-scenes are already in WP3). Outputs logs/meff_isaac/on_wp2_zone.json, goal1/overnight/wp2_zone_thickness.png, goal1/overnight/postures_preview.png."""
+scenes are already in WP3). Outputs logs/meff_isaac/on_wp2_zone.json, goal1/overnight/wp2_zone_thickness.png, goal1/overnight/postures_preview.png.
+'on_wp2_zone.py own' (1118 fix): adds own-part thickness per direction (OWN) to the json and redraws wp2_zone_thickness.png from it; see own_fix()."""
 import json, os, sys
 import numpy as np
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
@@ -18,28 +19,29 @@ nz = lambda v: v / np.linalg.norm(v); U_ = np.array([0, 0, 1.0])
 DIRS = ["tip_front", "hand_back", "palm", "hand_inner", "hand_outer", "forearm_top", "forearm_side", "elbow", "upper_arm_side"]
 
 
-def armd(D, P):
+def armd(D, P, shapes=None):
     d = np.full(len(P), np.inf)
-    for s in D["SH"]:
+    for s in (shapes or D["SH"]):
         a, b = D["P0"][s], D["P1"][s]; ab = b - a; tt = np.clip(((P - a) @ ab) / max(ab @ ab, 1e-12), 0, 1); d = np.minimum(d, np.linalg.norm(a + tt[:, None] * ab - P, axis=1) - D["RAD"][s])
     return d
 
 
-def inside(D, anchor):
+def inside(D, anchor, shapes=None):
     """anchor moved onto the axis of the nearest arm shape when it is not inside any arm shape (the hand COM lies outside the thin hand capsules)"""
-    if armd(D, anchor[None])[0] < 0:
+    if armd(D, anchor[None], shapes)[0] < 0:
         return anchor
     best = None
-    for s in D["SH"]:
+    for s in (shapes or D["SH"]):
         a, b = D["P0"][s], D["P1"][s]; ab = b - a; tt = np.clip(((anchor - a) @ ab) / max(ab @ ab, 1e-12), 0, 1); q = a + tt * ab; d = np.linalg.norm(q - anchor) - D["RAD"][s]
         if best is None or d < best[0]:
             best = (d, q)
     return best[1]
 
 
-def thick_from(D, anchor, dirv, cond):
-    dirv = nz(dirv); anchor = inside(D, np.asarray(anchor, float)); rr = np.arange(0, 0.8, 0.0005); P = anchor[None] + rr[:, None] * dirv[None]
-    ds = armd(D, P); i_s = int(np.argmax(ds >= 0)); f, mu, kb = ZL.field(D, P, cond); out = f > 0; out[:i_s] = False; i_z = int(np.argmax(out))
+def thick_from(D, anchor, dirv, cond, shapes=None):
+    """shapes = None: all right-arm shapes (union zone, the overnight values); a list: only those shapes for the surface and the zone (own part)"""
+    dirv = nz(dirv); anchor = inside(D, np.asarray(anchor, float), shapes); rr = np.arange(0, 0.8, 0.0005); P = anchor[None] + rr[:, None] * dirv[None]
+    ds = armd(D, P, shapes); i_s = int(np.argmax(ds >= 0)); f, mu, kb = ZL.field(D, P, cond, shapes=shapes); out = f > 0; out[:i_s] = False; i_z = int(np.argmax(out))
     mu_s = float(mu[i_s]); eta = float(ZL.eta_of(np.array([mu_s]), cond, 0.10)[0]); return dict(t=float(rr[i_z] - rr[i_s]), mu=mu_s, eta=eta, shape=int(kb[i_s]), sat=bool(eta >= ZL.EM - 1e-9))
 
 
@@ -55,11 +57,66 @@ def frames(D, p):
             "forearm_side": (fm, fs), "elbow": (el, eo), "upper_arm_side": (um, us)}
 
 
+# own part per direction (1118 fix): hand directions -> hand shapes, forearm directions -> forearm shapes, upper-arm side -> upper-arm shapes,
+# elbow -> forearm + upper-arm shapes (the elbow is the joint of the two; the hand is excluded)
+OWN = {"tip_front": (18,), "hand_back": (18,), "palm": (18,), "hand_inner": (18,), "hand_outer": (18,), "forearm_top": (16,), "forearm_side": (16,),
+       "elbow": (14, 16), "upper_arm_side": (14,)}
+SEGN = {14: "upper_arm", 16: "forearm", 18: "hand"}
+
+
+def own_fix():
+    """1118: per-part thickness (only the own part's shapes) next to the overnight union values; owner part along the union ray; redraws
+    wp2_zone_thickness.png with the own-part bars (union value as an open marker where it differs by > 0.5 cm). The WP3 pick (_pick) is kept as run;
+    the pick the own-part vectors would give is stored as _pick_own for reference. postures_preview.png is not redrawn."""
+    res = json.load(open(f"{O}/on_wp2_zone.json")); names = [n for n in res if not n.startswith("_")]
+    for name in names:
+        p = PO[name]; D = ZL.load(p["file"]); fr = frames(D, p)
+        for dn in DIRS:
+            a, v = fr[dn]; sh = [k for k in D["SH"] if D["SEG"][k] in OWN[dn]]; r = res[name]["directions"][dn]
+            for c in ("uniform", "ours"):
+                r[c + "_own"] = thick_from(D, a, v, c, sh)
+            # owner parts along the union ray between the arm surface and the zone exit
+            v_ = nz(v); a_ = inside(D, np.asarray(a, float)); rr = np.arange(0, 0.8, 0.0005); P = a_[None] + rr[:, None] * v_[None]
+            ds = armd(D, P); i_s = int(np.argmax(ds >= 0)); f, mu, kb = ZL.field(D, P, "ours"); out = f > 0; out[:i_s] = False; i_z = int(np.argmax(out))
+            r["union_owner_parts"] = sorted({SEGN[int(D["SEG"][k])] for k in kb[i_s:max(i_z, i_s + 1)]}); r["own_parts"] = [SEGN[g] for g in OWN[dn]]
+            r["union_mixed"] = bool(set(r["union_owner_parts"]) - set(r["own_parts"]))
+        print(name, " ".join(f"{dn}:{100*res[name]['directions'][dn]['ours']['t']:.1f}->{100*res[name]['directions'][dn]['ours_own']['t']:.1f}{'*' if res[name]['directions'][dn]['union_mixed'] else ''}" for dn in DIRS), flush=True)
+    pick = res["_pick"]["postures"]; vec = {n: np.array([res[n]["directions"][d]["ours_own"]["t"] for d in DIRS]) for n in names}
+    cand = [n for n in names if n != "P1_reach" and PO[n]["plausible"]]; dist = lambda a, b: float(np.linalg.norm(vec[a] - vec[b]))
+    po = [max(cand, key=lambda n: dist(n, "P1_reach"))]
+    while len(po) < min(4, len(cand)):
+        po.append(max([n for n in cand if n not in po], key=lambda n: min(dist(n, m) for m in po + ["P1_reach"])))
+    res["_pick_own"] = dict(postures=po, same_set_as_pick=sorted(po) == sorted(pick), note="reference only; WP3 used _pick")
+    res["_own_fix"] = dict(date="2026-11-18", own_parts=OWN, rule="own-part thickness: surface and zone from the own part's shapes only; union = all right-arm shapes")
+    json.dump(res, open(f"{O}/on_wp2_zone.json", "w"), indent=1); print("pick (WP3)", pick, "pick with own-part values", po)
+    fig, ax = plt.subplots(1, 1, figsize=(15, 6.3)); w = 0.8 / len(names); cm = plt.get_cmap("tab10")
+    for j, n in enumerate(names):
+        xs = np.arange(len(DIRS)) + (j - len(names) / 2 + 0.5) * w; own = [100 * res[n]["directions"][d]["ours_own"]["t"] for d in DIRS]
+        uni = [100 * res[n]["directions"][d]["ours"]["t"] for d in DIRS]
+        ax.bar(xs, own, w * 0.9, color=cm(j), label=n + (" *" if n in pick else ""))
+        for x_, o_, u_ in zip(xs, own, uni):
+            if abs(u_ - o_) > 0.5:
+                ax.plot(x_, u_, marker="o", mfc="none", mec=cm(j), ms=6, mew=1.5)
+                ax.annotate(f"{u_:.0f}", (x_, u_), xytext=(0, 5), textcoords="offset points", ha="center", fontsize=7, color="#333")
+        for x_, d in zip(xs, DIRS):
+            if res[n]["directions"][d]["ours_own"]["sat"]:
+                ax.text(x_, 100 * res[n]["directions"][d]["ours_own"]["t"] + 0.3, "max", ha="center", fontsize=6, rotation=90)
+    ax.plot([], [], marker="o", mfc="none", mec="#555", ls="none", label="all arm parts together (overnight value), shown where it differs")
+    ax.axhline(6.5, color="#555", ls="--", lw=1); ax.text(len(DIRS) - 0.5, 5.3, "uniform 6.5 cm", ha="right", fontsize=8, color="#555", bbox=dict(fc="white", ec="none", pad=1))
+    ax.axhline(25, color="#b33", ls=":", lw=1); ax.text(len(DIRS) - 0.5, 25.3, "eta_max 25 cm", ha="right", fontsize=8, color="#b33")
+    ax.set_xticks(range(len(DIRS))); ax.set_xticklabels([f"{d}\n({'+'.join(SEGN[g] for g in OWN[d])})" for d in DIRS], fontsize=8)
+    ax.set_ylabel("ours zone thickness, own part only (cm)"); ax.legend(fontsize=8, ncol=4, frameon=False, loc="upper left")
+    ax.set_title("WP2 zone thickness by direction and posture, own part only (ours k 0.10; * = picked for WP3; bars = own part, open circle = union of arm parts)")
+    ax.grid(axis="y", alpha=0.3); ax.set_ylim(0, 42); fig.tight_layout(); fig.savefig(f"{OV}/wp2_zone_thickness.png", dpi=130); plt.close(fig)
+
+
 def fib(n):
     i = np.arange(n) + 0.5; ph = np.arccos(1 - 2 * i / n); th = np.pi * (1 + 5 ** 0.5) * i; return np.stack([np.cos(th) * np.sin(ph), np.sin(th) * np.sin(ph), np.cos(ph)], 1)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and sys.argv[1:] == ["own"]:
+    own_fix()
+elif __name__ == "__main__":
     res = {}
     for name, p in PO.items():
         D = ZL.load(p["file"]); fr = frames(D, p); r = {"directions": {}}

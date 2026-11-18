@@ -20,7 +20,28 @@
      -1.0,
      0.025,
      0.005
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.0675,
+     "mu": 2.0729489569711936,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.203,
+     "mu": 2.0729489569711936,
+     "eta": 0.1627681583854049,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_back": {
     "uniform": {
@@ -41,7 +62,29 @@
      0.058,
      -0.054,
      0.997
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.7878182032047438,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.08700000000000001,
+     "mu": 0.7878182032047438,
+     "eta": 0.08692003280876161,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": true
    },
    "palm": {
     "uniform": {
@@ -62,7 +105,28 @@
      -0.058,
      0.054,
      -0.997
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.0655,
+     "mu": 0.7900638437223713,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.08750000000000001,
+     "mu": 0.7900638437223713,
+     "eta": 0.08709367295602913,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_inner": {
     "uniform": {
@@ -83,7 +147,28 @@
      -0.026,
      -0.998,
      -0.053
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.09300000000000001,
+     "mu": 0.5190108040878418,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.133,
+     "mu": 2.9834181134586206,
+     "eta": 0.20225705005564334,
+     "shape": 18,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_outer": {
     "uniform": {
@@ -104,7 +189,28 @@
      0.026,
      0.998,
      0.053
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.5184424198568722,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.065,
+     "mu": 0.5184424198568722,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "forearm_top": {
     "uniform": {
@@ -125,7 +231,29 @@
      0.082,
      0.005,
      0.997
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.0655,
+     "mu": 1.720692416940797,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.147,
+     "mu": 1.720692416940797,
+     "eta": 0.14518294774828255,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "upper_arm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": true
    },
    "forearm_side": {
     "uniform": {
@@ -146,7 +274,28 @@
      -0.06,
      0.998,
      -0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.066,
+     "mu": 1.3742930312323263,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.1265,
+     "mu": 1.3742930312323263,
+     "eta": 0.1260281254721136,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "elbow": {
     "uniform": {
@@ -167,7 +316,29 @@
      -0.082,
      -0.005,
      -0.997
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.098,
+     "mu": 3.0616582010710336,
+     "eta": 0.065,
+     "shape": 12,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.2465,
+     "mu": 3.0616582010710336,
+     "eta": 0.2053479475037488,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm",
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "upper_arm_side": {
     "uniform": {
@@ -188,7 +359,28 @@
      0.0,
      1.0,
      -0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 3.0737637428534095,
+     "eta": 0.065,
+     "shape": 12,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.20600000000000002,
+     "mu": 3.0737637428534095,
+     "eta": 0.2058226366394755,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm"
+    ],
+    "union_mixed": false
    }
   },
   "mu_by_part": {
@@ -237,7 +429,28 @@
      -0.867,
      0.329,
      0.375
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.3860854335635395,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.12350000000000001,
+     "mu": 1.3860854335635395,
+     "eta": 0.12671751714101803,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_back": {
     "uniform": {
@@ -258,7 +471,28 @@
      0.518,
      0.753,
      0.405
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.6111579222479531,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.07250000000000001,
+     "mu": 0.6111579222479531,
+     "eta": 0.07238380488624983,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "palm": {
     "uniform": {
@@ -279,7 +513,28 @@
      -0.518,
      -0.753,
      -0.405
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.6093955059980118,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.07200000000000001,
+     "mu": 0.6093955059980118,
+     "eta": 0.0722288599914073,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_inner": {
     "uniform": {
@@ -300,7 +555,28 @@
      0.149,
      -0.546,
      0.824
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.07350000000000001,
+     "mu": 0.5244876589097394,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.113,
+     "mu": 0.5244876589097394,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_outer": {
     "uniform": {
@@ -321,7 +597,28 @@
      -0.149,
      0.546,
      -0.824
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.5238903268414576,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.065,
+     "mu": 0.5238903268414576,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "forearm_top": {
     "uniform": {
@@ -342,7 +639,29 @@
      -0.049,
      -0.002,
      0.999
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.7019159541308717,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.1445,
+     "mu": 1.7019159541308717,
+     "eta": 0.14419715895084437,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "upper_arm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": true
    },
    "forearm_side": {
     "uniform": {
@@ -363,7 +682,28 @@
      -0.045,
      0.999,
      0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.5151907892710776,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.13399999999999998,
+     "mu": 1.5151907892710776,
+     "eta": 0.134081357511539,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "elbow": {
     "uniform": {
@@ -384,7 +724,29 @@
      0.394,
      0.163,
      -0.904
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.087,
+     "mu": 2.574598691097872,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.234,
+     "mu": 3.2373974991883814,
+     "eta": 0.21214969488712634,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm",
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "upper_arm_side": {
     "uniform": {
@@ -405,7 +767,28 @@
      0.1,
      0.995,
      0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 2.48176350555711,
+     "eta": 0.065,
+     "shape": 12,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.18150000000000002,
+     "mu": 2.48176350555711,
+     "eta": 0.18139252879881382,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm"
+    ],
+    "union_mixed": false
    }
   },
   "mu_by_part": {
@@ -454,7 +837,28 @@
      -0.451,
      0.892,
      0.025
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.9128785512163153,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.09450000000000001,
+     "mu": 0.9128785512163153,
+     "eta": 0.09624070865343194,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_back": {
     "uniform": {
@@ -475,7 +879,28 @@
      0.348,
      0.093,
      0.933
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.5736306414230671,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.0695,
+     "mu": 0.5736306414230671,
+     "eta": 0.06903470406307613,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "palm": {
     "uniform": {
@@ -496,7 +921,29 @@
      -0.348,
      -0.093,
      -0.933
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.5805677084409313,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.0695,
+     "mu": 0.5805677084409313,
+     "eta": 0.06966187322245224,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": true
    },
    "hand_inner": {
     "uniform": {
@@ -517,7 +964,28 @@
      0.831,
      0.43,
      -0.353
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.5385328021190338,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.0655,
+     "mu": 0.5385328021190338,
+     "eta": 0.06580176717893821,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_outer": {
     "uniform": {
@@ -538,7 +1006,28 @@
      -0.831,
      -0.43,
      0.353
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.07250000000000001,
+     "mu": 0.5358630068375747,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.1085,
+     "mu": 0.5358630068375747,
+     "eta": 0.06555159258072583,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "forearm_top": {
     "uniform": {
@@ -559,7 +1048,29 @@
      -0.015,
      0.0,
      1.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 2.4336084827396416,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.179,
+     "mu": 2.4336084827396416,
+     "eta": 0.1792828532192131,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "upper_arm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": true
    },
    "forearm_side": {
     "uniform": {
@@ -580,7 +1091,28 @@
      0.004,
      1.0,
      0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.596705459458063,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.1385,
+     "mu": 1.596705459458063,
+     "eta": 0.13856992280629243,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "elbow": {
     "uniform": {
@@ -601,7 +1133,29 @@
      0.713,
      0.175,
      -0.68
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.0745,
+     "mu": 1.7197474148866552,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.219,
+     "mu": 3.2894538262185464,
+     "eta": 0.21412881513872578,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm",
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "upper_arm_side": {
     "uniform": {
@@ -622,7 +1176,28 @@
      1.0,
      -0.0,
      0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 2.722521337296002,
+     "eta": 0.065,
+     "shape": 12,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.1915,
+     "mu": 2.722521337296002,
+     "eta": 0.19164581866602456,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm"
+    ],
+    "union_mixed": false
    }
   },
   "mu_by_part": {
@@ -671,7 +1246,28 @@
      0.096,
      0.994,
      -0.046
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 3.1270872669323264,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.21050000000000002,
+     "mu": 3.1270872669323264,
+     "eta": 0.20790254536725825,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_back": {
     "uniform": {
@@ -692,7 +1288,29 @@
      0.058,
      -0.013,
      0.998
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.7949027093560381,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.08750000000000001,
+     "mu": 0.7949027093560381,
+     "eta": 0.0874669928081539,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": true
    },
    "palm": {
     "uniform": {
@@ -713,7 +1331,28 @@
      -0.058,
      0.013,
      -0.998
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.7943966896798194,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.08750000000000001,
+     "mu": 2.3596505159193386,
+     "eta": 0.17600167735715916,
+     "shape": 18,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_inner": {
     "uniform": {
@@ -734,7 +1373,28 @@
      0.993,
      -0.099,
      -0.059
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.5264190822605688,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.065,
+     "mu": 0.5264190822605688,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_outer": {
     "uniform": {
@@ -755,7 +1415,28 @@
      -0.993,
      0.099,
      0.059
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.07200000000000001,
+     "mu": 0.5261030558744081,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.134,
+     "mu": 3.620852626432895,
+     "eta": 0.22637707260515322,
+     "shape": 18,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "forearm_top": {
     "uniform": {
@@ -776,7 +1457,29 @@
      0.0,
      -0.037,
      0.999
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.7435046546973352,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.1465,
+     "mu": 1.7435046546973352,
+     "eta": 0.14637341106008994,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "upper_arm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": true
    },
    "forearm_side": {
     "uniform": {
@@ -797,7 +1500,29 @@
      1.0,
      0.0,
      -0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.3552788684232115,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.125,
+     "mu": 1.3552788684232115,
+     "eta": 0.12491028548599223,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "upper_arm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": true
    },
    "elbow": {
     "uniform": {
@@ -818,7 +1543,29 @@
      -0.0,
      0.037,
      -0.999
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.0985,
+     "mu": 3.740044388317332,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.249,
+     "mu": 3.755978010893697,
+     "eta": 0.23120952206768208,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm",
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "upper_arm_side": {
     "uniform": {
@@ -839,7 +1586,28 @@
      1.0,
      -0.0,
      0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 2.7247232242015484,
+     "eta": 0.065,
+     "shape": 12,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.1915,
+     "mu": 2.7247232242015484,
+     "eta": 0.19173745203372597,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm"
+    ],
+    "union_mixed": false
    }
   },
   "mu_by_part": {
@@ -888,7 +1656,28 @@
      -0.888,
      0.183,
      0.421
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 2.208675983359016,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.175,
+     "mu": 2.208675983359016,
+     "eta": 0.16913998080114262,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_back": {
     "uniform": {
@@ -909,7 +1698,29 @@
      0.465,
      -0.063,
      0.883
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.8738537114757142,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.09350000000000001,
+     "mu": 0.8738537114757142,
+     "eta": 0.09340485145390834,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": true
    },
    "palm": {
     "uniform": {
@@ -930,7 +1741,28 @@
      -0.465,
      0.063,
      -0.883
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.868206711023708,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.09300000000000001,
+     "mu": 0.868206711023708,
+     "eta": 0.09298929134330157,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_inner": {
     "uniform": {
@@ -951,7 +1783,28 @@
      -0.188,
      -0.982,
      0.029
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.07300000000000001,
+     "mu": 0.5285863438108048,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.136,
+     "mu": 2.9811709417104173,
+     "eta": 0.20216767978406927,
+     "shape": 18,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_outer": {
     "uniform": {
@@ -972,7 +1825,28 @@
      0.188,
      0.982,
      -0.029
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.5280178316654492,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.065,
+     "mu": 0.5280178316654492,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "forearm_top": {
     "uniform": {
@@ -993,7 +1867,28 @@
      0.683,
      0.039,
      0.73
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.7545456235011343,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.147,
+     "mu": 1.7545456235011343,
+     "eta": 0.14694679003951067,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "forearm_side": {
     "uniform": {
@@ -1014,7 +1909,29 @@
      -0.056,
      0.998,
      -0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.375077397115323,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.126,
+     "mu": 1.375077397115323,
+     "eta": 0.12607407162341713,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "upper_arm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": true
    },
    "elbow": {
     "uniform": {
@@ -1035,7 +1952,29 @@
      -0.683,
      -0.039,
      -0.73
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.10099999999999999,
+     "mu": 3.109529315552857,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.239,
+     "mu": 3.13561373821349,
+     "eta": 0.20823347500399422,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm",
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "upper_arm_side": {
     "uniform": {
@@ -1056,7 +1995,28 @@
      0.065,
      0.998,
      0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 3.373595736345295,
+     "eta": 0.065,
+     "shape": 12,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.21750000000000003,
+     "mu": 3.373595736345295,
+     "eta": 0.21729496574914858,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm"
+    ],
+    "union_mixed": false
    }
   },
   "mu_by_part": {
@@ -1105,7 +2065,28 @@
      -0.443,
      -0.896,
      -0.046
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.0655,
+     "mu": 0.8200022897957593,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.09100000000000001,
+     "mu": 0.8200022897957593,
+     "eta": 0.08938545460342667,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_back": {
     "uniform": {
@@ -1126,7 +2107,29 @@
      -0.404,
      0.302,
      -0.864
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.675075129570093,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.078,
+     "mu": 0.675075129570093,
+     "eta": 0.0778594993594342,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": true
    },
    "palm": {
     "uniform": {
@@ -1147,7 +2150,28 @@
      0.404,
      -0.302,
      0.864
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.6548243178784292,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.076,
+     "mu": 0.6548243178784292,
+     "eta": 0.07615383848085035,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_inner": {
     "uniform": {
@@ -1168,7 +2192,28 @@
      0.788,
      -0.364,
      -0.496
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.6001059561307659,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.07200000000000001,
+     "mu": 0.6001059561307659,
+     "eta": 0.07140842959681218,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_outer": {
     "uniform": {
@@ -1189,7 +2234,28 @@
      -0.788,
      0.364,
      0.496
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.07250000000000001,
+     "mu": 0.6077246309062257,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.138,
+     "mu": 0.6077246309062257,
+     "eta": 0.07208175600880286,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "forearm_top": {
     "uniform": {
@@ -1210,7 +2276,29 @@
      -0.208,
      0.019,
      0.978
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.6310132445804753,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.14049999999999999,
+     "mu": 1.6310132445804753,
+     "eta": 0.14042472688707597,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "upper_arm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": true
    },
    "forearm_side": {
     "uniform": {
@@ -1231,7 +2319,28 @@
      0.092,
      0.996,
      -0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.611624294927634,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.13949999999999999,
+     "mu": 1.611624294927634,
+     "eta": 0.13937891376159084,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "elbow": {
     "uniform": {
@@ -1252,7 +2361,29 @@
      0.587,
      -0.031,
      -0.809
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.08600000000000001,
+     "mu": 2.430985288698426,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.2315,
+     "mu": 3.318073000314988,
+     "eta": 0.21521021351923147,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm",
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "upper_arm_side": {
     "uniform": {
@@ -1273,7 +2404,28 @@
      0.128,
      0.992,
      -0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 2.4179103041359644,
+     "eta": 0.065,
+     "shape": 12,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.17850000000000002,
+     "mu": 2.4179103041359644,
+     "eta": 0.17859061106387808,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm"
+    ],
+    "union_mixed": false
    }
   },
   "mu_by_part": {
@@ -1322,7 +2474,28 @@
      -0.907,
      -0.415,
      -0.076
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.5755906204670451,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.134,
+     "mu": 1.5755906204670451,
+     "eta": 0.13741845874056685,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_back": {
     "uniform": {
@@ -1343,7 +2516,28 @@
      0.001,
      -0.055,
      0.998
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.6791769536804925,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.0785,
+     "mu": 0.6791769536804925,
+     "eta": 0.07820185291507166,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "palm": {
     "uniform": {
@@ -1364,7 +2558,29 @@
      -0.001,
      0.055,
      -0.998
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.6757052366057062,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.078,
+     "mu": 0.6757052366057062,
+     "eta": 0.07791215792665923,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": true
    },
    "hand_inner": {
     "uniform": {
@@ -1385,7 +2601,28 @@
      0.419,
      -0.906,
      -0.05
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.07200000000000001,
+     "mu": 0.5275991125133149,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.11750000000000001,
+     "mu": 0.5275991125133149,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "hand_outer": {
     "uniform": {
@@ -1406,7 +2643,28 @@
      -0.419,
      0.906,
      0.05
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 0.5269703410808816,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.065,
+     "mu": 0.5269703410808816,
+     "eta": 0.065,
+     "shape": 19,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "hand"
+    ],
+    "own_parts": [
+     "hand"
+    ],
+    "union_mixed": false
    },
    "forearm_top": {
     "uniform": {
@@ -1427,7 +2685,28 @@
      -0.629,
      -0.036,
      0.777
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.5335289762084647,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.13499999999999998,
+     "mu": 1.5335289762084647,
+     "eta": 0.13510146673402135,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "forearm_side": {
     "uniform": {
@@ -1448,7 +2727,29 @@
      -0.058,
      0.998,
      -0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 1.4537639950297883,
+     "eta": 0.065,
+     "shape": 14,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.1305,
+     "mu": 1.4537639950297883,
+     "eta": 0.1306185658076554,
+     "shape": 14,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "forearm",
+     "upper_arm"
+    ],
+    "own_parts": [
+     "forearm"
+    ],
+    "union_mixed": true
    },
    "elbow": {
     "uniform": {
@@ -1469,7 +2770,29 @@
      0.629,
      0.036,
      -0.777
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.1015,
+     "mu": 3.2231209043612807,
+     "eta": 0.065,
+     "shape": 12,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.2415,
+     "mu": 3.2231209043612807,
+     "eta": 0.21160414021074497,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm",
+     "forearm"
+    ],
+    "union_mixed": false
    },
    "upper_arm_side": {
     "uniform": {
@@ -1490,7 +2813,28 @@
      0.06,
      0.998,
      -0.0
-    ]
+    ],
+    "uniform_own": {
+     "t": 0.065,
+     "mu": 3.3937777576609363,
+     "eta": 0.065,
+     "shape": 12,
+     "sat": false
+    },
+    "ours_own": {
+     "t": 0.21800000000000003,
+     "mu": 3.3937777576609363,
+     "eta": 0.21804849850844038,
+     "shape": 12,
+     "sat": false
+    },
+    "union_owner_parts": [
+     "upper_arm"
+    ],
+    "own_parts": [
+     "upper_arm"
+    ],
+    "union_mixed": false
    }
   },
   "mu_by_part": {
@@ -1538,5 +2882,49 @@
    "P4_side-P1_reach": 10.0,
    "P2_bend45-P1_reach": 9.3
   }
+ },
+ "_pick_own": {
+  "postures": [
+   "P6_handover",
+   "P4_side",
+   "P2_bend45",
+   "P3_bend90"
+  ],
+  "same_set_as_pick": true,
+  "note": "reference only; WP3 used _pick"
+ },
+ "_own_fix": {
+  "date": "2026-11-18",
+  "own_parts": {
+   "tip_front": [
+    18
+   ],
+   "hand_back": [
+    18
+   ],
+   "palm": [
+    18
+   ],
+   "hand_inner": [
+    18
+   ],
+   "hand_outer": [
+    18
+   ],
+   "forearm_top": [
+    16
+   ],
+   "forearm_side": [
+    16
+   ],
+   "elbow": [
+    14,
+    16
+   ],
+   "upper_arm_side": [
+    14
+   ]
+  },
+  "rule": "own-part thickness: surface and zone from the own part's shapes only; union = all right-arm shapes"
  }
 }

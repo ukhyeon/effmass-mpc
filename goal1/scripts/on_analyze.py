@@ -11,6 +11,8 @@ reached; crossing time t_cross = first step of the leg where the TCP projection 
 Per run: penetration steps (shape hand, shape all, mesh hand), near-human sphere speed p99, realtime factor, solver mean / p99, recapture, infeasible,
 completed passes, optional executed-state torso cost share (job cost_split), stalls (TCP < 0.05 m/s for >= 0.5 s within 0.4 m of a human shape; at_goal flag), command roughness (RMS of joint acceleration and jerk
 from the executed joint commands, 60 Hz finite differences).
+Optional job keys: end_excl_m (pass minimum only over steps with the TCP farther than this from scene tcp_A and tcp_B; the full-leg minimum stays in
+gap_shape_leg / t_min_leg), no_series (do not write <tag>_on_series.npz).
 Usage: on_analyze.py <out_prefix> <jobs.json> [workers]  -> <out_prefix>_runs.json, <out_prefix>_passes.json"""
 import json, os, re, sys, csv
 import numpy as np
@@ -81,7 +83,12 @@ def one(job):
         starts = [0] + [x + 1 for x in swi[:-1]]; legs = list(zip(starts, swi))
     passes = []
     for pi, (a, b) in enumerate(legs):
-        seg_ = slice(a, b + 1); i0 = a + int(np.argmin(gh[seg_])); f = fr[i0]; j = sph[i0]; kq = shp[i0]; cpos = C[i0, j]
+        seg_ = slice(a, b + 1); i0 = a + int(np.argmin(gh[seg_])); i0_leg = i0
+        if job.get("end_excl_m"):   # pass section only: drop steps with the TCP within end_excl_m of the leg's start or goal TCP (scene tcp_A / tcp_B)
+            ee = job["end_excl_m"]; mk = np.zeros(n, bool); mk[a:b + 1] = True; mk &= (np.linalg.norm(TCP - A_, axis=1) > ee) & (np.linalg.norm(TCP - B_, axis=1) > ee)
+            if mk.any():
+                ii = np.nonzero(mk)[0]; i0 = int(ii[np.argmin(gh[ii])]); seg_ = mk
+        f = fr[i0]; j = sph[i0]; kq = shp[i0]; cpos = C[i0, j]
         dtip = cpos - D["tip"][f]; vapp = float(D["tipv"][f] @ (dtip / np.linalg.norm(dtip)))
         a_, b_ = D["p0"][f][kq], D["p1"][f][kq]; ab = b_ - a_; tt = np.clip(((cpos - a_) @ ab) / max(ab @ ab, 1e-12), 0, 1); qp = a_ + tt * ab; uu = (qp - cpos) / np.linalg.norm(qp - cpos)
         LH = D["inv"][f][D["seg"][kq]]; Lr = RL[i0][1][j]; mu = 1 / (uu @ LH @ uu + uu @ Lr @ uu); eta = eta_of(mu, k)
@@ -108,7 +115,7 @@ def one(job):
                            state=str(D["phase"][f]), v_approach=vapp, min_shape=int(kq), min_seg=int(D["seg"][kq]), u_vs_front_deg=float(np.degrees(np.arccos(np.clip(uu @ (-AX), -1, 1)))), mu=float(mu), eta=eta,
                            deficit=(eta - float(gh[i0])) if eta is not None else None, cost_shape_seg=best[1], cost_at_min=best[0], pass_time_s=float((b - a + 1) / 60),
                            side=side if side != "side" else "other", reached=bool(perr[b] < 0.01), t_cross=t_cross, phase=ph, gap_window=gw,
-                           direction="A->B" if pi % 2 == 0 else "B->A"))
+                           direction="A->B" if pi % 2 == 0 else "B->A", gap_shape_leg=float(gh[i0_leg]), t_min_leg=float((i0_leg + 1) / 60), end_excl_m=job.get("end_excl_m")))
     caps = r["graph_captures_by_stage"]; legs_s = np.diff(np.r_[-1, swi]) / 60.0
     qd = np.diff(Q, axis=0) / DT; qdd = np.diff(qd, axis=0) / DT; qddd = np.diff(qdd, axis=0) / DT
     run = dict(job, steps=n, realtime_factor=r["realtime_factor"], solver_ms_mean=float(solv[10:].mean()), solver_ms_p99=float(np.percentile(solv[10:], 99)),
@@ -121,7 +128,8 @@ def one(job):
                arrived=bool((perr < 0.01).any()), arrival_s=float((np.nonzero(perr < 0.01)[0][0] + 1) / 60) if (perr < 0.01).any() else None)
     if job.get("cost_split") and k is not None:
         run.update(cost_split(D, C, RL, fr, k))
-    np.savez(f"{O}/{tag}_on_series.npz", gap_shape=gh, gap_all=ga, gap_mesh=gm, frame=fr, tcp=TCP, switch=sw)
+    if not job.get("no_series"):
+        np.savez(f"{O}/{tag}_on_series.npz", gap_shape=gh, gap_all=ga, gap_mesh=gm, frame=fr, tcp=TCP, switch=sw)
     return run, passes
 
 

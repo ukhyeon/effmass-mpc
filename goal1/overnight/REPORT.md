@@ -22,7 +22,7 @@
 
 ### 2. 핵심 결과
 1. **빠른 손의 간격 부족은 예측이 없어서다.** 1.0 m/s 에서 손이 뻗는 중 로봇이 지나갈 때 제안의 최대 간격 부족(η − 간격)은 11.7~13.8 cm 다. 등속 예측(--meff-motion cv)을 쓰면 4.3~5.0 cm 로 줄었다(seed 3개). 속도 상한을 0.75 / 1.0 m/s 로 올려도 12.3 cm 그대로였다. 근거: `logs/meff_isaac/on_wp1_summary.json`, `goal1/overnight/wp1_phase_gap.png`.
-2. **제안이 더 멀리 가는 곳은 손끝 앞과 전완 옆이다.** 정지 장면 9개(seed 3개)에서 손끝 앞 4개 자세 모두 +2.7~+5.6 cm, 옆 팔 자세의 손 위 +3.7 cm, 전완 옆(P6) +5.6 cm 였다. 굽힌 팔의 손 위 3개는 차이가 없었다. 그 방향 μ 가 0.54~0.59 kg 로 μ_ref 근처라 정상이다. 경로가 바뀐 장면과 도달 실패는 없다. 근거: `on_wp3_summary.json`, `wp3_effect_table.png`.
+2. **제안이 더 멀리 가는 곳은 손끝 앞과 전완 옆이다.** 정지 장면 9개(seed 3개)에서 손끝 앞 4개 자세 모두 +2.7~+5.6 cm, 옆 팔 자세의 손 위 +3.7 cm, 전완 옆(P6) +6.5 cm 였다(11-18 수정: 경로 양 끝 10 cm 를 뺀 통과 구간의 최소 간격. 전완 옆은 처음에 출발 자세를 최소로 잡아 +5.6 cm 로 적었다). 굽힌 팔의 손 위는 P3·P6 차이 없음, P2 는 +1.4 cm 로 작고 불확실하다(seed 범위 2.6 cm 안). 그 방향 μ 가 0.54~0.59 kg 로 μ_ref 근처라 예상한 결과다. 경로가 바뀐 장면과 도달 실패는 없다. 근거: `on_wp3_summary.json`, `wp3_effect_table.png`.
 3. **협업 동작에서도 제안이 더 멀리 간다.** 건네기 머묾 간격은 10.1 대 5.8~5.9 cm, 최소 간격은 seed 마다 제안이 위다(seed 3개, 0.25·0.5 m/s). 가로지르기 0.5 m/s 최소 간격은 3.8~6.7 대 0.0~1.2 cm 다. 대신 0.25 m/s 에서 제안은 쉬고 있는 손 앞에서 더 기다려 통과 수가 12~14 대 16~18 이다. 침투는 0 이다. 근거: `on_wp4_summary.json`.
 4. **인지 불완전성은 지연이 가장 문제다.** 지연 300 ms, 떨림 4 cm, 누락 60% 까지 침투는 0 이었다. 지연 100 ms 부터 제안의 간격 부족이 커졌다(10.6~11.1 대 기준 6.1~7.8 cm, seed 2개). 떨림은 주로 명령 저크를 키웠다. 근거: `on_wp5_summary.json`.
 5. **실시간 Kinect 설정 후보: 등속 예측 + 속도 필터(EMA 0.2) + 속도 상한 반경 0.5 m (t2a_c2).** 필터 없는 예측은 떨림이 있으면 위험하다. 떨림 4 cm 에서 균일이 손을 62 스텝 침투했다. 필터를 넣으면 침투가 0 이 된다. 지연 100 ms + 떨림 2 cm 에서 이 후보는 정지보다 간격이 크고(0.5 m/s 제안 7.2~7.7 대 3.9~4.8 cm), 사람 근처 속도 p99 는 0.467~0.478 m/s 다. 깨끗한 데이터와 협업 동작에서도 손해가 없었다(seed 2개). 근거: REPORT 의 F2~F8 절, `on_wp1_var_runs.json`, `on_wp5_runs.json`.
@@ -64,7 +64,7 @@
 - 미해결: 전완 옆 장면은 P6 하나뿐이다. 굽힌 팔 P2·P3 와 옆 팔 P4 의 전완 옆은 직선 경로에서 몸통이 0.09 m 안까지 와서 만들지 못했다.
 - 미해결: 단일 패스에서 균일의 사람 근처 속도 p99 가 0.546 / 0.518 m/s 로 한도를 넘은 2건. 왕복에서는 넘지 않았다.
 - (해석) 예측 후 남는 1.0 m/s 간격 부족 약 5 cm 는 머묾에서도 보이는 정상 상태 부족(간격/η 약 0.85)과 0.5 m/s 로 비키는 시간 때문으로 보인다.
-- (해석) 전완 옆에서 제안의 간격이 η 보다 큰 것(간격/η 1.48)은 더 무거운 손의 구역이 먼저 로봇을 막기 때문으로 보인다.
+- (11-18 정정) 전완 옆에서 제안의 간격/η 가 1.48 로 보인 것은 측정 문제였다. 최소점이 출발 자세(손에서 11.2 cm, seed 3개 같은 값)와 그 근처의 가벼운 손(μ 0.6 kg, η 7.1 cm)에 잡혔다. 전완만 재면 제안 12.2~12.9 cm, η 13.5~13.7 cm(간격/η 0.93)로 다른 장면과 같은 수준이고, 균일은 5.5~5.8 cm 다. 앞의 해석(무거운 손의 구역이 먼저 막는다)은 철회한다.
 - (해석) 가로지르기 0.25 m/s 에서 제안이 더 기다리는 것은 손이 경로 안에 쉬고 있어 큰 구역이 비켜 지나가기를 막기 때문으로 보인다.
 - (해석) 지연 + 떨림 + 예측에서 속도 p99 가 오르는 것은 속도 상한의 거리 판정이 실제 손과 다른 예측 형상을 쓰기 때문으로 보인다.
 - 단일 seed 결과: 묶음 5 의 대부분 변형, F3, F5.
@@ -118,21 +118,28 @@ Figure: goal1/overnight/wp1_phase_gap.png. Numbers: logs/meff_isaac/on_wp1_summa
 ## WP2 Zone maps by posture and direction (00:16-00:32, no MPC)
 Seven right-arm postures from the B2a pose (shoulder 3 + elbow hinge + wrist 3 optimised with the node body model; shapes and inertia recomputed
 with g13_human_precompute.py). All pass the checks after the fixes in D2-1. Preview: goal1/overnight/postures_preview.png (first figure to look at).
-Ours zone thickness by direction (cm; uniform is 6.5-10.2 cm everywhere, the upper value where shapes overlap); mu ranges (kg, robot 4.6 kg isotropic):
+Ours zone thickness by direction, own part only (cm; 11-18 fix, see the note under the table; uniform is 6.5-10.2 cm everywhere, the upper value where shapes overlap); mu ranges (kg, robot 4.6 kg isotropic):
 | posture | elbow deg | tip front | hand back | palm | hand inner | hand outer | forearm top | forearm side | elbow | upper-arm side | hand mu | forearm mu | upper-arm mu |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| P1_reach (ref) | 5 | 20.3 | 9.1 | 8.8 | 13.3 | 6.5 | 14.8 | 12.7 | 24.6 | 20.6 | 0.52-2.99 | 1.36-2.87 | 2.90-3.28 |
-| P2_bend45 | 42 | 12.4 | 7.3 | 7.2 | 11.3 | 6.5 | 17.2 | 13.4 | 23.4 | 18.2 | 0.51-1.55 | 1.45-2.88 | 2.48-3.30 |
-| P3_bend90 | 89 | 9.5 | 7.0 | 8.1 | 6.6 | 10.8 | 37.3 | 13.9 | 21.9 | 19.1 | 0.50-1.08 | 1.46-3.06 | 2.35-3.27 |
-| P4_side | 4 | 21.1 | 9.3 | 8.8 | 6.5 | 13.4 | 15.9 | 14.1 | 24.9 | 19.1 | 0.52-3.72 | 1.35-3.30 | 2.70-3.76 |
-| P5_up | 5 | 17.5 | 9.5 | 9.3 | 13.6 | 6.5 | 14.7 | 14.5 | 23.9 | 21.8 | 0.52-3.13 | 1.37-3.16 | 2.77-3.53 |
-| P6_handover | 48 | 9.1 | 8.9 | 7.6 | 7.2 | 13.8 | 17.8 | 13.9 | 23.2 | 17.9 | 0.51-1.28 | 1.44-3.10 | 2.41-3.39 |
-| P7_down | 5 | 13.4 | 7.8 | 8.0 | 11.8 | 6.5 | 13.5 | 13.9 | 24.1 | 21.8 | 0.52-1.71 | 1.39-2.97 | 2.75-3.43 |
+| P1_reach (ref) | 5 | 20.3 | 8.7 (union 9.1) | 8.8 | 13.3 | 6.5 | 14.7 (union 14.8) | 12.7 | 24.6 | 20.6 | 0.52-2.99 | 1.36-2.87 | 2.90-3.28 |
+| P2_bend45 | 42 | 12.4 | 7.3 | 7.2 | 11.3 | 6.5 | 14.4 (union 17.2) | 13.4 | 23.4 | 18.2 | 0.51-1.55 | 1.45-2.88 | 2.48-3.30 |
+| P3_bend90 | 89 | 9.5 | 7.0 | 7.0 (union 8.1) | 6.6 | 10.8 | 17.9 (union 37.3) | 13.9 | 21.9 | 19.1 | 0.50-1.08 | 1.46-3.06 | 2.35-3.27 |
+| P4_side | 4 | 21.1 | 8.8 (union 9.3) | 8.8 | 6.5 | 13.4 | 14.6 (union 15.9) | 12.5 (union 14.1) | 24.9 | 19.1 | 0.52-3.72 | 1.35-3.30 | 2.70-3.76 |
+| P5_up | 5 | 17.5 | 9.4 (union 9.5) | 9.3 | 13.6 | 6.5 | 14.7 | 12.6 (union 14.5) | 23.9 | 21.8 | 0.52-3.13 | 1.37-3.16 | 2.77-3.53 |
+| P6_handover | 48 | 9.1 | 7.8 (union 8.9) | 7.6 | 7.2 | 13.8 | 14.0 (union 17.8) | 13.9 | 23.2 | 17.9 | 0.51-1.28 | 1.44-3.10 | 2.41-3.39 |
+| P7_down | 5 | 13.4 | 7.8 | 7.8 (union 8.0) | 11.8 | 6.5 | 13.5 | 13.1 (union 13.9) | 24.1 | 21.8 | 0.52-1.71 | 1.39-2.97 | 2.75-3.43 |
 - The fingertip-front thickness follows the arm: straight arms 17.5-21.1 cm, bent arms 9.1-12.4 cm (with a bent elbow the hand points along a light
   direction: hand mu max 1.08-1.55 kg vs 2.99-3.72 kg straight).
-- Back of hand and palm stay near uniform (7.0-9.5 cm) in every posture. One hand side is always at the uniform value (6.5 cm).
+- Back of hand and palm stay near uniform (7.0-9.4 cm) in every posture. One hand side is always at the uniform value (6.5 cm).
 - Elbow and upper arm are thick in every posture (17.9-24.9 cm); no direction reaches eta_max (25 cm) at the surface, the elbow comes closest (24.9).
-- forearm_top of P3 (37.3 cm) is the hanging upper arm's zone above the forearm, not the forearm's own.
+- 11-18 fix (no new runs): each direction is now measured with its own part's shapes only (hand directions: hand; forearm top / side: forearm;
+  upper-arm side: upper arm; elbow: forearm + upper arm). The overnight values used all right-arm shapes together, so a ray could run on into a
+  neighbouring part's zone. 14 of 63 cells change (old union value in brackets); the largest is P3 forearm top 37.3 -> 17.9 cm, where the ray
+  from the forearm runs into the hanging upper arm's zone. Other forearm-top cells drop 1.3-3.8 cm (P2, P4, P6; P1 0.1), forearm-side 0.8-1.9 cm (P4, P5, P7),
+  hand back / palm 0.1-1.1 cm (into the forearm zone). With own-part values no cell exceeds eta_max (max 24.9 cm, P4 elbow). Some own-part values
+  exceed eta at the surface point (hand inner / outer up to 13.8 vs 7.2 cm, elbow up to 24.9 vs 23.1 cm) because the ray is not along the normal of
+  the nearest capsule and mu changes along the ray within the same part. The same 4 postures are picked with own-part values (_pick_own);
+  the WP3 pick is unchanged. Overnight values: logs/meff_isaac/on_wp2_zone_overnight.json and the 'ours' fields of on_wp2_zone.json; own part: 'ours_own'.
 - Limits: P6_handover palm is 30 deg from up and the elbow 48 deg (D2-1). Single static frame per posture; thickness is along one ray per direction.
 - Picked for WP3 (D2-2): P3_bend90, P6_handover, P4_side, P2_bend45.
 Files: logs/meff_isaac/on_wp2_postures.json, on_wp2_zone.json; figures goal1/overnight/postures_preview.png, wp2_zone_thickness.png.
@@ -150,25 +157,35 @@ placement) = 3 of 12. Purpose check: all 3 approach directions present; bent-arm
 | P1 reach front (V2) | 0.35 | 6.0 | 12.0 | - | front | - | - | - | - | - | - | - | ours farther |
 | P1 reach over hand (V2) | 0.35 | 5.4 | 8.2 | - | up | - | - | - | - | - | - | - | ours farther |
 | P2_tipfront | 0.35 | 6.0 (5.3-6.5) | 9.9 (9.3-10.4) | 5.9 / 9.9 | front | 43 | 1.03 | 10.4 | 0.92 / 0.95 | 0.96 | 0.503 | 0 | ours farther |
-| P2_top | 0.35 | 6.0 (5.8-6.3) | 7.5 (6.1-8.7) | 5.9 / 7.8 | up | 92 | 0.59 | 7.0 | 0.93 / 1.06 | 0.92 | 0.472 | 0 | no difference (light) |
+| P2_top | 0.35 | 6.0 (5.8-6.3) | 7.5 (6.1-8.7) | 5.9 / 7.8 | up | 92 | 0.59 | 7.0 | 0.93 / 1.06 | 0.92 | 0.472 | 0 | small, uncertain (ours farther; overnight: no difference (light)) |
 | P3_tipfront | 0.35 | 5.9 (5.6-6.1) | 8.5 (8.2-8.8) | 6.2 / 8.8 | front | 12 | 0.92 | 9.7 | 0.90 / 0.88 | 1.06 | 0.518 | 0 | ours farther |
 | P3_top25 | 0.25 | 5.9 (5.7-6.2) | 6.0 (5.6-6.2) | 7.9 / 8.1 | up | 78 | 0.54 | 6.6 | 0.91 / 0.91 | 1.00 | 0.496 | 0 | no difference (light) |
 | P4_tipfront | 0.35 | 5.9 (5.2-6.5) | 11.5 (11.0-11.9) | 5.8 / 12.5 | front | 42 | 1.30 | 12.2 | 0.91 / 0.94 | 1.06 | 0.507 | 0 | ours farther |
 | P4_top | 0.35 | 5.9 (5.6-6.1) | 9.5 (8.9-10.0) | 8.6 / 11.7 | up | 73 | 0.85 | 9.2 | 0.90 / 1.04 | 0.98 | 0.493 | 0 | ours farther |
 | P6_tipfront25 | 0.25 | 6.0 (5.8-6.1) | 10.2 (9.8-10.6) | 5.8 / 9.7 | front | 15 | 1.08 | 10.8 | 0.92 / 0.94 | 1.00 | 0.546 | 0 | ours farther |
 | P6_top18 | 0.18 | 6.2 (5.4-6.6) | 6.6 (6.1-6.9) | 6.0 / 6.4 | up | 66 | 0.57 | 6.8 | 0.95 / 0.96 | 1.05 | 0.503 | 97 | no difference (light), torso cost in ours |
-| P6_forearmside18 | 0.18 | 5.6 (5.5-5.8) | 11.2 (11.2-11.2) | 5.9 / 11.1 | front | 20 | 0.65 | 7.6 | 0.87 / 1.48 | 1.09 | 0.498 | 0 | ours farther |
+| P6_forearmside18 | 0.18 | 5.6 (5.5-5.8) | 12.1 (11.6-12.6) (overnight 11.2, the start pose) | 5.9 / 11.5 | front | 15 | 0.60 | 7.1 | 0.87 / 1.70 | 1.09 | 0.498 | 0 | ours farther |
 Classification rule written before the runs (on_wp3_summary.py): threshold = max(1 cm, seed range); "light" = ours eta at the minimum < 7.5 cm.
+11-18 revisions (no new runs): (1) gap = minimum over the pass section, steps with the TCP within 0.10 m of the start or goal TCP left out
+(on_analyze end_excl_m 0.10, logs/meff_isaac/on_wp3e_passes.json). Only P6_forearmside18 ours changed (11.2 -> 11.6 / 12.6 / 12.1 for s2 / s1 / s0);
+in the other 8 scenes every minimum lies mid-path (t 0.63-1.18 s, TCP 27-52 cm from the start, 28-49 cm from the goal), and the values are
+identical with 5, 10 or 15 cm left out. (2) Class rule with an uncertain band: d = ours mean - uniform mean, s = larger seed range (max - min)
+of the two conditions; ours farther: d > max(1 cm, s); small, uncertain: 1 cm < |d| <= s; no difference: |d| <= 1 cm ('light' when ours eta at the
+minimum < 7.5 cm); ours closer: d < -max(1 cm, s). Only P2_top changes class (d +1.4 cm, s 2.6 cm). Overnight summary: on_wp3_summary_overnight.json.
 - Ours keeps more distance when the robot crosses in front of the fingertip (all 4 postures, +2.7 to +5.6 cm, 3 seeds each beyond the seed range),
-  and over the hand of the side-arm posture P4 (+3.7 cm). Over the hand of bent-arm postures (P2, P3, P6) there is no difference: mu there is
-  0.54-0.59 kg (near mu_ref 0.53), so ours eta stays 6.6-7.0 cm. This is the intended direction dependence, not a failure.
-- Beside the forearm (P6 only): ours 11.2 vs uniform 5.6 cm although ours eta at the forearm minimum is 7.6 cm (gap/eta 1.48).
-  (interpretation) the heavier hand zone keeps the robot out before it reaches the forearm; not checked.
+  and over the hand of the side-arm posture P4 (+3.7 cm). Over the hand of bent-arm postures P3 and P6 there is no difference; P2 is +1.4 cm, small
+  and uncertain (ours seeds 6.1-8.7 cm span the difference). mu there is 0.54-0.59 kg (near mu_ref 0.53), so ours eta stays 6.6-7.0 cm. This is the
+  intended direction dependence, not a failure.
+- Beside the forearm (P6 only): ours 12.1 vs uniform 5.6 cm (forearm + hand, pass section). 11-18 correction: the overnight ours value 11.2 cm
+  (identical in all 3 seeds) was the start pose, 11.2 cm from the hand; its gap/eta 1.48 and the interpretation 'the heavier hand zone keeps the robot
+  out' are withdrawn. The pass-section minimum of ours is still on the light hand near the start (mu 0.6, eta 7.1 cm, gap/eta 1.70), because ours
+  moves away from the arm from the first steps. Forearm only (logs/meff_isaac/on_wp3e_P6_forearmside18_by_part.json): ours 12.2-12.9 cm at
+  mu 1.52-1.56 kg, eta 13.5-13.7 cm (gap/eta 0.93); uniform 5.5-5.8 cm (eta 6.5 cm).
 - Torso: torso cost appeared only in P6_top18 for ours (28-35 steps per run, torso gives 86-100 % of the per-step maximum cost on those steps);
   the gap there equals uniform's, so the scene says nothing about the arm. Uniform never had torso cost; no other scene had torso cost in either condition.
 - Same passing side in every seed and condition; no path change; all arrived; pass time ours / uniform 0.92-1.09.
 - Near-human speed p99 slightly above 0.5 m/s in single passes: max 0.546 (P6_tipfront25), 0.518 (P3_tipfront). Not seen in the R1 round trips.
-Figures: goal1/overnight/wp3_effect_table.png, wp3_scene_gap.png. Numbers: logs/meff_isaac/on_wp3_summary.json, on_wp3_runs.json, on_wp3_passes.json,
+Figures: goal1/overnight/wp3_effect_table.png, wp3_scene_gap.png. Numbers: logs/meff_isaac/on_wp3_summary.json, on_wp3_runs.json, on_wp3e_passes.json (pass section; overnight whole leg: on_wp3_passes.json),
 on_wp3_scenes.json.
 
 ## WP4 Moving collaboration scenes (01:10-01:52, 28 runs, all wall-time ok, RTF >= 1.159, infeasible 0, recapture 0)
@@ -264,7 +281,9 @@ P6_handover (elbow 48 deg) at the P6_forearmside18 placement (DR3-1), forearm st
 |---|---|---|---|---|---|---|
 | uniform | 5.1 / 4.8 / 4.4 | 4.6 | 1.7 | 0 / 0 | 25 / 25 / 25 | 0 |
 | ours | 8.6 / 7.8 / 9.0 | 7.7 | 1.5 | 0 / 0 | 24 / 24 / 23 | 0 |
-- Ours keeps +3.4 to +4.6 cm more (every ours seed above every uniform seed) at a cost of about one pass per minute. Torso cost in ours on 0-8 steps
+- 11-18 check: the ours run minima above lie at or near the start point (TCP 1.3 / 7.5 / 0.9 cm from it), as in P6_forearmside18. Pass-section
+  minimum (10 cm at both path ends left out): ours 10.4 / 8.0 / 9.5 cm; uniform unchanged (minima mid-path). The table keeps the whole-run values.
+- Ours keeps +3.4 to +4.6 cm more on the whole-run minimum (pass section: +3.2 to +5.3 cm per seed index; every ours seed above every uniform seed) at a cost of about one pass per minute. Torso cost in ours on 0-8 steps
   per run, about 0 % of the cost. Near-human speed p99 <= 0.482 m/s. Numbers: logs/meff_isaac/on_wp4_summary.json (M3 rows), on_wp4_motion_check.json.
 
 ## Follow-up F1 P (cv) in the crossing task M2 (02:57-03:12, 12 runs)
