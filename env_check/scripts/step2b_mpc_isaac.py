@@ -109,6 +109,14 @@ ap.add_argument("--speed-cap", default="off", choices=["off", "on"], help="(T1) 
 ap.add_argument("--speed-cap-v", type=float, default=0.5, help="(T1) speed limit m/s")
 ap.add_argument("--speed-cap-dist", type=float, default=0.4, help="(T1) penalty only for spheres whose gap to a human shape is <= this (m)")
 ap.add_argument("--speed-cap-w", type=float, default=0.0, help="(T1) weight of max(0, v - v_cap)^2 (max over spheres, per rollout step)")
+ap.add_argument("--safety-near", type=int, default=0, help="(overnight2) 1: scale the joint command step by s = clip((d - stop) / (start - stop), 0, 1), d = current min gap robot sphere - human shape (incl. 0.02 m buffer); independent of the cost")
+ap.add_argument("--safety-near-start", type=float, default=0.12, help="(overnight2) gap where slowing starts (m)")
+ap.add_argument("--safety-near-stop", type=float, default=0.03, help="(overnight2) gap where the robot holds its position (m)")
+ap.add_argument("--safety-loss-stop", type=int, default=0, help="(overnight2) 1: hold the current position while the human data are older than --safety-loss-s (instead of switching the human cost off)")
+ap.add_argument("--safety-loss-s", type=float, default=0.5, help="(overnight2) human data age that triggers the hold (s)")
+ap.add_argument("--human-gap-sim", default="", help="(overnight2) precomputed human: 't0,t1' (simulated s) the frame of t0 stays (simulated tracking loss, age grows)")
+ap.add_argument("--mppi-particles", type=int, default=0, help="(overnight2) >0: particle_mpc.yml mppi.num_particles override (solve-time study; 0 = file value 400)")
+ap.add_argument("--mppi-iters", type=int, default=0, help="(overnight2) >0: mppi.n_iters and cold_start_n_iters override (0 = file value 5)")
 ap.add_argument("--pose-rot-w", type=float, default=None, help="(T1) pose cost orientation weight (default: particle_mpc.yml, 60)")
 ap.add_argument("--round-trip", type=int, default=0, help="(R1) 1: start at the scene q_start (A), first goal B, then switch goals on arrival (round trips)")
 ap.add_argument("--viz-eta-shell", default="off", choices=["off", "on", "arm", "armelbow"], help="(demo) translucent eta shells on the v2 hand shapes (display only)")
@@ -274,6 +282,8 @@ VIZ = None
 # ---------------- MPC ----------------
 t0 = time.perf_counter()
 S.MPPI_SEED = args.mppi_seed if args.mppi_seed >= 0 else None
+if args.mppi_particles > 0 or args.mppi_iters > 0:   # (overnight2) solve-time study only; defaults keep particle_mpc.yml
+    S.MPPI_SIZE = {**({"num_particles": args.mppi_particles} if args.mppi_particles > 0 else {}), **({"n_iters": args.mppi_iters} if args.mppi_iters > 0 else {})}
 S.POSE_ROT_W = args.pose_rot_w
 mpc = S.build_mpc(robot_cfg, world_cfg)
 torch.cuda.synchronize()
@@ -614,6 +624,16 @@ def one_step(i, timed=True):
         q_cmd = current.position  # 프로토타입 hold-measured
     else:
         q_cmd = cmd.position
+    if SAFETY_ON:   # (overnight2) safety layer, after the solver, independent of the cost
+        _sf = 1.0; _dm = float("nan"); _ls = 0; _age = float(MEFF_INP.age_val) if MEFF_INP is not None else 0.0
+        if args.safety_loss_stop and _age > args.safety_loss_s:
+            _sf = 0.0; _ls = 1
+        if args.safety_near and MEFF is not None:
+            _kn = mpc.rollout_fn.compute_kinematics(current); _qn = MEFF.query_all(_kn.robot_spheres.reshape(-1, 4)[:MEFF_SV]); _dm = float(_qn["dist"].min()) - 0.02
+            _sf = min(_sf, float(np.clip((_dm - args.safety_near_stop) / max(args.safety_near_start - args.safety_near_stop, 1e-6), 0.0, 1.0)))
+        if _sf < 1.0:
+            q_cmd = current.position + _sf * (q_cmd - current.position)
+        SAFETY_ROWS.append((i, _sf, _dm, _age, _ls))
     if PB_Q is not None:
         controller.apply_action(ArticulationAction(PB_Q[min(i + 1, len(PB_Q) - 1)], joint_indices=cmd_idx))
     else:
@@ -731,6 +751,11 @@ if args.viz_eta_shell in ("on", "arm", "armelbow") or args.viz_trail == "on" or 
     sys.path.insert(0, os.path.expanduser("~/effmass_mpc/goal1/scripts")); import g1_viz as G1V
     VIZ = G1V.Viz(world.stage, args, MEFF, HUMAN, TAG, log, MEFF_SV if MEFF is not None else 0)
 _RENDER_T = [0.0]
+SAFETY_ON = bool(args.safety_near or args.safety_loss_stop); SAFETY_ROWS = []   # (overnight2)
+if args.human_gap_sim and HUMAN is not None and hasattr(HUMAN, "frame_at"):
+    HUMAN.gap_sim = tuple(float(v) for v in args.human_gap_sim.split(",")); log(f"(overnight2) simulated human tracking loss {HUMAN.gap_sim} s")
+if SAFETY_ON:
+    log(f"(overnight2) safety layer: near {args.safety_near} ({args.safety_near_start}-{args.safety_near_stop} m), loss stop {args.safety_loss_stop} (> {args.safety_loss_s} s)")
 if args.gui_viz_defer and HUMAN is not None:
     HUMAN.viz_defer = True
 PB_Q = np.load(os.path.expanduser(args.playback_q))["q"].astype(np.float64) if args.playback_q else None   # (live prep2)
@@ -861,6 +886,9 @@ if args.human_source in ("inertia", "precomputed") or args.meff == "on":
         np.savez(os.path.expanduser(f"~/effmass_mpc/goal1/logs/meff_isaac/{TAG}_costagg.npz"), n=COSTAGG["n"].cpu().numpy(), s=COSTAGG["s"].cpu().numpy(), fb=COSTAGG["fb"].cpu().numpy(),
                  shape_segment=MEFF_INP.seg.cpu().numpy(), **({"plate_n": COSTAGG["pn"].cpu().numpy(), "plate_min": COSTAGG["pmin"].cpu().numpy(), "plate_names": np.array([c.name for c in PLATES])} if "pn" in COSTAGG else {}),
                  **({"speed_n": COSTAGG["vn"].cpu().numpy(), "speed_sum": COSTAGG["vs"].cpu().numpy()} if "vn" in COSTAGG else {}), note="last MPPI iteration of each step; n = count of (particle, horizon, sphere) with cost > 0 per selected shape, s = cost sum")
+    if SAFETY_ROWS:
+        np.savez(os.path.expanduser(f"~/effmass_mpc/goal1/logs/meff_isaac/{TAG}_safety.npz"), rows=np.array(SAFETY_ROWS, dtype=np.float64),
+                 cols=np.array(["step", "scale", "gap_m", "human_age_s", "loss_hold"]))
     if B1_ROWS:
         np.savez(os.path.expanduser(f"~/effmass_mpc/goal1/logs/meff_isaac/{TAG}_b1.npz"), rows=np.array(B1_ROWS, dtype=np.float64), sphere_link=np.array(RI.sphere_link),
                  cost_par=MEFF.par.cpu().numpy(), cost_mode=int(MEFF.mode[0]), mppi_seed=args.mppi_seed)

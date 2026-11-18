@@ -34,3 +34,18 @@
 - options: (a) edit the earlier report; (b) leave the earlier folder unchanged (rule) and state the correction in compare_tip/REPORT.md and here
 - choice: (b); the difference (+0.4 cm) is unchanged
 - result: correction note in compare_tip/REPORT.md
+
+## D3-1 bridging simulation: spline buffer dropped on-time packets
+- question: spline5 showed accelerations up to 36x the limit on smooth commands
+- cause class: execution error (my code): the on-time test arr <= t_k + Db - extra failed by float rounding for some packets, so the spline stopped at the last accepted knot
+- options: (a) exact rational times; (b) a 1 us tolerance in the test
+- choice: (b)
+- result: rerun of all 288 cases
+
+## D3-2 MPPI particles 300 not possible
+- question: the solve-time study planned particles 300 / 200 and iterations 4 / 3
+- cause class: method limit (cuRobo sample set layout: shape [1, 1, 285, 30, 7] invalid for 60060 values)
+- options: (a) try other counts (e.g. 320); (b) keep 200 and the iteration variants
+- choice: (b); 200 and iterations 3 / 4 already bracket the 1 % target
+- result: table without 300
+- follow-up: my first fix put the comment on the same line and commented out the knot definitions (NameError); moved the comment, reran; spline5 worst acceleration 1.12x (was 36x)

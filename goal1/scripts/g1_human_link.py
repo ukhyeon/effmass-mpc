@@ -349,6 +349,10 @@ class PrecomputedHumanLink(HumanInertiaLink):
         if sf is not None and i >= 0:   # (live prep2) re-render: recorded human frame per step
             fc = int(min(max(sf[min(i, len(sf) - 1)], 0), self.F - 1))
             return t, fc, fc
+        gs = getattr(self, "gap_sim", None)
+        if gs is not None and gs[0] <= t < gs[1]:   # (overnight2) simulated tracking loss: the frame of t0 stays, its age grows
+            fc = min(max(int(np.floor(gs[0] * self.rate + 1e-6)) + self.delay, 0), self.F - 1)
+            return t, fc, fc
         if self.lag_s:
             f = int(np.floor((t - self.lag_s) * self.rate + 1e-6)) + self.delay
         else:

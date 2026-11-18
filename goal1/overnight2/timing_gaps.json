@@ -1,0 +1,158 @@
+[
+ {
+  "name": "sens",
+  "tag": "tm_live3m_part_s0_sens",
+  "steps": 5069,
+  "arrivals": 22,
+  "infeasible": 0,
+  "min_gap_cm": 3.365609202522611,
+  "near3": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near12_speed": {
+   "n": 2289,
+   "median": 0.09878149262307123,
+   "p95": 0.46866941549479,
+   "max": 0.49256996663652
+  }
+ },
+ {
+  "name": "sens_p200",
+  "tag": "tm_live3m_part_s0_sens_p200",
+  "steps": 5069,
+  "arrivals": 20,
+  "infeasible": 0,
+  "min_gap_cm": 3.0911686637329225,
+  "near3": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near12_speed": {
+   "n": 2168,
+   "median": 0.08275086546639174,
+   "p95": 0.45629444595313695,
+   "max": 0.48319149588995275
+  }
+ },
+ {
+  "name": "sens_i4",
+  "tag": "tm_live3m_part_s0_sens_i4",
+  "steps": 5069,
+  "arrivals": 21,
+  "infeasible": 0,
+  "min_gap_cm": 2.922714573494589,
+  "near3": {
+   "n": 1,
+   "median": 0.2989244303830845,
+   "p95": 0.2989244303830845,
+   "max": 0.2989244303830845
+  },
+  "overlap": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near12_speed": {
+   "n": 2345,
+   "median": 0.0956506021028084,
+   "p95": 0.4661360362188481,
+   "max": 0.4915098478207066
+  }
+ },
+ {
+  "name": "sens_i3",
+  "tag": "tm_live3m_part_s0_sens_i3",
+  "steps": 5069,
+  "arrivals": 18,
+  "infeasible": 0,
+  "min_gap_cm": 3.466808856063096,
+  "near3": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near12_speed": {
+   "n": 2400,
+   "median": 0.07994953499907101,
+   "p95": 0.4568704412638158,
+   "max": 0.47553146577836286
+  }
+ },
+ {
+  "name": "sens_p200i3",
+  "tag": "tm_live3m_part_s0_sens_p200i3",
+  "steps": 5069,
+  "arrivals": 16,
+  "infeasible": 0,
+  "min_gap_cm": 2.55789887082257,
+  "near3": {
+   "n": 6,
+   "median": 0.2961133254887215,
+   "p95": 0.36953629644011354,
+   "max": 0.3809875134945504
+  },
+  "overlap": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near12_speed": {
+   "n": 2162,
+   "median": 0.07482713878086344,
+   "p95": 0.4464202751839118,
+   "max": 0.5322303707467991
+  }
+ },
+ {
+  "name": "nosens",
+  "tag": "tm_live3m_part_s0",
+  "steps": 5069,
+  "arrivals": 22,
+  "infeasible": 0,
+  "min_gap_cm": 3.365609202522611,
+  "near3": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near12_speed": {
+   "n": 2289,
+   "median": 0.09878149262307123,
+   "p95": 0.46866941549479,
+   "max": 0.49256996663652
+  }
+ }
+]

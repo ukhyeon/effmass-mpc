@@ -231,14 +231,26 @@ MPPI_SEED = None          # (B1) None = particle_mpc.yml 그대로. 정수 = ove
 MPPI_OVERRIDE_DIR = "/home/robotics/effmass_mpc/goal1/b1/mppi_override"
 
 
+MPPI_SIZE = None   # (overnight2) None = particle_mpc.yml; dict(num_particles=, n_iters=) overrides (solve-time study only)
+
+
 def mppi_override_file():
-    if MPPI_SEED is None:
+    if MPPI_SEED is None and not MPPI_SIZE:
         return None
     import os
     import yaml
     os.makedirs(MPPI_OVERRIDE_DIR, exist_ok=True)
-    f = os.path.join(MPPI_OVERRIDE_DIR, f"mppi_seed_{int(MPPI_SEED)}.yml")
-    yaml.safe_dump({"mppi": {"seed": int(MPPI_SEED), "sample_params": {"seed": int(MPPI_SEED)}}}, open(f, "w"))
+    d = {"mppi": {}}
+    if MPPI_SEED is not None:
+        d["mppi"].update(seed=int(MPPI_SEED), sample_params={"seed": int(MPPI_SEED)})
+    if MPPI_SIZE:
+        d["mppi"].update({k: int(v) for k, v in MPPI_SIZE.items()})
+        if "n_iters" in MPPI_SIZE:
+            d["mppi"]["cold_start_n_iters"] = int(MPPI_SIZE["n_iters"])
+    nm = f"mppi_seed_{int(MPPI_SEED)}" if MPPI_SEED is not None else "mppi"
+    nm += "".join(f"_{k}{int(v)}" for k, v in sorted((MPPI_SIZE or {}).items()))
+    f = os.path.join(MPPI_OVERRIDE_DIR, f"{nm}.yml")
+    yaml.safe_dump(d, open(f, "w"))
     return f
 
 

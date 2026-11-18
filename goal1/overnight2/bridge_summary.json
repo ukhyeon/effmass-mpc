@@ -1,0 +1,146 @@
+[
+ {
+  "method": "hold",
+  "cases": 36,
+  "cases_with_any_over": 36,
+  "v_over": 45158,
+  "a_over": 116800,
+  "j_over": 174910,
+  "dtau_over": 83577,
+  "worst_v": 23.08,
+  "worst_a": 6047.03,
+  "worst_j": 24188.13,
+  "worst_dtau": 36.31,
+  "added_delay_ms": [
+   8.0,
+   9.0,
+   13.0
+  ]
+ },
+ {
+  "method": "linear",
+  "cases": 36,
+  "cases_with_any_over": 36,
+  "v_over": 336,
+  "a_over": 115209,
+  "j_over": 196190,
+  "dtau_over": 477,
+  "worst_v": 1.38,
+  "worst_a": 340.43,
+  "worst_j": 680.87,
+  "worst_dtau": 2.17,
+  "added_delay_ms": [
+   17.0,
+   18.0,
+   22.0
+  ]
+ },
+ {
+  "method": "lowpass",
+  "cases": 36,
+  "cases_with_any_over": 36,
+  "v_over": 18,
+  "a_over": 782578,
+  "j_over": 117242,
+  "dtau_over": 122,
+  "worst_v": 1.17,
+  "worst_a": 302.11,
+  "worst_j": 634.91,
+  "worst_dtau": 1.81,
+  "added_delay_ms": [
+   27.0,
+   28.0,
+   32.0
+  ]
+ },
+ {
+  "method": "smooth3",
+  "cases": 36,
+  "cases_with_any_over": 36,
+  "v_over": 0,
+  "a_over": 488870,
+  "j_over": 202641,
+  "dtau_over": 0,
+  "worst_v": 0.84,
+  "worst_a": 24.76,
+  "worst_j": 23.66,
+  "worst_dtau": 0.75,
+  "added_delay_ms": [
+   29.0,
+   30.0,
+   34.0
+  ]
+ },
+ {
+  "method": "smooth3_16",
+  "cases": 36,
+  "cases_with_any_over": 30,
+  "v_over": 0,
+  "a_over": 51096,
+  "j_over": 2924,
+  "dtau_over": 0,
+  "worst_v": 0.48,
+  "worst_a": 5.09,
+  "worst_j": 3.01,
+  "worst_dtau": 0.21,
+  "added_delay_ms": [
+   53.0,
+   54.0,
+   58.0
+  ]
+ },
+ {
+  "method": "cubic",
+  "cases": 36,
+  "cases_with_any_over": 27,
+  "v_over": 4034,
+  "a_over": 279156,
+  "j_over": 182329,
+  "dtau_over": 5782,
+  "worst_v": 15.44,
+  "worst_a": 909.22,
+  "worst_j": 2128.07,
+  "worst_dtau": 20.25,
+  "added_delay_ms": [
+   16.0,
+   17.0,
+   18.0
+  ]
+ },
+ {
+  "method": "spline3",
+  "cases": 36,
+  "cases_with_any_over": 36,
+  "v_over": 0,
+  "a_over": 16953,
+  "j_over": 25696,
+  "dtau_over": 0,
+  "worst_v": 0.34,
+  "worst_a": 3.42,
+  "worst_j": 5.93,
+  "worst_dtau": 0.06,
+  "added_delay_ms": [
+   17.0,
+   22.0,
+   27.0
+  ]
+ },
+ {
+  "method": "spline5",
+  "cases": 36,
+  "cases_with_any_over": 15,
+  "v_over": 0,
+  "a_over": 75,
+  "j_over": 0,
+  "dtau_over": 0,
+  "worst_v": 0.34,
+  "worst_a": 1.12,
+  "worst_j": 0.69,
+  "worst_dtau": 0.03,
+  "added_delay_ms": [
+   33.0,
+   38.0,
+   43.0
+  ]
+ }
+]
