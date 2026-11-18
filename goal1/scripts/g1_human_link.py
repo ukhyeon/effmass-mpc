@@ -38,13 +38,28 @@ def load_frame(path):
 
 
 class HumanInertiaLink:
-    def __init__(self, node, transform_json, inputs, stage=None, display=("instancer",), shapes_viz=False, root="/World/human", vel_alpha=0.0):
+    def __init__(self, node, transform_json, inputs, stage=None, display=("instancer",), shapes_viz=False, root="/World/human", vel_alpha=0.0,
+                 loss_hold_s=0.0, loss_detect_s=0.1, gui=False):
         from rclpy.qos import DurabilityPolicy, HistoryPolicy, QoSProfile, ReliabilityPolicy
         from effmass_msgs.msg import HumanInertiaState
         self.R, self.t = load_frame(transform_json)
         # (live) ROS path: EMA of the segment velocity the node computed from input stamps, per new message (0 = off, previous behaviour).
         # Same rule as PrecomputedHumanLink (which sets its own vel_alpha after this __init__).
         self.vel_alpha = float(vel_alpha); self.vf = None
+        # (live) tracking loss (ROS path, virtual robot stage): no new message for loss_detect_s -> "lost" (last shapes kept),
+        # for loss_hold_s -> "off" (human cost off: shapes and COMs moved 1 km away, velocity 0), next message -> "ok" at once.
+        # 0 = off (previous behaviour). On the real robot a lost human should stop the robot instead (see live_t1.yml).
+        self.loss_hold_s = float(loss_hold_s); self.loss_detect_s = float(loss_detect_s)
+        self.loss_state = "wait"; self.last_msg_ns = None; self.loss_events = []; self.loss_since_ns = None
+        self.status_label = None
+        if self.loss_hold_s > 0 and gui:
+            try:
+                import omni.ui as ui
+                self._status_win = ui.Window("human status", width=260, height=60)
+                with self._status_win.frame:
+                    self.status_label = ui.Label("human: waiting", style={"font_size": 22})
+            except Exception as e:      # display only
+                print(f"[human-loss] status window not created: {e}", flush=True)
         self.inp = inputs
         self.lock = threading.Lock()
         self.latest = None
@@ -149,9 +164,13 @@ class HumanInertiaLink:
         if L is not None and self.last_stamp_ns is not None:
             self.inp.set_age((time.time_ns() - self.last_stamp_ns) / 1e9)
         if L is None or L[0] == self.last_pumped:
+            if self.loss_hold_s > 0:
+                self._loss_tick()
             T["pickup"] = (pc() - a) * 1000
             return T
         n, st, trecv, cnt, d = L
+        if self.loss_hold_s > 0:
+            self._loss_new(trecv)
         self.last_pumped = n; self.last_stamp_ns = st
         if self.vel_alpha:
             vel = d["vel"].astype(np.float64)
@@ -174,6 +193,44 @@ class HumanInertiaLink:
         T.update(new=1, pickup=(b - a) * 1000, transform=(c - b) * 1000, tensor=(e - c) * 1000, disp_instancer=(f - e) * 1000, shapes=(g - f) * 1000)
         self.upd.append((n, st, trecv, cnt, time.time_ns(), T["transform"], T["tensor"], T["disp_instancer"], T["shapes"]))
         return T
+
+    # ---------- (live) tracking loss ----------
+    def _loss_event(self, state, now_ns, gap_s):
+        self.loss_events.append((now_ns, {"ok": 0, "lost": 1, "off": 2, "back": 3}[state], gap_s))
+        msg = {"lost": f"human lost: no message for {gap_s:.2f} s, last shapes kept (hold {self.loss_hold_s:.2f} s)",
+               "off": f"human cost OFF: no message for {gap_s:.2f} s",
+               "back": f"human back after {gap_s:.2f} s: human cost ON"}[state]
+        print(f"[human-loss] {msg}", flush=True)
+        if self.status_label is not None:
+            self.status_label.text = {"lost": "human: LOST (hold)", "off": "human: OFF", "back": "human: OK"}[state]
+        if self.shapes_viz and self.shape_ops is not None:
+            from pxr import Gf, UsdGeom, Vt
+            rgb = {"lost": (1.0, 0.55, 0.0), "back": CAPSULE_RGB}.get(state)
+            if rgb is not None:
+                for i in self.shape_idx:
+                    UsdGeom.Gprim(self.stage.GetPrimAtPath(f"{self.root}/shapes/s{i:02d}")).GetDisplayColorAttr().Set(Vt.Vec3fArray([Gf.Vec3f(*rgb)]))
+
+    def _loss_new(self, trecv_ns):
+        now = time.time_ns()
+        if self.loss_state in ("lost", "off") and self.last_msg_ns is not None:
+            self._loss_event("back", now, (trecv_ns - self.last_msg_ns) / 1e9)
+        self.loss_state = "ok"; self.last_msg_ns = trecv_ns
+
+    def _loss_tick(self):
+        if self.loss_state in ("wait", "off") or self.last_msg_ns is None:
+            return
+        now = time.time_ns(); gap = (now - self.last_msg_ns) / 1e9
+        if self.loss_state == "ok" and gap > self.loss_detect_s:
+            self.loss_state = "lost"; self._loss_event("lost", now, gap)
+        if self.loss_state == "lost" and gap > self.loss_hold_s and self.last_h is not None:
+            far = dict(self.last_h); off = np.array([0.0, 0.0, 1000.0])
+            far.update(com=self.last_h["com"] + off, p0=self.last_h["p0"] + off, p1=self.last_h["p1"] + off, vel=np.zeros_like(self.last_h["vel"]))
+            self.inp.set_human(far)
+            if "instancer" in self.display and hasattr(self, "inst_pos"):
+                self.inst_pos.Set(self.Vt.Vec3fArray.FromNumpy(far["com"].astype(np.float32)))
+            if self.shapes_viz and self.shape_ops is not None:
+                self._update_shapes(far)
+            self.loss_state = "off"; self._loss_event("off", now, gap)
 
     def set_lines(self, starts, ends, colors=None):
         """로봇 구 중심 → 가장 가까운 형상 축 위 점. starts/ends (N,3)"""
@@ -210,6 +267,8 @@ class HumanInertiaLink:
         if self.mesh_link is not None:
             self.mesh_link.save(prefix)
         np.savez(prefix + "_human_inertia_rec.npz", pose=np.array(self.pose_rec, dtype=np.int64).reshape(-1, 4), recv=np.array(self.recv, dtype=np.float64).reshape(-1, 6), upd=np.array(self.upd, dtype=np.float64).reshape(-1, 9))
+        if self.loss_hold_s > 0:
+            np.save(prefix + "_human_loss.npy", np.array(self.loss_events, dtype=np.float64).reshape(-1, 3))
 
 
 class PrecomputedHumanLink(HumanInertiaLink):

@@ -52,6 +52,8 @@ ap.add_argument("--ros-pose-topic", default="/step3/human_pose", help="3단계 �
 # (goal1 1-2d) 사람 데이터 출처·유효질량 채널. 기본값은 이전 동작 그대로 (dyn, off). inertia/on 은 EFFMASS_WS=1 run_isaac_ros.sh 로 실행
 ap.add_argument("--human-source", default="dyn", choices=["dyn", "inertia", "precomputed"], help="dyn: 원본 노드 HumanDynamicsState (4단계), inertia: 사본 노드 HumanInertiaState, precomputed: 미리 계산한 프레임을 시뮬레이션 시각으로 (1-3)")
 ap.add_argument("--human-pre", default="~/effmass_mpc/goal1/data/human_precomputed_1781524848.npz")
+ap.add_argument("--human-loss-hold-s", type=float, default=0.0, help="(live) inertia (ROS): keep the last human for this long after messages stop, then human cost off until the next message; 0 = off")
+ap.add_argument("--human-loss-detect-s", type=float, default=0.1, help="(live) no message for this long = lost (logged)")
 ap.add_argument("--human-frame", default="", help="(live) node world -> Isaac transform file for the human (e.g. goal1/config/live_frame.yml); empty = <human-dir>/temp_transform.json")
 ap.add_argument("--human-delay-frames", type=int, default=0)
 ap.add_argument("--human-lead-s", type=float, default=0.0, help="(overnight) precomputed: move shapes ahead by file velocity x lead (s); 0 = off")
@@ -430,8 +432,9 @@ if args.ros:
         import g1_human_link as G1L
         HUMAN = G1L.HumanInertiaLink(ros_node, HUMAN_FRAME, MEFF_INP, stage=stage,
                                      display=("instancer",) if args.human_mode == "full" else (), shapes_viz=args.meff_viz in ("shapes", "both"),
-                                     vel_alpha=args.human_vel_alpha)
-        log(f"(live) ROS human: frame file {HUMAN_FRAME}, velocity EMA alpha {args.human_vel_alpha}, motion model {args.meff_motion}")
+                                     vel_alpha=args.human_vel_alpha, loss_hold_s=args.human_loss_hold_s, loss_detect_s=args.human_loss_detect_s, gui=GUI)
+        log(f"(live) ROS human: frame file {HUMAN_FRAME}, velocity EMA alpha {args.human_vel_alpha}, motion model {args.meff_motion}, "
+            f"loss hold {args.human_loss_hold_s} s (detect {args.human_loss_detect_s} s)")
         if args.human_mesh != "none":
             HUMAN.mesh_link = H4.HumanLink(ros_node, os.path.join(os.path.expanduser(args.human_dir), "temp_transform.json"), stage=stage, display=(), tensor=False,
                                            verify_every=0, mesh=(args.human_mesh,), mesh_transform_json=os.path.join(os.path.expanduser(args.human_dir), "mesh_transform.json"),
