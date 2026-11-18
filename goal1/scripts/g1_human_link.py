@@ -214,6 +214,8 @@ class HumanInertiaLink:
         now = time.time_ns()
         if self.loss_state in ("lost", "off") and self.last_msg_ns is not None:
             self._loss_event("back", now, (trecv_ns - self.last_msg_ns) / 1e9)
+        elif self.loss_state == "wait" and self.status_label is not None:
+            self.status_label.text = "human: OK"              # first message
         self.loss_state = "ok"; self.last_msg_ns = trecv_ns
 
     def _loss_tick(self):

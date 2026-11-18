@@ -6,7 +6,9 @@
 #   3) Isaac GUI: scene_live_front.json, live_frame.yml, live_t1.yml (prediction, filter, speed cap 0.5 m, loss hold 0.5 s),
 #      ours k 0.10 (K_GAIN env to change), human capsules shown, status window "human status"
 #   4) a terminal "stand monitor": pelvis offset from the standing place, distances, right hand vs the robot path
-#   steps: Isaac physics steps (default 36000 = 10 min of simulated time). Stop: close the Isaac window or Ctrl+C here.
+#   steps: Isaac physics steps (default 36000 = 10 min of simulated time). Stop early: Ctrl+C here (once) or close the Isaac
+#   window; the loop ends after the current step and the run is saved (--graceful-stop 1, --stop-file <tag>.stopreq).
+#   VIEW="eye_x,eye_y,eye_z,target_x,target_y,target_z" (Franka base frame) changes the GUI camera.
 #   Before: no other sensing_node / k4aviewer may hold the Kinect.
 set -u
 TAG="${1:?tag}"; STEPS="${2:-36000}"
@@ -29,12 +31,20 @@ $GG/scripts/g1_run_human.sh node -p shapes:=v2 -p pelvis_correction:=true -p per
 NP=$!
 DISPLAY=${DISPLAY:-:0} gnome-terminal --title "stand monitor ($TAG)" --geometry 150x20 -- $GG/scripts/g1_run_human.sh py $GG/scripts/lv_stand_monitor.py 2>/dev/null
 echo "[live] Isaac GUI starting (about 30-60 s). Stand in view first so sensing can estimate the body shape, then go to the standing place."
-EFFMASS_WS=1 RUN_ISAAC_NO_DISPLAY=0 ROS_METHOD=min $S/run_isaac_ros.sh $S/step2b_mpc_isaac.py --gui --scene g2 --robot fr3v2_1 --no-diag --warmup 10 \
+# Ctrl+C here: the trap writes $P.stopreq; Isaac (own session, so the terminal's Ctrl+C does not reach Kit) stops after the
+# current step and saves the run. sensing and the node stop on the same Ctrl+C. Closing the Isaac window also stops and saves.
+rm -f $P.stopreq
+trap 'echo "[live] Ctrl+C: Isaac stops after this step and saves (wait a few seconds)"; touch $P.stopreq' INT TERM
+VIEW=${VIEW:--1.2,-1.7,1.6,0.6,0.0,0.25}   # GUI camera eye,target in the Franka base frame: behind-left of the robot, facing the person
+EFFMASS_WS=1 RUN_ISAAC_NO_DISPLAY=0 ROS_METHOD=min setsid $S/run_isaac_ros.sh $S/step2b_mpc_isaac.py --gui --scene g2 --robot fr3v2_1 --no-diag --warmup 10 \
   --tag $TAG --ros --ros-pose-topic none --human --human-mode full --human-source inertia --ready-file $P.ready --done-file $P.done --ros-out $P \
   --human-dir $G --human-frame $GG/config/live_frame.yml --scene-json $G/scene_live_front.json --round-trip 1 --profile $GG/config/live_t1.yml \
   --u-def nearest --meff on --meff-mode gain --meff-dbase 0.065 --meff-muref 0.53 --meff-eta-max 0.25 --meff-agg max_all --b1-log 0 --cost-agg 0 \
-  --meff-gain ${K_GAIN:-0.10} --mppi-seed 0 --meff-viz shapes --steps $STEPS > $P.log 2>&1
-echo "isaac exit=$?"
+  --meff-gain ${K_GAIN:-0.10} --mppi-seed 0 --meff-viz shapes --steps $STEPS --graceful-stop 1 --stop-file $P.stopreq --viz-cam="$VIEW" > $P.log 2>&1 &
+IP=$!
+while kill -0 $IP 2>/dev/null; do wait $IP; done
+wait $IP; echo "isaac exit=$?"
+trap - INT TERM
 kill -INT $NP 2>/dev/null; wait $NP
 kill -INT $SP 2>/dev/null; for i in $(seq 1 30); do kill -0 $SP 2>/dev/null || break; sleep 1; done; kill -0 $SP 2>/dev/null && kill $SP
 pkill -f "lv_stand_monitor.py" 2>/dev/null

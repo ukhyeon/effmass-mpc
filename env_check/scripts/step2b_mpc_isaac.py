@@ -52,6 +52,8 @@ ap.add_argument("--ros-pose-topic", default="/step3/human_pose", help="3단계 �
 # (goal1 1-2d) 사람 데이터 출처·유효질량 채널. 기본값은 이전 동작 그대로 (dyn, off). inertia/on 은 EFFMASS_WS=1 run_isaac_ros.sh 로 실행
 ap.add_argument("--human-source", default="dyn", choices=["dyn", "inertia", "precomputed"], help="dyn: 원본 노드 HumanDynamicsState (4단계), inertia: 사본 노드 HumanInertiaState, precomputed: 미리 계산한 프레임을 시뮬레이션 시각으로 (1-3)")
 ap.add_argument("--human-pre", default="~/effmass_mpc/goal1/data/human_precomputed_1781524848.npz")
+ap.add_argument("--graceful-stop", type=int, default=0, help="(live) 1: Ctrl+C / SIGTERM / closing the GUI window / --stop-file ends the loop after the current step and the run is saved as usual (steps_done < steps)")
+ap.add_argument("--stop-file", default="", help="(live) with --graceful-stop 1: stop when this file appears (Kit does not pass SIGINT to Python)")
 ap.add_argument("--human-loss-hold-s", type=float, default=0.0, help="(live) inertia (ROS): keep the last human for this long after messages stop, then human cost off until the next message; 0 = off")
 ap.add_argument("--human-loss-detect-s", type=float, default=0.1, help="(live) no message for this long = lost (logged)")
 ap.add_argument("--human-frame", default="", help="(live) node world -> Isaac transform file for the human (e.g. goal1/config/live_frame.yml); empty = <human-dir>/temp_transform.json")
@@ -688,7 +690,24 @@ VIZ = None
 if args.viz_eta_shell == "on" or args.viz_trail == "on" or args.viz_ghost or args.viz_record or args.viz_hide_com == "on" or args.viz_zone or args.viz_zone_seq:
     sys.path.insert(0, os.path.expanduser("~/effmass_mpc/goal1/scripts")); import g1_viz as G1V
     VIZ = G1V.Viz(world.stage, args, MEFF, HUMAN, TAG, log, MEFF_SV if MEFF is not None else 0)
+STOP_REQ = [None]                    # (live) --graceful-stop: reason of an early stop
+if args.graceful_stop:
+    import signal as _signal
+
+    def _stop_handler(signum, frame):
+        if STOP_REQ[0] is None:
+            STOP_REQ[0] = _signal.Signals(signum).name
+            print(f"[step2b] (live) {STOP_REQ[0]} received: stopping after this step and saving", flush=True)
+    for _sg in (_signal.SIGINT, _signal.SIGTERM):
+        _signal.signal(_sg, _stop_handler)
+    log("(live) graceful stop on: Ctrl+C, SIGTERM or closing the window ends the loop and saves the run")
+STEPS_DONE = args.steps
 for i in range(args.steps):
+    if args.graceful_stop and (STOP_REQ[0] is not None or (GUI and not simulation_app.is_running()) or (args.stop_file and os.path.exists(args.stop_file))):
+        STOP_REQ[0] = STOP_REQ[0] or ("stop file" if args.stop_file and os.path.exists(args.stop_file) else "window closed")
+        STEPS_DONE = i
+        log(f"(live) early stop at step {i} ({STOP_REQ[0]}); saving")
+        break
     if i == 1:
         S.COUNTER_TAG[0] = "loop"
     s_dt, pe, mp = one_step(i)
@@ -739,7 +758,7 @@ for c in CAPTURES:
 v_end = S.proc_vram_mib(PID)
 vram.append(v_end)
 res = {
-    "tag": TAG, "mode": "GUI" if GUI else "headless", "start": STAMP, "steps": args.steps,
+    "tag": TAG, "mode": "GUI" if GUI else "headless", "start": STAMP, "steps": args.steps, "steps_done": STEPS_DONE, "early_stop": STOP_REQ[0],
     "solver": info, "build_s": round(t_build, 3),
     "first_call_ms": round(first_call_ms, 2),
     "solver_ms_mean": round(statistics.mean(solver_ms), 3), "solver_ms_p95": round(p95, 3),
