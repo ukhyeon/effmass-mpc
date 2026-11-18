@@ -1,0 +1,27 @@
+{
+ "out": "/home/robotics/effmass_mpc/goal1/live/lp2_rec20/compare/lp2_rec20_compare.mp4",
+ "ffmpeg_exit": 0,
+ "duration_s": 35.56666666666667,
+ "colour_frames": 1264,
+ "t0_stamp": 1795006535.2866192,
+ "colour_time_offset_s": {
+  "median": 0.010530233383178711,
+  "p95": 0.020964860916137695,
+  "max": 0.029371023178100586
+ },
+ "isaac_step_offset_max": 4,
+ "clips": [
+  {
+   "name": "motion 1",
+   "file": "clip_motion1.mp4",
+   "start_s": 8.216666666666667,
+   "ok": true
+  },
+  {
+   "name": "motion 2",
+   "file": "clip_motion2.mp4",
+   "start_s": 20.4,
+   "ok": true
+  }
+ ]
+}

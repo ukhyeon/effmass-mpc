@@ -44,11 +44,15 @@ class Viz:
             pr = stage.GetPrimAtPath("/World/human/instancer")
             if pr.IsValid():
                 UsdGeom.Imageable(pr).MakeInvisible()
-        if args.viz_eta_shell in ("on", "arm") and meff is not None:
+        if args.viz_eta_shell in ("on", "arm", "armelbow") and meff is not None:
             # (live prep2) "arm": shells on every active shape of both forearms and hands (segments 15-18), "on": right hand only
-            segs = range(15, 19) if args.viz_eta_shell == "arm" else (18,)
+            # (live cmp) "armelbow": "arm" plus a sphere shell at each elbow (forearm capsule end p0, forearm radius + eta of the forearm)
+            segs = range(15, 19) if args.viz_eta_shell in ("arm", "armelbow") else (18,)
             h = human.last_h; self.hand = [k for k in range(len(h["rad"])) if int(h["seg"][k]) in segs and float(h["rad"][k]) > 0]
-            for k in self.hand:
+            self.elbow = set()
+            if args.viz_eta_shell == "armelbow":
+                fk = [k for k in self.hand if int(h["seg"][k]) in (15, 16)]; self.elbow = set(range(100, 100 + len(fk))); self.elbow_src = dict(zip(sorted(self.elbow), fk))
+            for k in self.hand + sorted(self.elbow):
                 g = UsdGeom.Capsule.Define(stage, f"/World/viz/eta_shell_{k:02d}"); g.CreateAxisAttr("Z"); x = UsdGeom.Xformable(g)
                 m = UsdShade.Material.Define(stage, f"/World/viz/Looks/shell_{k:02d}"); sh = UsdShade.Shader.Define(stage, f"/World/viz/Looks/shell_{k:02d}/s"); sh.CreateIdAttr("UsdPreviewSurface")
                 col = sh.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f); col.Set(Gf.Vec3f(0.5, 0.5, 0.5)); sh.CreateInput("opacity", Sdf.ValueTypeNames.Float).Set(0.22)
@@ -118,11 +122,12 @@ class Viz:
         if self.shells and self.mode != 0:
             qa = self.meff.query_all(sph); d = qa["dist"].cpu().numpy(); mu = qa["mu"].cpu().numpy(); mr = qa["mr"].cpu().numpy(); h = self.human.last_h
             for k, g, tr, ori, col, dcol in self.shells:
-                s = int(np.argmin(d[:, k])); e = self._eta(float(mu[s, k]), float(mr[s, k]), int(h["seg"][k])); a, b = h["p0"][k], h["p1"][k]; v = b - a; n = float(np.linalg.norm(v))
-                g.GetRadiusAttr().Set(float(h["rad"][k]) + e); g.GetHeightAttr().Set(n); tr.Set(Gf.Vec3d(*((a + b) / 2).tolist()))
+                kk = self.elbow_src[k] if k in self.elbow else k   # elbow sphere: forearm shape kk, zero length at its end p0
+                s = int(np.argmin(d[:, kk])); e = self._eta(float(mu[s, kk]), float(mr[s, kk]), int(h["seg"][kk])); a, b = h["p0"][kk], (h["p0"][kk] if k in self.elbow else h["p1"][kk]); v = b - a; n = float(np.linalg.norm(v))
+                g.GetRadiusAttr().Set(float(h["rad"][kk]) + e); g.GetHeightAttr().Set(n); tr.Set(Gf.Vec3d(*((a + b) / 2).tolist()))
                 z = np.array([0, 0, 1.0]); vv = v / max(n, 1e-12); ax = np.cross(z, vv); sn = np.linalg.norm(ax)
                 ori.Set(Gf.Quatf(1, 0, 0, 0) if sn < 1e-9 else Gf.Quatf(float(np.cos(np.arctan2(sn, z @ vv) / 2)), *[float(x) for x in ax / sn * np.sin(np.arctan2(sn, z @ vv) / 2)]))
-                rgb = mu_rgb(float(mu[s, k])); col.Set(Gf.Vec3f(*rgb)); dcol.Set(self.Vt.Vec3fArray([Gf.Vec3f(*rgb)]))
+                rgb = mu_rgb(float(mu[s, kk])); col.Set(Gf.Vec3f(*rgb)); dcol.Set(self.Vt.Vec3fArray([Gf.Vec3f(*rgb)]))
         if self.trail is not None and i % 2 == 0:
             self.buf.append(ee.detach().cpu().numpy().reshape(3) - np.array([0, 0, 0.1034]))
             if len(self.buf) >= 2:

@@ -39,6 +39,18 @@
 /goal1/live/*/*
 !/goal1/live/*/video_sync.json
 !/goal1/live/*/video_prep.json
+!/goal1/live/*/compare/
+/goal1/live/*/compare/*
+!/goal1/live/*/compare/REPORT.md
+!/goal1/live/*/compare/*.png
+!/goal1/live/*/compare/analysis.json
+!/goal1/live/*/compare/runs.json
+!/goal1/live/*/compare/video_sync.json
+!/goal1/live/*/compare/*.mp4
+/goal1/live/lp2_rec20/compare/*.mp4
+!/goal1/live_cmp/
+/goal1/live_cmp/*
+!/goal1/live_cmp/*.md
 
 # reports
 !/goal1/step1_2_report.md

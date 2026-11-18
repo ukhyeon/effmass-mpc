@@ -4,7 +4,7 @@ Human per sensing message: sensing's saved camera-frame poses (<tag>_sensing/pos
 from the sensing log, pelvis correction, shapes v2) - the node's computation. Time of message k: the input stamp Isaac recorded for
 input_count k + 1 (<tag>_human_inertia_rec.npz upd); messages Isaac never pumped get times interpolated between known ones.
 Resampled at 30 Hz (latest message at or before each tick); velocity from the core with the stamp difference (as the node).
-Writes goal1/data/human_live_<tag>_v2.npz (keys of the precomputed files) and prints the frame file the run used.
+Writes goal1/data/human_live_<tag>_v2.npz (or the path given as 2nd argument) (keys of the precomputed files) and prints the frame file the run used.
 """
 import glob
 import json
@@ -50,7 +50,7 @@ def main(tag):
                shape_radius=np.asarray(sh["radius"], np.float32), shape_segment=np.asarray(sh["segment"], np.int64), shape_type=np.asarray(sh["type"], np.uint8),
                frame=j.astype(np.int64), source=np.array(f"live run {tag}: sensing poses -> core (pelvis correction, shapes v2), 30 Hz resampled"),
                betas=betas, camera=np.array([cam["roll_deg"], cam["pitch_deg"], cam["yaw_deg"], *cam["t"]]))
-    path = f"{GG}/data/human_live_{tag}_v2.npz"; np.savez(path, **out)
+    path = sys.argv[2] if len(sys.argv) > 2 else f"{GG}/data/human_live_{tag}_v2.npz"; np.savez(path, **out)   # (live cmp) optional output path
     rlog = open(f"{O}/{tag}.log", errors="replace").read(); fm = re.findall(r"\(live\) ROS human: frame file (\S+),", rlog)
     print(json.dumps(dict(tag=tag, out=path, frames_30hz=F, duration_s=float(T[-1]), messages_used=len(msgs), sensing_frames=N,
                           frame_file=fm[-1] if fm else f"{GG}/config/live_frame.yml", camera=cam)))

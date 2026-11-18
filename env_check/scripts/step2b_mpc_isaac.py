@@ -111,7 +111,7 @@ ap.add_argument("--speed-cap-dist", type=float, default=0.4, help="(T1) penalty 
 ap.add_argument("--speed-cap-w", type=float, default=0.0, help="(T1) weight of max(0, v - v_cap)^2 (max over spheres, per rollout step)")
 ap.add_argument("--pose-rot-w", type=float, default=None, help="(T1) pose cost orientation weight (default: particle_mpc.yml, 60)")
 ap.add_argument("--round-trip", type=int, default=0, help="(R1) 1: start at the scene q_start (A), first goal B, then switch goals on arrival (round trips)")
-ap.add_argument("--viz-eta-shell", default="off", choices=["off", "on", "arm"], help="(demo) translucent eta shells on the v2 hand shapes (display only)")
+ap.add_argument("--viz-eta-shell", default="off", choices=["off", "on", "arm", "armelbow"], help="(demo) translucent eta shells on the v2 hand shapes (display only)")
 ap.add_argument("--viz-trail", default="off", choices=["off", "on"], help="(demo) TCP trail of the last --viz-trail-sec seconds (display only)")
 ap.add_argument("--viz-trail-sec", type=float, default=3.0)
 ap.add_argument("--viz-hide-com", default="off", choices=["off", "on"], help="(demo) hide the human segment COM markers")
@@ -673,7 +673,7 @@ def one_step(i, timed=True):
                             **{k: _sn[k][_bb, _hh] for k in ["dist", "shape", "seg", "u", "mh", "mr", "mu", "q", "sph", "cost", "eta", "kc", "cost_bh"] if k in _sn},
                             **({"sc_b": _bb[:20], "sc_sph": _sn["sph"][_bb[:20]], "sc_dist": _sn["dist"][_bb[:20]], "sc_vcost": _sn["vcost"][_bb[:20]], "sc_par": MEFF.sc_par.cpu().numpy(),
                                 "sc_inv_dt": MEFF.inv_dt.cpu().numpy()} if MEFF.speed_cap and "vcost" in _sn and "sph" in _sn else {}))
-    if VIZ is not None:   # (demo) display only, after the solver step
+    if VIZ is not None and (not VIZ_RENDER or args.viz_record_every <= 1 or (i + 1) % args.viz_record_every == 0):   # (demo) display only; (live cmp) only before saved frames
         VIZ.update(i, kin.robot_spheres.reshape(-1, 4)[:MEFF_SV], ee)
     if MEFF is not None and args.meff_viz in ("lines", "both") and HUMAN is not None and HUMAN.last_h is not None and i % 2 == 0:
         _tv = pc()
@@ -727,7 +727,7 @@ def one_step(i, timed=True):
 
 
 VIZ = None
-if args.viz_eta_shell in ("on", "arm") or args.viz_trail == "on" or args.viz_ghost or args.viz_record or args.viz_hide_com == "on" or args.viz_zone or args.viz_zone_seq:
+if args.viz_eta_shell in ("on", "arm", "armelbow") or args.viz_trail == "on" or args.viz_ghost or args.viz_record or args.viz_hide_com == "on" or args.viz_zone or args.viz_zone_seq:
     sys.path.insert(0, os.path.expanduser("~/effmass_mpc/goal1/scripts")); import g1_viz as G1V
     VIZ = G1V.Viz(world.stage, args, MEFF, HUMAN, TAG, log, MEFF_SV if MEFF is not None else 0)
 _RENDER_T = [0.0]
