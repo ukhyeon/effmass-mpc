@@ -66,6 +66,8 @@
 !/goal1/live/*/zone_figs/*.json
 !/goal1/live/live3m/live3m_LIVE_as_run_not_replay.mp4
 !/goal1/live/live3m/video_sync.json
+!/goal1/public_draft/
+!/goal1/public_draft/**
 !/goal1/overnight2/
 /goal1/overnight2/*
 !/goal1/overnight2/*.md

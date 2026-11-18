@@ -1,0 +1,41 @@
+{
+ "e00": {
+  "elbow_angle_deg": 0.10133091023240759,
+  "thickness_m": {
+   "uniform": {
+    "tip": 0.065,
+    "robot": 0.0655
+   },
+   "part": {
+    "tip": 0.1995,
+    "robot": 0.1995
+   }
+  }
+ },
+ "e30": {
+  "elbow_angle_deg": 33.52714225180484,
+  "thickness_m": {
+   "uniform": {
+    "tip": 0.0655,
+    "robot": 0.0655
+   },
+   "part": {
+    "tip": 0.1775,
+    "robot": 0.1075
+   }
+  }
+ },
+ "e90": {
+  "elbow_angle_deg": 93.32040236784253,
+  "thickness_m": {
+   "uniform": {
+    "tip": 0.0655,
+    "robot": 0.065
+   },
+   "part": {
+    "tip": 0.14100000000000001,
+    "robot": 0.065
+   }
+  }
+ }
+}
