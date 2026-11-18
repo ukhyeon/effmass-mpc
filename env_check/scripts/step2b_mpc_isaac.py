@@ -112,6 +112,7 @@ ap.add_argument("--speed-cap-w", type=float, default=0.0, help="(T1) weight of m
 ap.add_argument("--safety-near", type=int, default=0, help="(overnight2) 1: scale the joint command step by s = clip((d - stop) / (start - stop), 0, 1), d = current min gap robot sphere - human shape (incl. 0.02 m buffer); independent of the cost")
 ap.add_argument("--safety-near-start", type=float, default=0.12, help="(overnight2) gap where slowing starts (m)")
 ap.add_argument("--safety-near-stop", type=float, default=0.03, help="(overnight2) gap where the robot holds its position (m)")
+ap.add_argument("--safety-allow-retreat", type=int, default=1, help="(overnight2) with --safety-near: a command that does not reduce the gap (robot spheres at the commanded joints) is not scaled (the robot may move away); 0 = hold whatever the direction")
 ap.add_argument("--safety-loss-stop", type=int, default=0, help="(overnight2) 1: hold the current position while the human data are older than --safety-loss-s (instead of switching the human cost off)")
 ap.add_argument("--safety-loss-s", type=float, default=0.5, help="(overnight2) human data age that triggers the hold (s)")
 ap.add_argument("--human-gap-sim", default="", help="(overnight2) precomputed human: 't0,t1' (simulated s) the frame of t0 stays (simulated tracking loss, age grows)")
@@ -630,7 +631,13 @@ def one_step(i, timed=True):
             _sf = 0.0; _ls = 1
         if args.safety_near and MEFF is not None:
             _kn = mpc.rollout_fn.compute_kinematics(current); _qn = MEFF.query_all(_kn.robot_spheres.reshape(-1, 4)[:MEFF_SV]); _dm = float(_qn["dist"].min()) - 0.02
-            _sf = min(_sf, float(np.clip((_dm - args.safety_near_stop) / max(args.safety_near_start - args.safety_near_stop, 1e-6), 0.0, 1.0)))
+            _sn = float(np.clip((_dm - args.safety_near_stop) / max(args.safety_near_start - args.safety_near_stop, 1e-6), 0.0, 1.0))
+            if _sn < 1.0 and args.safety_allow_retreat:   # gap at the commanded joints: moving away (gap not smaller) is not scaled
+                _jc = current.clone(); _jc.position = q_cmd.reshape(current.position.shape).clone()
+                _kc = mpc.rollout_fn.compute_kinematics(_jc); _dc = float(MEFF.query_all(_kc.robot_spheres.reshape(-1, 4)[:MEFF_SV])["dist"].min()) - 0.02
+                if _dc >= _dm:
+                    _sn = 1.0
+            _sf = min(_sf, _sn)
         if _sf < 1.0:
             q_cmd = current.position + _sf * (q_cmd - current.position)
         SAFETY_ROWS.append((i, _sf, _dm, _age, _ls))

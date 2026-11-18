@@ -1,0 +1,311 @@
+{
+ "motion 1": {
+  "frame": 384,
+  "pose_row": 675,
+  "parts": {
+   "upper_arm": {
+    "points": 42,
+    "distal_caps": {
+     "eta_com_cm": [
+      9.63
+     ],
+     "eta_surface_cm": [
+      9.66
+     ]
+    },
+    "delta_eta_cm": {
+     "median_abs": 0.7630672727288859,
+     "p95_abs": 2.2118196666920094,
+     "max_abs": 2.2389754974133274,
+     "signed_median": 0.24037735936403432,
+     "share_over_1cm": 0.42857142857142855
+    },
+    "eta_com_cm": {
+     "median": 8.738975497413328,
+     "max": 9.630809675501945
+    },
+    "eta_surface_cm": {
+     "median": 9.096622661235376,
+     "max": 10.648216069109202
+    },
+    "mh_ratio_surface_over_com": {
+     "median": 1.1022926482852935,
+     "min": 0.44861073348027786,
+     "max": 2.9296755845811315
+    }
+   },
+   "forearm": {
+    "points": 42,
+    "distal_caps": {
+     "eta_com_cm": [
+      11.08
+     ],
+     "eta_surface_cm": [
+      11.04
+     ]
+    },
+    "delta_eta_cm": {
+     "median_abs": 0.26805015787118924,
+     "p95_abs": 1.0080770340160345,
+     "max_abs": 1.037237833213056,
+     "signed_median": -0.12109566207827299,
+     "share_over_1cm": 0.09523809523809523
+    },
+    "eta_com_cm": {
+     "median": 6.838133881188354,
+     "max": 11.083119349023182
+    },
+    "eta_surface_cm": {
+     "median": 6.602568955967908,
+     "max": 11.044167165334484
+    },
+    "mh_ratio_surface_over_com": {
+     "median": 0.9261575871000062,
+     "min": 0.6524629180930938,
+     "max": 1.4001783650464297
+    }
+   },
+   "hand": {
+    "points": 126,
+    "distal_caps": {
+     "eta_com_cm": [
+      6.5,
+      6.5,
+      8.44
+     ],
+     "eta_surface_cm": [
+      9.1,
+      6.5,
+      8.7
+     ]
+    },
+    "delta_eta_cm": {
+     "median_abs": 1.0832693641580307,
+     "p95_abs": 2.7895747342102317,
+     "max_abs": 3.1023300485757965,
+     "signed_median": -0.8249162572352462,
+     "share_over_1cm": 0.5555555555555556
+    },
+    "eta_com_cm": {
+     "median": 8.92453679861109,
+     "max": 16.076441426195327
+    },
+    "eta_surface_cm": {
+     "median": 8.160928969261027,
+     "max": 19.091547615353413
+    },
+    "mh_ratio_surface_over_com": {
+     "median": 0.7990185130487971,
+     "min": 0.08702207310328458,
+     "max": 1.8413598628866266
+    }
+   }
+  }
+ },
+ "motion 2": {
+  "frame": 1232,
+  "pose_row": 1354,
+  "parts": {
+   "upper_arm": {
+    "points": 42,
+    "distal_caps": {
+     "eta_com_cm": [
+      9.88
+     ],
+     "eta_surface_cm": [
+      9.93
+     ]
+    },
+    "delta_eta_cm": {
+     "median_abs": 1.0982448517737073,
+     "p95_abs": 1.8889503292651892,
+     "max_abs": 2.1662324174632293,
+     "signed_median": 0.05297482294900624,
+     "share_over_1cm": 0.5714285714285714
+    },
+    "eta_com_cm": {
+     "median": 8.491153025994652,
+     "max": 9.88182194999019
+    },
+    "eta_surface_cm": {
+     "median": 8.650056311466509,
+     "max": 10.454168535201541
+    },
+    "mh_ratio_surface_over_com": {
+     "median": 1.027591035950238,
+     "min": 0.4298406556101082,
+     "max": 2.557554751137678
+    }
+   },
+   "forearm": {
+    "points": 42,
+    "distal_caps": {
+     "eta_com_cm": [
+      7.7
+     ],
+     "eta_surface_cm": [
+      7.58
+     ]
+    },
+    "delta_eta_cm": {
+     "median_abs": 0.640671593179852,
+     "p95_abs": 2.034056207292039,
+     "max_abs": 2.2903288992341357,
+     "signed_median": -0.25130988530270637,
+     "share_over_1cm": 0.23809523809523808
+    },
+    "eta_com_cm": {
+     "median": 7.704986225529274,
+     "max": 9.354868253307481
+    },
+    "eta_surface_cm": {
+     "median": 7.240593191382555,
+     "max": 10.484722065142755
+    },
+    "mh_ratio_surface_over_com": {
+     "median": 0.927092688447485,
+     "min": 0.5095229632495378,
+     "max": 1.4504935091837765
+    }
+   },
+   "hand": {
+    "points": 126,
+    "distal_caps": {
+     "eta_com_cm": [
+      6.5,
+      6.5,
+      7.64
+     ],
+     "eta_surface_cm": [
+      10.42,
+      6.5,
+      8.37
+     ]
+    },
+    "delta_eta_cm": {
+     "median_abs": 0.725224465035823,
+     "p95_abs": 2.2179523996580244,
+     "max_abs": 3.9158331613378614,
+     "signed_median": 0.0,
+     "share_over_1cm": 0.36507936507936506
+    },
+    "eta_com_cm": {
+     "median": 7.2252244650358275,
+     "max": 11.303700187475126
+    },
+    "eta_surface_cm": {
+     "median": 6.701564642638683,
+     "max": 12.815381832220519
+    },
+    "mh_ratio_surface_over_com": {
+     "median": 0.8485770884441994,
+     "min": 0.11278241101084631,
+     "max": 2.3529287003416877
+    }
+   }
+  }
+ },
+ "motion 3": {
+  "frame": 1927,
+  "pose_row": 1929,
+  "parts": {
+   "upper_arm": {
+    "points": 42,
+    "distal_caps": {
+     "eta_com_cm": [
+      9.77
+     ],
+     "eta_surface_cm": [
+      9.81
+     ]
+    },
+    "delta_eta_cm": {
+     "median_abs": 0.9499086745249852,
+     "p95_abs": 2.2473433204727025,
+     "max_abs": 2.272388782305174,
+     "signed_median": 0.0414714341320746,
+     "share_over_1cm": 0.47619047619047616
+    },
+    "eta_com_cm": {
+     "median": 8.25735043735841,
+     "max": 9.76627275314548
+    },
+    "eta_surface_cm": {
+     "median": 8.535660986701718,
+     "max": 10.430624246586076
+    },
+    "mh_ratio_surface_over_com": {
+     "median": 1.0208081453728401,
+     "min": 0.41676564892648127,
+     "max": 2.828595742068084
+    }
+   },
+   "forearm": {
+    "points": 42,
+    "distal_caps": {
+     "eta_com_cm": [
+      7.97
+     ],
+     "eta_surface_cm": [
+      7.85
+     ]
+    },
+    "delta_eta_cm": {
+     "median_abs": 0.2329071112615065,
+     "p95_abs": 1.793888987277645,
+     "max_abs": 2.253485414405004,
+     "signed_median": -0.1455133175116724,
+     "share_over_1cm": 0.2857142857142857
+    },
+    "eta_com_cm": {
+     "median": 7.972427085238441,
+     "max": 9.953570268289658
+    },
+    "eta_surface_cm": {
+     "median": 7.700085150118993,
+     "max": 11.348107015582586
+    },
+    "mh_ratio_surface_over_com": {
+     "median": 0.9317885921316622,
+     "min": 0.5048255529407081,
+     "max": 1.6569512519576115
+    }
+   },
+   "hand": {
+    "points": 126,
+    "distal_caps": {
+     "eta_com_cm": [
+      6.5,
+      6.5,
+      7.82
+     ],
+     "eta_surface_cm": [
+      10.32,
+      6.5,
+      8.84
+     ]
+    },
+    "delta_eta_cm": {
+     "median_abs": 0.7147625807998208,
+     "p95_abs": 2.2740277019514985,
+     "max_abs": 3.8229845628111656,
+     "signed_median": 0.0,
+     "share_over_1cm": 0.2698412698412698
+    },
+    "eta_com_cm": {
+     "median": 7.22289570103656,
+     "max": 11.311364998202514
+    },
+    "eta_surface_cm": {
+     "median": 6.64770792813234,
+     "max": 12.533121670209656
+    },
+    "mh_ratio_surface_over_com": {
+     "median": 0.8566743205124387,
+     "min": 0.12019039061279652,
+     "max": 2.327135117155414
+    }
+   }
+  }
+ }
+}

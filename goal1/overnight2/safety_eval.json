@@ -1,0 +1,398 @@
+[
+ {
+  "name": "run3 off",
+  "tag": "sf_run3_off",
+  "steps": 4992,
+  "arrivals": 41,
+  "infeasible": 0,
+  "min_gap_cm": -1.0170821433445851,
+  "near3": {
+   "n": 51,
+   "median": 0.4088792500210307,
+   "p95": 0.5241729393812867,
+   "max": 0.5306983588552404
+  },
+  "near3_approach": {
+   "n": 51,
+   "median": 0.0,
+   "p95": 0.0,
+   "max": 0.01630549891982802
+  },
+  "overlap": {
+   "n": 7,
+   "median": 0.4933251525171909,
+   "p95": 0.5090155816232571,
+   "max": 0.5100277156426741
+  },
+  "overlap_approach": {
+   "n": 7,
+   "median": 0.0,
+   "p95": 0.0,
+   "max": 0.0
+  },
+  "near12_speed": {
+   "n": 924,
+   "median": 0.21781051898599685,
+   "p95": 0.4684557422462391,
+   "max": 0.5081759942292734
+  }
+ },
+ {
+  "name": "run3 on (hold)",
+  "tag": "sf_run3_on",
+  "steps": 4992,
+  "arrivals": 35,
+  "infeasible": 0,
+  "min_gap_cm": -4.827977321177353,
+  "near3": {
+   "n": 618,
+   "median": 0.031758964861608056,
+   "p95": 0.04465464381192448,
+   "max": 0.05283340080085419
+  },
+  "near3_approach": {
+   "n": 618,
+   "median": 0.004277546630866852,
+   "p95": 0.02911734517264162,
+   "max": 0.042948888032855084
+  },
+  "overlap": {
+   "n": 305,
+   "median": 0.032988096907539545,
+   "p95": 0.04444639277030615,
+   "max": 0.04555965529266721
+  },
+  "overlap_approach": {
+   "n": 305,
+   "median": 0.00622172900279912,
+   "p95": 0.03191609184201744,
+   "max": 0.042948888032855084
+  },
+  "near12_speed": {
+   "n": 626,
+   "median": 0.13530487099922792,
+   "p95": 0.4595511252274781,
+   "max": 0.8753913509340091
+  },
+  "safety_scale_lt1_steps": 1453,
+  "safety_hold_steps": 760,
+  "loss_hold_steps": 0
+ },
+ {
+  "name": "live3m off",
+  "tag": "sf_live3m_off",
+  "steps": 5069,
+  "arrivals": 22,
+  "infeasible": 0,
+  "min_gap_cm": 3.365609202522611,
+  "near3": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near3_approach": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap_approach": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near12_speed": {
+   "n": 2289,
+   "median": 0.09878149262307122,
+   "p95": 0.46866941549479,
+   "max": 0.49256996663652003
+  }
+ },
+ {
+  "name": "live3m on (hold)",
+  "tag": "sf_live3m_on",
+  "steps": 5069,
+  "arrivals": 18,
+  "infeasible": 0,
+  "min_gap_cm": -11.470830496767531,
+  "near3": {
+   "n": 2278,
+   "median": 0.023457074161675216,
+   "p95": 0.04600305276514455,
+   "max": 0.0628317666694275
+  },
+  "near3_approach": {
+   "n": 2278,
+   "median": 0.0,
+   "p95": 0.022457550322376833,
+   "max": 0.04867366625101708
+  },
+  "overlap": {
+   "n": 1938,
+   "median": 0.023457074161675216,
+   "p95": 0.04594713990234842,
+   "max": 0.062392227916542156
+  },
+  "overlap_approach": {
+   "n": 1938,
+   "median": 0.0,
+   "p95": 0.020756959534050358,
+   "max": 0.04867366625101708
+  },
+  "near12_speed": {
+   "n": 507,
+   "median": 0.048306238891024235,
+   "p95": 0.37818548226617654,
+   "max": 0.6952163995575401
+  },
+  "safety_scale_lt1_steps": 2812,
+  "safety_hold_steps": 2538,
+  "loss_hold_steps": 0
+ },
+ {
+  "name": "run3 on (retreat allowed)",
+  "tag": "sf_run3_on2",
+  "steps": 4992,
+  "arrivals": 40,
+  "infeasible": 0,
+  "min_gap_cm": -0.7884040760603832,
+  "near3": {
+   "n": 42,
+   "median": 0.4221326237851827,
+   "p95": 0.4984615988652869,
+   "max": 0.49930175246209674
+  },
+  "near3_approach": {
+   "n": 42,
+   "median": 0.0,
+   "p95": 0.0,
+   "max": 0.0
+  },
+  "overlap": {
+   "n": 5,
+   "median": 0.47456140688852716,
+   "p95": 0.4970540211608171,
+   "max": 0.49837550675475367
+  },
+  "overlap_approach": {
+   "n": 5,
+   "median": 0.0,
+   "p95": 0.0,
+   "max": 0.0
+  },
+  "near12_speed": {
+   "n": 869,
+   "median": 0.23825340296431288,
+   "p95": 0.5190600097330966,
+   "max": 1.265128976605956
+  },
+  "safety_scale_lt1_steps": 597,
+  "safety_hold_steps": 26,
+  "loss_hold_steps": 0
+ },
+ {
+  "name": "live3m on (retreat allowed)",
+  "tag": "sf_live3m_on2",
+  "steps": 5069,
+  "arrivals": 21,
+  "infeasible": 0,
+  "min_gap_cm": 3.0632989124862284,
+  "near3": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near3_approach": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap_approach": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near12_speed": {
+   "n": 2343,
+   "median": 0.09348307151651744,
+   "p95": 0.46489512987508713,
+   "max": 1.1301963656644503
+  },
+  "safety_scale_lt1_steps": 825,
+  "safety_hold_steps": 0,
+  "loss_hold_steps": 0
+ },
+ {
+  "name": "loss test off",
+  "tag": "sf_loss_off",
+  "steps": 5069,
+  "arrivals": 22,
+  "infeasible": 0,
+  "min_gap_cm": 3.177146919291417,
+  "near3": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near3_approach": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap_approach": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near12_speed": {
+   "n": 2300,
+   "median": 0.0906813863997209,
+   "p95": 0.463838488214493,
+   "max": 0.49256996663652003
+  },
+  "loss_window_tcp_speed": {
+   "n": 150,
+   "median": 0.4566830322550355,
+   "p95": 0.7730734530122715,
+   "max": 0.8645051540875273
+  },
+  "before_window_tcp_speed": {
+   "n": 120,
+   "median": 0.45499091207148856,
+   "p95": 0.7929755347427561,
+   "max": 0.8717495592579168
+  }
+ },
+ {
+  "name": "loss test: loss stop only",
+  "tag": "sf_loss_on",
+  "steps": 5069,
+  "arrivals": 22,
+  "infeasible": 0,
+  "min_gap_cm": 3.4029907290296313,
+  "near3": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near3_approach": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap_approach": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near12_speed": {
+   "n": 2187,
+   "median": 0.0855760976838444,
+   "p95": 0.4659132337190828,
+   "max": 0.4942744178411033
+  },
+  "loss_window_tcp_speed": {
+   "n": 150,
+   "median": 0.03655436092829145,
+   "p95": 0.03808062824944747,
+   "max": 0.5129650607449742
+  },
+  "before_window_tcp_speed": {
+   "n": 120,
+   "median": 0.45499091207148856,
+   "p95": 0.7929755347427561,
+   "max": 0.8717495592579168
+  },
+  "safety_scale_lt1_steps": 149,
+  "safety_hold_steps": 149,
+  "loss_hold_steps": 149
+ },
+ {
+  "name": "loss test: near + loss (retreat allowed)",
+  "tag": "sf_loss_on2",
+  "steps": 5069,
+  "arrivals": 21,
+  "infeasible": 0,
+  "min_gap_cm": 2.7612007657952438,
+  "near3": {
+   "n": 2,
+   "median": 0.30997105324389496,
+   "p95": 0.326917829083083,
+   "max": 0.3288008041763261
+  },
+  "near3_approach": {
+   "n": 2,
+   "median": 0.0,
+   "p95": 0.0,
+   "max": 0.0
+  },
+  "overlap": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "overlap_approach": {
+   "n": 0,
+   "median": null,
+   "p95": null,
+   "max": null
+  },
+  "near12_speed": {
+   "n": 2143,
+   "median": 0.07342885971552639,
+   "p95": 0.46235836549942605,
+   "max": 1.5824908391870682
+  },
+  "loss_window_tcp_speed": {
+   "n": 150,
+   "median": 0.03817428739220399,
+   "p95": 0.039669134808425335,
+   "max": 0.39739526867644304
+  },
+  "before_window_tcp_speed": {
+   "n": 120,
+   "median": 0.4543161116014849,
+   "p95": 0.7152520422635225,
+   "max": 0.7787069385912804
+  },
+  "safety_scale_lt1_steps": 858,
+  "safety_hold_steps": 159,
+  "loss_hold_steps": 149
+ }
+]

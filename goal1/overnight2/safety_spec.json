@@ -1,0 +1,68 @@
+[
+ {
+  "name": "run3 off",
+  "tag": "sf_run3_off",
+  "human": "/home/robotics/effmass_mpc/goal1/data/human_live_run3_v2.npz",
+  "frame": "/home/robotics/effmass_mpc/goal1/config/live_frame.yml"
+ },
+ {
+  "name": "run3 on (hold)",
+  "tag": "sf_run3_on",
+  "human": "/home/robotics/effmass_mpc/goal1/data/human_live_run3_v2.npz",
+  "frame": "/home/robotics/effmass_mpc/goal1/config/live_frame.yml"
+ },
+ {
+  "name": "live3m off",
+  "tag": "sf_live3m_off",
+  "human": "/home/robotics/effmass_mpc/goal1/live/live3m/compare/human_rt_v2.npz",
+  "frame": "/home/robotics/effmass_mpc/goal1/config/live_frame_user.yml"
+ },
+ {
+  "name": "live3m on (hold)",
+  "tag": "sf_live3m_on",
+  "human": "/home/robotics/effmass_mpc/goal1/live/live3m/compare/human_rt_v2.npz",
+  "frame": "/home/robotics/effmass_mpc/goal1/config/live_frame_user.yml"
+ },
+ {
+  "name": "run3 on (retreat allowed)",
+  "tag": "sf_run3_on2",
+  "human": "/home/robotics/effmass_mpc/goal1/data/human_live_run3_v2.npz",
+  "frame": "/home/robotics/effmass_mpc/goal1/config/live_frame.yml"
+ },
+ {
+  "name": "live3m on (retreat allowed)",
+  "tag": "sf_live3m_on2",
+  "human": "/home/robotics/effmass_mpc/goal1/live/live3m/compare/human_rt_v2.npz",
+  "frame": "/home/robotics/effmass_mpc/goal1/config/live_frame_user.yml"
+ },
+ {
+  "name": "loss test off",
+  "tag": "sf_loss_off",
+  "human": "/home/robotics/effmass_mpc/goal1/live/live3m/compare/human_rt_v2.npz",
+  "frame": "/home/robotics/effmass_mpc/goal1/config/live_frame_user.yml",
+  "gap_sim": [
+   24,
+   27
+  ]
+ },
+ {
+  "name": "loss test: loss stop only",
+  "tag": "sf_loss_on",
+  "human": "/home/robotics/effmass_mpc/goal1/live/live3m/compare/human_rt_v2.npz",
+  "frame": "/home/robotics/effmass_mpc/goal1/config/live_frame_user.yml",
+  "gap_sim": [
+   24,
+   27
+  ]
+ },
+ {
+  "name": "loss test: near + loss (retreat allowed)",
+  "tag": "sf_loss_on2",
+  "human": "/home/robotics/effmass_mpc/goal1/live/live3m/compare/human_rt_v2.npz",
+  "frame": "/home/robotics/effmass_mpc/goal1/config/live_frame_user.yml",
+  "gap_sim": [
+   24,
+   27
+  ]
+ }
+]

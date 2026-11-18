@@ -49,3 +49,10 @@
 - choice: (b); 200 and iterations 3 / 4 already bracket the 1 % target
 - result: table without 300
 - follow-up: my first fix put the comment on the same line and commented out the knot definitions (NameError); moved the comment, reran; spline5 worst acceleration 1.12x (was 36x)
+
+## D4-1 near stop held the robot even when it wanted to move away
+- question: with the near rule on, overlap steps rose (run3 7 -> 305, live3m 0 -> 1938, min gap -11.5 cm) although the robot speed within 3 cm was ~0.03 m/s
+- cause class: criterion not suitable: "stop below 3 cm" also blocked moves that increase the distance, and the recorded human does not react, so the arm kept moving into the stopped robot
+- options: (a) keep the hard hold (robot never moves fast near the human, but cannot escape); (b) do not scale a command whose robot spheres are not closer to the human than now (retreat allowed); (c) scale only the velocity component toward the human
+- choice: (b), simple and keeps "no fast approach", option --safety-allow-retreat (default 1 inside the new safety layer; 0 = the first version)
+- result: see bundle 4 table (on = hold, on2 = retreat allowed)
