@@ -41,7 +41,7 @@ def main(tag):
         o = np.argsort(ct); ct = ct[o]; cf = [cf[k] for k in o]
     t0 = max(tw[0], ct[0]) if len(ct) else tw[0]; t1 = min(tw[-1], ct[-1]) if len(ct) else tw[-1]
     T = np.arange(t0, t1, 1 / 30.0)
-    out = f"{d}/{tag}_side_by_side.mp4"
+    out = f"{d}/" + os.environ.get("VID_NAME", f"{tag}_side_by_side.mp4"); title = os.environ.get("VID_TITLE", "")   # (overnight2) optional name / title line
     ff = subprocess.Popen(["nice", "-n", "19", "ffmpeg", "-v", "error", "-y", "-threads", "1", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{2*W}x{H}", "-r", "30",
                            "-i", "-", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "23", "-preset", "medium", "-threads", "1", out], stdin=subprocess.PIPE)
     diffs, lag_c, lag_i = [], [], []
@@ -59,6 +59,8 @@ def main(tag):
             left = blank
         fr = Image.new("RGB", (2 * W, H)); fr.paste(left, (0, 0)); fr.paste(right, (W, 0))
         ImageDraw.Draw(fr).text((W + 12, 10), f"Isaac step {i}  t {t - t0:6.2f} s", fill=(255, 255, 255))
+        if title:
+            dr_ = ImageDraw.Draw(fr); dr_.rectangle([0, 0, 2 * W, 0], fill=(0, 0, 0)); dr_.rectangle([W + 8, 26, W + 12 + 7 * len(title), 42], fill=(0, 0, 0)); dr_.text((W + 12, 28), title, fill=(255, 220, 120))
         ff.stdin.write(fr.tobytes())
     ff.stdin.close(); rc = ff.wait()
     rep = dict(tag=tag, out=out, ffmpeg_exit=rc, frames=len(T), duration_s=float(len(T) / 30.0), isaac_frames=int(len(idx)), color_frames=len(cf),

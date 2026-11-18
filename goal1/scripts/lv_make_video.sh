@@ -8,7 +8,7 @@
 #      saved, N = the most steps per 1/30 s of the run's wall time (at least 1). Isaac is not recorded during the live run itself.
 #   3) lv_video_compose.py: colour frames (goal1/live/<tag>/color, capture time) and Isaac frames on the wall-time axis, 30 fps,
 #      -> goal1/live/<tag>/<tag>_side_by_side.mp4 and video_sync.json (time difference of the two panels).
-# Env: VID_TIMEOUT (s, default 1800), VID_RES (default 960x540), VID_KEEP_FRAMES=1 keeps isaac_frames/ (JPEG) after the mp4 is made.
+# Env: VID_NAME (output file name, default <tag>_side_by_side.mp4), VID_TITLE (text line on the Isaac panel), VID_TIMEOUT (s, default 1800), VID_RES (default 960x540), VID_KEEP_FRAMES=1 keeps isaac_frames/ (JPEG) after the mp4 is made.
 set -u
 TAG=${1:?tag}; GG=$HOME/effmass_mpc/goal1; O=$GG/logs/meff_isaac; G=$GG/b2a/g2; L=$GG/live/$TAG; SC=$GG/scripts
 [[ -f $O/$TAG.log ]] || { echo "no live run log $O/$TAG.log"; exit 2; }
@@ -35,5 +35,6 @@ nf=$(ls $L/isaac_frames/cam0 2>/dev/null | wc -l); echo "[video] Isaac frames $n
 [[ $nf -gt 0 ]] || { echo "re-render made no frames: $O/${TAG}_vid.log"; exit 6; }
 echo "[video] 3/3 side-by-side mp4"
 python3 $SC/lv_video_compose.py $TAG | tail -1
-if [[ -s $L/${TAG}_side_by_side.mp4 && ${VID_KEEP_FRAMES:-0} != 1 ]]; then rm -rf $L/isaac_frames; fi
-echo "[video] $L/${TAG}_side_by_side.mp4"
+OUTN=${VID_NAME:-${TAG}_side_by_side.mp4}
+if [[ -s $L/$OUTN && ${VID_KEEP_FRAMES:-0} != 1 ]]; then rm -rf $L/isaac_frames; fi
+echo "[video] $L/$OUTN"

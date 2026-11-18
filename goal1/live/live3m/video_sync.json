@@ -1,0 +1,17 @@
+{
+ "tag": "live3m",
+ "out": "/home/robotics/effmass_mpc/goal1/live/live3m/live3m_LIVE_as_run_not_replay.mp4",
+ "ffmpeg_exit": 0,
+ "frames": 2529,
+ "duration_s": 84.3,
+ "isaac_frames": 3058,
+ "color_frames": 2435,
+ "panel_time_diff_s": {
+  "max": 0.045842647552490234,
+  "p95": 0.02629685401916504,
+  "median": 0.00800633430480957
+ },
+ "isaac_offset_s_max": 0.02982950210571289,
+ "color_offset_s_max": 0.030609846115112305,
+ "within_0_1s": true
+}

@@ -55,6 +55,17 @@
 !/goal1/live/*/compare_tip/*.mp4
 !/goal1/live/*/compare_tip/*.json
 !/goal1/live/*/compare_tip/*.yml
+!/goal1/live/*/media/
+/goal1/live/*/media/*
+!/goal1/live/*/media/*.mp4
+!/goal1/live/*/media/*.gif
+!/goal1/live/*/media/*.json
+!/goal1/live/*/zone_figs/
+/goal1/live/*/zone_figs/*
+!/goal1/live/*/zone_figs/*.png
+!/goal1/live/*/zone_figs/*.json
+!/goal1/live/live3m/live3m_LIVE_as_run_not_replay.mp4
+!/goal1/live/live3m/video_sync.json
 !/goal1/overnight2/
 /goal1/overnight2/*
 !/goal1/overnight2/*.md

@@ -1,0 +1,9 @@
+{
+ "out": "/home/robotics/effmass_mpc/goal1/live/live3m/media/front_motion1_mesh.mp4",
+ "ffmpeg_exit": 0,
+ "duration_s": 19.033333333333335,
+ "size_mb": 2.31,
+ "colour_offset_s_max": 0.028385400772094727,
+ "colour_offset_s_median": 0.00999593734741211,
+ "isaac_step_offset_max": 4
+}

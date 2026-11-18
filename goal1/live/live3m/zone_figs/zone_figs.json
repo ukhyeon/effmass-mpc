@@ -1,0 +1,44 @@
+[
+ {
+  "name": "motion 1",
+  "target": "fingertip",
+  "frame": 384,
+  "uniform": {
+   "front_cm": 6.6,
+   "up_cm": 6.6
+  },
+  "part": {
+   "front_cm": 16.7,
+   "up_cm": 7.4
+  },
+  "png": "/home/robotics/effmass_mpc/goal1/live/live3m/zone_figs/zone_motion1.png"
+ },
+ {
+  "name": "motion 2",
+  "target": "fingertip",
+  "frame": 1232,
+  "uniform": {
+   "front_cm": 6.6,
+   "up_cm": 6.6
+  },
+  "part": {
+   "front_cm": 11.2,
+   "up_cm": 7.5
+  },
+  "png": "/home/robotics/effmass_mpc/goal1/live/live3m/zone_figs/zone_motion2.png"
+ },
+ {
+  "name": "motion 3",
+  "target": "elbow",
+  "frame": 1927,
+  "uniform": {
+   "front_cm": 6.6,
+   "up_cm": 6.6
+  },
+  "part": {
+   "front_cm": 10.0,
+   "up_cm": 7.8
+  },
+  "png": "/home/robotics/effmass_mpc/goal1/live/live3m/zone_figs/zone_motion3.png"
+ }
+]
