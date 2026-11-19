@@ -109,6 +109,11 @@ ap.add_argument("--speed-cap", default="off", choices=["off", "on"], help="(T1) 
 ap.add_argument("--speed-cap-v", type=float, default=0.5, help="(T1) speed limit m/s")
 ap.add_argument("--speed-cap-dist", type=float, default=0.4, help="(T1) penalty only for spheres whose gap to a human shape is <= this (m)")
 ap.add_argument("--speed-cap-w", type=float, default=0.0, help="(T1) weight of max(0, v - v_cap)^2 (max over spheres, per rollout step)")
+ap.add_argument("--traj-log", type=int, default=0, help="(real_prep1) 1: per MPC step the exported target and the whole horizon plan (q, qd, qdd, times) -> {TAG}_traj.npz")
+ap.add_argument("--jt-out", type=int, default=0, help="(real_prep1) K > 0 (needs --ros): publish trajectory_msgs/JointTrajectory with K horizon points on /mpc/joint_trajectory every MPC step (fr3_joint1..7, stamp 0)")
+ap.add_argument("--robot-cfg", default="", help="(real_prep1) robot yml used instead of goal1/fr3v2_1/fr3v2_1.yml (fr3v2_1 only); empty = default")
+ap.add_argument("--sphere-speed-limit", type=float, default=0.0, help="(real_prep1) > 0: after the solver, scale the joint command step so that no robot sphere moves faster than this (m/s) in one step")
+ap.add_argument("--cmd-log", type=int, default=0, help="(real_prep1) 1: per step q_cmd, MPC target velocity, measured q and dq, feasible, limiter scale -> {TAG}_cmd.npz")
 ap.add_argument("--safety-near", type=int, default=0, help="(overnight2) 1: scale the joint command step by s = clip((d - stop) / (start - stop), 0, 1), d = current min gap robot sphere - human shape (incl. 0.02 m buffer); independent of the cost")
 ap.add_argument("--safety-near-start", type=float, default=0.12, help="(overnight2) gap where slowing starts (m)")
 ap.add_argument("--safety-near-stop", type=float, default=0.03, help="(overnight2) gap where the robot holds its position (m)")
@@ -254,6 +259,8 @@ if args.robot:
     os.environ["STEP_ROBOT"] = args.robot
 if args.arm_gains:
     os.environ["STEP_FR3_ARM_GAINS"] = args.arm_gains
+if args.robot_cfg:   # (real_prep1)
+    S.ROBOT_CFG_OVERRIDE = os.path.expanduser(args.robot_cfg)
 robot_cfg = S.build_robot_cfg()
 names = robot_cfg["kinematics"]["cspace"]["joint_names"]
 q0 = robot_cfg["kinematics"]["cspace"]["retract_config"]
@@ -290,6 +297,12 @@ mpc = S.build_mpc(robot_cfg, world_cfg)
 torch.cuda.synchronize()
 t_build = time.perf_counter() - t0
 info = S.describe_mpc(mpc)
+try:   # (real_prep1) limits the solver really uses
+    _sb = mpc.rollout_fn.dynamics_model.get_state_bounds()
+    JLIM_INFO = dict(velocity=[round(float(x), 4) for x in _sb.velocity[1].reshape(-1)], acceleration=[round(float(x), 4) for x in _sb.acceleration[1].reshape(-1)], jerk=[round(float(x), 4) for x in _sb.jerk[1].reshape(-1)])
+except Exception as _e:
+    JLIM_INFO = dict(error=str(_e))
+log(f"(real_prep1) robot cfg {args.robot_cfg or 'default'}, joint limits used by the solver {JLIM_INFO}, sphere speed limit {args.sphere_speed_limit}")
 _o = mpc.solver.optimizers[0]; _sl = _o.sample_lib
 MPPI_SEED_INFO = dict(arg=args.mppi_seed, override_file=S.mppi_override_file(), opt_seed=int(getattr(_o, "seed", -1)), sample_params_seed=int(_o.sample_params.seed),
                       halton_gen_seed=int(_sl.halton_sample_lib.halton_generator._seed), knot_gen_seed=int(_sl.knot_halton_sample_lib.halton_generator._seed))
@@ -403,6 +416,8 @@ T_FIELDS = ["t_obst_ms", "t_phys_ms", "t_state_ms", "t_js_ms", "t_presync_ms", "
 MEFF_QSTATE = [None]
 PAIRED = []
 NEAR_ROWS, NEAR_MIN = [], []
+CMD_ROWS = []; LIM_STEPS = [0]; JT_PUB = None; JT_SENT = []   # (real_prep1)
+TRAJ = dict(step=[], t_sim=[], t_wall_ns=[], q=[], qd=[], qdd=[], start_q=[], start_qd=[], hq=[], hqd=[], hqdd=[], feasible=[], resid=[])   # (real_prep1 C)
 B1_ROWS = []   # (B1) (step, q_cmd 7, ee 3, feasible, dmin 24, smin 24, mu 24, mh 24, mr 24)
 PROF_ON = bool(args.loop_prof)
 PROF_MARKS = []          # 이번 스텝의 (구간 끝 이름, perf_counter, process_time)
@@ -438,6 +453,12 @@ if args.ros:
     if args.ros_pose_topic != "none":
         ros_node.create_subscription(HumanPose, args.ros_pose_topic, _on_pose, M.best_effort_qos())
     ros_pub = ros_node.create_publisher(RosJointState, "/step3/joint_states", QoSProfile(depth=10))
+    JT_PUB = None; JT_SENT = []
+    if args.jt_out > 0:   # (real_prep1 D)
+        from trajectory_msgs.msg import JointTrajectory as RosJT, JointTrajectoryPoint as RosJTP
+        from builtin_interfaces.msg import Duration as RosDuration
+        JT_PUB = ros_node.create_publisher(RosJT, "/mpc/joint_trajectory", QoSProfile(depth=10))
+        log(f"(real_prep1) JointTrajectory output on /mpc/joint_trajectory, {args.jt_out} point(s) per message")
     HUMAN = None
     HUMAN_FRAME = os.path.expanduser(args.human_frame) if args.human_frame else os.path.join(os.path.expanduser(args.human_dir), "temp_transform.json")   # (live)
     if args.human and args.human_source == "precomputed":
@@ -641,6 +662,41 @@ def one_step(i, timed=True):
         if _sf < 1.0:
             q_cmd = current.position + _sf * (q_cmd - current.position)
         SAFETY_ROWS.append((i, _sf, _dm, _age, _ls))
+    if (args.traj_log or args.jt_out > 0) and timed:   # (real_prep1 C, D) horizon plan of this step, before the limiter
+        _dyn = mpc.rollout_fn.dynamics_model; _dt = _dyn.traj_dt.reshape(-1); _fdt = float(mpc.solver.safety_rollout.dynamics_model.state_filter.dt)
+        _a0 = cmd.acceleration.reshape(1, -1); _sd = mpc.solver._init_act_seq   # None after a failed last attempt (mpc.step resets the solver): plan stored as NaN
+        _ac = torch.cat([_a0, _sd.reshape(-1, _a0.shape[-1])[:-1]], 0) if _sd is not None else torch.full((len(_dyn.traj_dt.reshape(-1)), _a0.shape[-1]), float("nan"), device=_a0.device)   # (H, dof)
+        # start state of the plan = the solver's filtered state (blend of the previous command and the measurement); cuRobo overwrites it
+        # with the command, so it is rebuilt from the command: v0 = v_cmd - a0 dt_f, q0 = q_cmd - v_cmd dt_f (dt_f = state filter dt)
+        _fs = cmd.clone(); _fs.velocity = cmd.velocity - cmd.acceleration * _fdt; _fs.position = cmd.position - cmd.velocity * _fdt
+        _hqd = _fs.velocity.reshape(1, -1) + torch.cumsum(_ac * _dt[:, None], 0); _hq = _fs.position.reshape(1, -1) + torch.cumsum(_hqd * _dt[:, None], 0)
+        _ht = torch.cumsum(_dt, 0)
+        _res = float((_hq[0] - cmd.position.reshape(-1)).abs().max())   # first horizon point vs exported target (check)
+        if args.traj_log:
+            for _k, _v in (("q", cmd.position), ("qd", cmd.velocity), ("qdd", cmd.acceleration), ("start_q", _fs.position), ("start_qd", _fs.velocity), ("hq", _hq), ("hqd", _hqd), ("hqdd", _ac)):
+                TRAJ[_k].append(_v.reshape(-1, _a0.shape[-1]).squeeze(0).detach().cpu().numpy().astype(np.float32))
+            TRAJ["step"].append(i); TRAJ["t_sim"].append((i + 1) * S.PHYSICS_DT); TRAJ["t_wall_ns"].append(time.time_ns()); TRAJ["feasible"].append(int(feasible)); TRAJ["resid"].append(_res)
+            if len(TRAJ["step"]) == 1:
+                TRAJ["t_h"] = _ht.cpu().numpy().astype(np.float32)
+        if args.jt_out > 0 and args.ros and JT_PUB is not None:
+            _jm = RosJT(); _jm.joint_names = [f"fr3_joint{k + 1}" for k in range(_a0.shape[-1])]
+            _HQ, _HQD, _HQDD, _HT = _hq.cpu().numpy(), _hqd.cpu().numpy(), _ac.cpu().numpy(), _ht.cpu().numpy()
+            for _k in range(min(args.jt_out, len(_HT))):
+                _pt = RosJTP(); _pt.positions = [float(x) for x in _HQ[_k]]; _pt.velocities = [float(x) for x in _HQD[_k]]; _pt.accelerations = [float(x) for x in _HQDD[_k]]
+                _ns = int(round(float(_HT[_k]) * 1e9)); _pt.time_from_start = RosDuration(sec=_ns // 1000000000, nanosec=_ns % 1000000000); _jm.points.append(_pt)
+            JT_PUB.publish(_jm); JT_SENT.append([i, time.time_ns(), (i + 1) * S.PHYSICS_DT, int(feasible)])
+    _vsc = 1.0; _vmx = float("nan")
+    if args.sphere_speed_limit > 0:   # (real_prep1) hard limit on the commanded step, after the solver and the safety layer
+        _k0 = mpc.rollout_fn.compute_kinematics(current).robot_spheres.reshape(-1, 4)[:, :3].clone()
+        _j1 = current.clone(); _j1.position = q_cmd.reshape(current.position.shape).clone()
+        _k1 = mpc.rollout_fn.compute_kinematics(_j1).robot_spheres.reshape(-1, 4)[:, :3]
+        _vmx = float((_k1 - _k0).norm(dim=-1).max()) / S.PHYSICS_DT
+        if _vmx > args.sphere_speed_limit:
+            _vsc = args.sphere_speed_limit / _vmx; q_cmd = current.position + _vsc * (q_cmd - current.position); LIM_STEPS[0] += 1
+    if args.cmd_log and timed:
+        _cv = cmd.velocity.reshape(-1).cpu().numpy().astype(np.float64) if feasible else np.zeros(len(cmd_idx))
+        CMD_ROWS.append(np.concatenate([[i], q_cmd.reshape(-1).cpu().numpy().astype(np.float64), _cv, current.position.reshape(-1).cpu().numpy().astype(np.float64),
+                                        current.velocity.reshape(-1).cpu().numpy().astype(np.float64), [float(feasible), _vsc, _vmx]]))
     if PB_Q is not None:
         controller.apply_action(ArticulationAction(PB_Q[min(i + 1, len(PB_Q) - 1)], joint_indices=cmd_idx))
     else:
@@ -813,6 +869,9 @@ if args.ros:
 
     with open(args.ros_out + "_isaac_recv_pose.csv", "w", newline="") as f:
         w = _csv.writer(f); w.writerow(["kind", "seq", "stamp_ns", "t_recv_ns", "ok"]); w.writerows(ROS_RECV)
+    if JT_SENT:   # (real_prep1 D)
+        with open(args.ros_out + "_jt_sent.csv", "w", newline="") as f:
+            w = _csv.writer(f); w.writerow(["step", "t_send_ns", "t_sim", "feasible"]); w.writerows(JT_SENT)
     with open(args.ros_out + "_isaac_sent_js.csv", "w", newline="") as f:
         w = _csv.writer(f); w.writerow(["seq", "t_send_ns"] + [f"p{k}" for k in range(9)]); w.writerows(ROS_SENT)
     HUMAN_FINAL = None
@@ -896,6 +955,17 @@ if args.human_source in ("inertia", "precomputed") or args.meff == "on":
     if SAFETY_ROWS:
         np.savez(os.path.expanduser(f"~/effmass_mpc/goal1/logs/meff_isaac/{TAG}_safety.npz"), rows=np.array(SAFETY_ROWS, dtype=np.float64),
                  cols=np.array(["step", "scale", "gap_m", "human_age_s", "loss_hold"]))
+    if TRAJ["step"]:   # (real_prep1 C)
+        _jn = [f"fr3_joint{k + 1}" for k in range(len(TRAJ["q"][0]))]
+        np.savez(os.path.expanduser(f"~/effmass_mpc/goal1/logs/meff_isaac/{TAG}_traj.npz"), step=np.array(TRAJ["step"], np.int32), t_sim=np.array(TRAJ["t_sim"], np.float64),
+                 t_wall_ns=np.array(TRAJ["t_wall_ns"], np.int64), q=np.stack(TRAJ["q"]), qd=np.stack(TRAJ["qd"]), qdd=np.stack(TRAJ["qdd"]), start_q=np.stack(TRAJ["start_q"]),
+                 start_qd=np.stack(TRAJ["start_qd"]), horizon_q=np.stack(TRAJ["hq"]), horizon_qd=np.stack(TRAJ["hqd"]), horizon_qdd=np.stack(TRAJ["hqdd"]), horizon_t=TRAJ["t_h"],
+                 feasible=np.array(TRAJ["feasible"], np.int8), first_point_resid=np.array(TRAJ["resid"], np.float32), joint_names=np.array(_jn), model_joint_names=np.array(list(mpc.joint_names)),
+                 robot_cfg=args.robot_cfg, sphere_speed_limit=args.sphere_speed_limit)
+    if CMD_ROWS:   # (real_prep1)
+        np.savez(os.path.expanduser(f"~/effmass_mpc/goal1/logs/meff_isaac/{TAG}_cmd.npz"), rows=np.array(CMD_ROWS, dtype=np.float64), joint_names=np.array(list(mpc.joint_names)),
+                 cols=np.array(["step", "q_cmd x7", "qd_mpc x7", "q_meas x7", "qd_meas x7", "feasible", "limiter_scale", "sphere_speed_before_limit"]),
+                 robot_cfg=args.robot_cfg, sphere_speed_limit=args.sphere_speed_limit, limiter_steps=LIM_STEPS[0])
     if B1_ROWS:
         np.savez(os.path.expanduser(f"~/effmass_mpc/goal1/logs/meff_isaac/{TAG}_b1.npz"), rows=np.array(B1_ROWS, dtype=np.float64), sphere_link=np.array(RI.sphere_link),
                  cost_par=MEFF.par.cpu().numpy(), cost_mode=int(MEFF.mode[0]), mppi_seed=args.mppi_seed)
@@ -916,6 +986,7 @@ res["warmup_n"] = args.warmup
 res["warmup_calls"] = WARM
 res["steps_csv"] = steps_path
 res["mppi_seed_info"] = MPPI_SEED_INFO
+res["real_prep1"] = dict(robot_cfg=args.robot_cfg, sphere_speed_limit=args.sphere_speed_limit, limiter_steps=LIM_STEPS[0], joint_limits=JLIM_INFO)
 log(f"step 기록 {len(STEP_ROWS)}행 → {steps_path}")
 path = os.path.join(out, f"{TAG}_result_{STAMP}.json")
 with open(path, "w") as f:

@@ -153,13 +153,16 @@ def robot_name():
     return os.environ.get("STEP_ROBOT", "panda")
 
 
+ROBOT_CFG_OVERRIDE = None   # (real_prep1) path of a robot yml used instead of FR3V21_CFG (fr3v2_1 only); None = default
+
+
 def build_robot_cfg():
     from curobo.util_file import get_robot_configs_path, join_path, load_yaml
 
     if robot_name() == "fr3":
         robot_cfg = load_yaml(FR3_CFG)["robot_cfg"]
     elif robot_name() == "fr3v2_1":
-        robot_cfg = load_yaml(FR3V21_CFG)["robot_cfg"]
+        robot_cfg = load_yaml(ROBOT_CFG_OVERRIDE or FR3V21_CFG)["robot_cfg"]
     else:
         robot_cfg = load_yaml(join_path(get_robot_configs_path(), "franka.yml"))["robot_cfg"]
     robot_cfg["kinematics"]["collision_sphere_buffer"] = COLLISION_SPHERE_BUFFER

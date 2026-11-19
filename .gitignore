@@ -55,6 +55,19 @@
 !/goal1/live/*/compare_tip/*.mp4
 !/goal1/live/*/compare_tip/*.json
 !/goal1/live/*/compare_tip/*.yml
+# real_prep1-3: real-robot preparation reports only (REPORT.md, FORMAT.md); no npz, csv exports, logs, test data
+!/goal1/real_prep1/
+/goal1/real_prep1/*
+!/goal1/real_prep1/REPORT.md
+!/goal1/real_prep1/mpc_traj_export/
+/goal1/real_prep1/mpc_traj_export/*
+!/goal1/real_prep1/mpc_traj_export/FORMAT.md
+!/goal1/real_prep2/
+/goal1/real_prep2/*
+!/goal1/real_prep2/REPORT.md
+!/goal1/real_prep3/
+/goal1/real_prep3/*
+!/goal1/real_prep3/REPORT.md
 # corrected: path-corrected comparison (report, summary, figure only; no cal/, explore/, npz, static_motion2.json, clips are copied to analysis/live/media)
 !/goal1/live/*/corrected/
 /goal1/live/*/corrected/*
