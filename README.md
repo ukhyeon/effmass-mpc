@@ -1,17 +1,28 @@
-> **English summary.** Human-avoidance MPC for a Franka FR3 in which the avoidance zone around each body part changes shape with the directional effective mass of the human (body shape, posture, collision direction), compared against uniform avoidance under the same settings.
-> Pipeline: Azure Kinect + real-time SMPL → per-segment directional effective mass → reduced mass μ → GPU MPPI cost → FR3 in Isaac Sim 4.5.
-> The zone rule now compares μ with a per-body-part reference mass (ISO/TS 15066 body-region masses). Results: simulation with replayed human data (static arms, moving hand, hand-over, crossing, synthetic camera faults) and a real Azure Kinect recording of three arm motions replayed at real time. With a static human shape the two methods differ clearly (fingertip-front gap about 6 cm vs about 11 cm). On motions recorded with a live RGB-D camera, the first robot path did not match the approach direction and the difference was 0.9-1.5 cm. After the path was corrected on the same recording so that the robot passes in front of the fingertip along its pointing direction, the difference grew to 7.7 cm (uniform 5.8 cm, per-part 13.5 cm; elbow 3.2 cm, 5.6 vs 8.8 cm). The path was set after the recording, so a comparison in which the person sets posture and direction is planned in the hardware experiment. The real FR3 is not tested yet. Analyses: [analysis/README.md](analysis/README.md), [analysis/live/README.md](analysis/live/README.md). The repository does not run on its own: Isaac Sim, cuRobo, the SMPL model and the ROS 2 human-dynamics package are not included.
+> **English summary.** Human-avoidance MPC (GPU MPPI) for a Franka FR3. Instead of a uniform 6.5 cm avoidance zone around the body, the zone is made thicker in directions where the human's directional effective mass is large (e.g., in front of an extended fingertip) and stays close to 6.5 cm where it is small (e.g., above the hand or beside the arm).
+>
+> **Result.** On a real Azure Kinect recording replayed in Isaac Sim 4.5, the robot passed 13.5 cm from the extended fingertip with the effective-mass zone versus 5.8 cm with the uniform zone (elbow: 8.8 vs 5.6 cm). When the robot approaches from a light direction (beside the arm), the two methods behave almost the same (0.2–0.5 cm), as intended.
+>
+> **Status and limits.** Simulation only. The robot path was set after the recording (one person, one recording), and the real FR3 is not tested yet. The repository does not run on its own: Isaac Sim, cuRobo, the SMPL model and the ROS 2 human-dynamics package are not included. Details: [analysis/README.md](analysis/README.md), [analysis/live/README.md](analysis/live/README.md).
 
 # effmass-mpc: 유효질량으로 회피 구역을 바꾸는 사람 회피 MPC
 
-사람의 체형·자세·충돌 방향에 따라 달라지는 유효질량을 이용해 회피 구역의 모양을 바꾸는 MPC를 개발한다. 현재 Isaac Sim 의 Franka FR3 에서 검증하고 있으며, 실물 FR3 적용을 목표로 한다.
+사람 근처를 지나는 로봇은 보통 몸 둘레에 같은 두께의 회피 구역을 둔다(**균일 회피**, 이 저장소에서는 6.5 cm). 이 저장소의 방법(**유효질량 회피**)은 구역의 두께를 방향마다 다르게 정한다. 로봇이 부딪혔을 때 사람 몸이 무겁게 받아내는 방향(예: 편 팔의 손끝 정면. 팔 전체의 관성이 실린다)에서는 구역을 두껍게 하고, 가볍게 밀려나는 방향(예: 손 위, 팔 옆)에서는 균일 회피와 거의 같은 두께를 둔다. 무겁고 가벼움은 그 부위의 ISO/TS 15066 기준 질량과 비교해 정한다. 이 문서에서 **구역 두께**는 식이 정한 값이고, **간격**은 로봇이 실제로 가장 가까이 지나간 거리다.
 
-![실제 Kinect 녹화: 손끝 앞을 지날 때 왼쪽 균일, 오른쪽 부위별 기준](analysis/live/media/front_pass_differs.gif)
+현재 Isaac Sim 의 Franka FR3 에서 검증하고 있으며, 실물 FR3 적용을 목표로 한다.
 
-*실제 Kinect 로 녹화한 편 팔을 제 속도로 다시 틀고, 로봇이 손끝 앞을 지나가게 했다. 왼쪽 균일 회피(6.5 cm 고정), 오른쪽 부위별 기준(k_gain 0.10). 반투명 몸 = SMPL 메시, 팔 둘레 = 회피 구역, seed 0. 부위별 기준의 구역이 손끝 앞으로 더 두껍지만, 이 실행의 손끝 최소 간격 차이는 0.5 cm(6.4 대 6.9 cm)다. 컬러 영상과 함께 본 원본: [analysis/live/media/front_motion1.mp4](analysis/live/media/front_motion1.mp4)*
+![같은 녹화(편 팔 손끝)를 두 방식에 다시 튼 장면: 왼쪽부터 컬러 영상, 균일 회피, 유효질량 회피](analysis/live/media/corrected_motion1.gif)
+
+*같은 녹화(편 팔 손끝)를 두 방식에 다시 튼 장면. 왼쪽부터 컬러 영상, 균일 회피, 유효질량 회피. 화면 속 표기 per-part = 유효질량 회피.*
+
+| 동작 | 균일 회피 | 유효질량 회피 | 차이 |
+|---|---|---|---|
+| 편 팔 손끝 | 5.8 cm | 13.5 cm | +7.7 cm |
+| 팔꿈치 | 5.6 cm | 8.8 cm | +3.2 cm |
+
+값은 가장 가까웠을 때의 간격이고, 방식마다 6회의 중앙값이다. 로봇의 길은 녹화 뒤에 정했다.
 
 > ### [실제 Kinect 녹화로 본 손·팔꿈치 회피 → analysis/live/README.md](analysis/live/README.md)
-> 같은 녹화에서 로봇의 길을 보정하자 부위별 기준이 균일보다 편 팔 손끝에서 7.7 cm, 팔꿈치에서 3.2 cm 더 멀리 지나갔다. 처음 정한 길에서는 손끝 앞 +0.9~1.5 cm, 팔 옆 +0.2~0.5 cm 였다. 차이가 작았던 이유, 길 보정 비교, 구역 모양 그림, 세 화면 영상(컬러·균일·부위별)이 있다.
+> 같은 녹화에서 로봇의 길을 보정하자 유효질량 회피가 균일 회피보다 편 팔 손끝에서 7.7 cm, 팔꿈치에서 3.2 cm 더 멀리 지나갔다. 처음 정한 길에서는 손끝 앞 +0.9~1.5 cm, 팔 옆 +0.2~0.5 cm 였다. 차이가 작았던 이유, 길 보정 비교, 구역 모양 그림, 세 화면 영상(컬러·균일 회피·유효질량 회피)이 있다.
 >
 > ### [시뮬레이션 결과 분석 전체 → analysis/README.md](analysis/README.md)
 > 자세·방향별 구역, 정지한 팔 9개 장면, 움직이는 손, 건네기·가로지르기, 빠른 손과 움직임 예측, 카메라 지연·떨림·누락. 일부 그림·영상은 이전 식 결과이며, 각 항목에 표시했다.
@@ -23,14 +34,39 @@
 ## 1. 목표
 
 - 사람의 체형, 자세, 충돌 방향에 따라 달라지는 유효질량으로 회피 구역의 모양을 바꾸는 사람 회피 MPC를 Isaac Sim에서 설계하고, 실물 Franka FR3에 적용한다.
-- 비교 기준은 **균일 회피**(사람의 질량 정보를 쓰지 않고 모든 부위·방향에 같은 간격을 두는 방식)이며, 제안 방법과 같은 설정에서 비교한다.
+- 비교 기준은 **균일 회피**(사람의 질량 정보를 쓰지 않고 모든 부위·방향에 같은 두께의 구역을 두는 방식)이며, 유효질량 회피와 같은 설정에서 비교한다.
 - 논문용 통계보다 "회피 구역의 모양 차이를 한눈에 보이게" 하는 것을 우선한다.
 
 ## 2. 핵심 아이디어
 
 **설계 질문: 로봇이 사람의 어느 부위에 어느 방향으로 접근하느냐에 따라 충돌 시 유효질량이 다를 때, 그 방향으로 얼마만큼의 간격을 두어야 하는가?**
 
-충돌 방향 u 는 로봇 구 중심에서 사람 형상의 가장 가까운 점을 향하는 방향이다. 이 방향으로 사람 분절의 유효질량 m_h, 로봇 구 위치의 유효질량 m_r 을 구하고, 둘을 묶은 환산질량 μ 로 그 쌍의 간격 η 를 정한다.
+로봇이 어느 방향에서 부딪히느냐에 따라 사람 몸이 받아내는 질량(유효질량)이 다르다. 팔 길이 방향으로 손끝을 밀면 팔 전체가 실려 무겁고, 손을 위에서 누르거나 팔을 옆에서 치면 그 부위만 밀려나 가볍다. 유효질량 회피는 무거운 방향일수록 구역을 두껍게 하고, 가벼운 방향에서는 기본 두께만 둔다.
+
+회피 구역의 두께(cm): 몸 표면에서 구역 경계까지, 녹화된 세 자세
+
+| 방식, 자세 | 손끝(팔꿈치) 앞 | 위쪽 |
+|---|---|---|
+| 균일 회피 (세 자세 모두) | 6.6 | 6.6 |
+| 유효질량 회피, 편 팔 | 16.7 | 7.4 |
+| 유효질량 회피, 굽힌 손 | 11.2 | 7.5 |
+| 유효질량 회피, 팔꿈치 내밀기 | 10.0 | 7.8 |
+
+같은 부위라도 앞쪽은 두껍고 위쪽은 균일 회피와 거의 같다.
+
+- 균일 회피의 구역 두께는 6.5 cm 다. 표의 6.6 은 두께를 1 mm 간격으로 재면서 구역 경계를 처음 넘은 점을 적은 값이다.
+- 두께는 로봇을 4.6 kg 의 점으로 놓고 계산했다.
+- 자세가 달라 값이 다르다: 여기 16.7 cm 는 녹화된 편 팔이고, [analysis/README.md 2-1](analysis/README.md#2-1-같은-손에서-방향별-두께) 의 20.0 cm 는 앞으로 뻗은 정지 자세다.
+
+![편 팔의 구역 단면: 균일 회피 대 유효질량 회피](analysis/live/figures/zone_motion1.png)
+
+*녹화된 편 팔의 구역 단면. 그림 제목의 per-part = 유효질량 회피.*
+
+![구역 표면: 균일 회피 대 유효질량 회피](analysis/figures/zone_3d.png)
+
+*앞으로 뻗은 정지 자세의 구역 표면. 그림 제목의 proposed (per-part reference) = 유효질량 회피.*
+
+충돌 방향 u 는 로봇 구 중심에서 사람 형상의 가장 가까운 점을 향하는 방향이다. 이 방향으로 사람 분절의 유효질량 m_h, 로봇 구 위치의 유효질량 m_r 을 구하고, 둘을 묶은 환산질량 μ 로 그 쌍의 구역 두께 η 를 정한다.
 
 ```
 m_h = 1 / (uᵀ Λ_h⁻¹ u)        Λ_h⁻¹ : 사람 분절의 3x3 작업공간 역관성 (SMPL 체형·자세에서 계산)
@@ -43,70 +79,42 @@ m_r = 1 / (uᵀ Λ_r⁻¹ u)        Λ_r⁻¹ : 로봇 구 중심의 3x3 작업�
 
 | 매개변수 | 기본값 | 뜻 |
 |---|---|---|
-| d_base | 0.065 m | 기본 간격 (균일 회피의 간격과 같음) |
+| d_base | 0.065 m | 기본 두께 (균일 회피의 구역 두께와 같음) |
 | k_gain | 0.10 m | 질량 이득. **k_gain = 0 이면 균일 회피와 같다** |
-| μ_iso | 부위별 | 그 부위가 혼자 부딪힐 때의 환산질량. 이보다 가벼운 충돌은 기본 간격만 둔다 |
-| η_max | 0.25 m | 간격 상한 |
+| μ_iso | 부위별 | 그 부위가 혼자 부딪힐 때의 환산질량. 이보다 가벼운 충돌은 기본 두께만 둔다 |
+| η_max | 0.25 m | 두께 상한 |
 
-MPPI 비용은 rollout 의 각 시점에서 (로봇 구, 사람 형상) 쌍마다 간격 d 가 η 보다 작으면 벌점을 주고(d < η 구간에서 (η − d)²/(2η), 겹치면 선형), 그 시점의 최댓값을 더한다. 사람 근처(형상 기준 0.4 m 안)에서는 로봇 구 속도 상한 0.5 m/s 비용을 함께 쓴다 (T 단계).
-
-이전 식은 모든 부위에 같은 기준 μ_ref = 0.53 kg 을 썼다. 손은 두 식이 거의 같고, 아래팔·위팔·몸통·머리는 지금 식에서 구역이 얇다(팔 옆이나 몸통 쪽에서 불필요하게 멀리 돌지 않는다). 바뀐 숫자는 [goal1/public_draft/changed_numbers.md](goal1/public_draft/changed_numbers.md) 에 모았다.
-
-같은 손이라도 방향에 따라 구역 두께가 달라진다. 녹화된 세 자세의 단면(점 로봇 4.6 kg):
-
-| 자세 | 손끝(팔꿈치) 앞, 균일 | 부위별 | 위쪽, 균일 | 부위별 |
-|---|---|---|---|---|
-| 편 팔 | 6.6 cm | 16.7 cm | 6.6 cm | 7.4 cm |
-| 굽힌 손 | 6.6 cm | 11.2 cm | 6.6 cm | 7.5 cm |
-| 팔꿈치 내밀기 | 6.6 cm | 10.0 cm | 6.6 cm | 7.8 cm |
-
-![편 팔의 구역 단면: 균일 대 부위별](analysis/live/figures/zone_motion1.png)
-
-![구역 표면: 균일 대 부위별](analysis/figures/zone_3d.png)
+MPPI 비용은 rollout 의 각 시점에서 (로봇 구, 사람 형상) 쌍마다 간격 d 가 η 보다 작으면 벌점을 주고(d < η 구간에서 (η − d)²/(2η), 겹치면 선형), 그 시점의 최댓값을 더한다. 사람 근처(형상 기준 0.4 m 안)에서는 로봇 구 속도 상한 0.5 m/s 비용을 함께 쓴다.
 
 ## 3. 현재 단계 (갱신: 2026-11-19)
 
-| 단계 | 내용 | 상태 |
-|---|---|---|
-| 1-2 | 유효질량을 MPC에 공급 | 완료 |
-| 1-3 | 비용 구현 | 완료 |
-| B2a | 정지 자세에서 방향 효과 확인 | 완료 |
-| T | 사람 근처 속도 상한(0.5 m/s) 적용과 가중치 조정 | 완료 |
-| V1, V2 | 기본 간격 + 질량 이득 식, 정적 시연 | 완료 |
-| R1 | 움직이는 손 재생 | 완료 |
-| 시험 | 자세 7개·방향별 구역, 정지 장면 9개, 협업 동작, 인지 불완전성(합성) | 완료 (이전 식) |
-| 부위별 기준 | 구역 식의 기준을 부위별 ISO 질량으로 변경, 정지·움직이는 손·협업 일부 재실행 | 완료 |
-| R2 | 실시간 Kinect + 가상 Franka (실시간 실행, 녹화, 제 속도 다시 틀기 비교, 길을 보정한 비교) | 완료 (손·팔꿈치 세 동작. 길 보정 비교는 편 팔 손끝·팔꿈치) |
-| R3 | 실물 연결 준비: 계산 시간, 60 → 1000 Hz 잇기, 안전 장치 | 진행 중 |
-| G2 | 실물 FR3 적용 | 예정 |
+| 단계 | 상태 |
+|---|---|
+| 유효질량을 MPC 비용으로 구현 | 완료 |
+| 정지한 사람 형상에서 방향 효과 확인 | 완료 |
+| 움직이는 손, 협업 동작, 카메라 결함(합성) 시험 | 완료 (일부는 이전 식) |
+| 실제 Kinect 녹화로 비교 (가상 로봇) | 완료 (편 팔 손끝, 팔꿈치) |
+| 실물 연결 준비 (60 → 1000 Hz 잇기, 안전 장치) | 진행 중 |
+| 실물 FR3 적용 | 예정 |
 
 단계별 확인 내용과 근거 로그는 [docs/progress.md](docs/progress.md) 에 있다.
 
 ## 4. 결과 요약
 
-![같은 녹화(편 팔 손끝)를 두 방식에 다시 튼 장면](analysis/live/media/corrected_motion1.gif)
+정지한 사람 형상에서는 두 방식의 차이가 분명했다(손끝 정면 간격 약 6 cm 대 약 11 cm). 실시간 RGB-D 카메라로 녹화한 동작에서는, 처음 정한 길로는 접근 방향이 맞지 않아 차이가 0.9~1.5 cm였다. 같은 녹화에서 로봇이 손끝이 가리키는 방향의 앞을 지나가도록 길을 보정하자 차이가 7.7 cm(균일 회피 5.8 cm, 유효질량 회피 13.5 cm)로 커졌다. 길은 녹화 뒤에 정한 것이므로, 사람이 직접 자세와 방향을 맞추는 비교는 실제 하드웨어 실험에서 진행할 계획이다.
 
-*같은 녹화(편 팔 손끝)를 두 방식에 다시 튼 장면. 왼쪽부터 컬러 영상, 균일 방식, 부위별 기준 방식. 로봇의 길은 녹화 뒤에 정했다.*
+굽힌 손 동작은 반대쪽 손이 길을 막아 같은 조건을 만들지 못했다. 자세한 내용: [analysis/live/README.md 의 "길을 보정한 비교"](analysis/live/README.md#길을-보정한-비교)
 
-| 동작 | 균일 | 부위별 기준 | 차이 |
-|---|---|---|---|
-| 편 팔 손끝 | 5.8 cm | 13.5 cm | +7.7 cm |
-| 팔꿈치 | 5.6 cm | 8.8 cm | +3.2 cm |
-
-정지한 사람 형상에서는 두 방식의 차이가 분명했다(손끝 정면 간격 약 6 cm 대 약 11 cm). 실시간 RGB-D 카메라로 녹화한 동작에서는, 처음 정한 길로는 접근 방향이 맞지 않아 차이가 0.9~1.5 cm였다. 같은 녹화에서 로봇이 손끝이 가리키는 방향의 앞을 지나가도록 길을 보정하자 차이가 7.7 cm(균일 5.8 cm, 부위별 기준 13.5 cm)로 커졌다. 길은 녹화 뒤에 정한 것이므로, 사람이 직접 자세와 방향을 맞추는 비교는 실제 하드웨어 실험에서 진행할 계획이다.
-
-표의 값은 가장 가까웠을 때의 간격이다(방식마다 6회의 중앙값). 굽힌 손 동작은 반대쪽 손이 길을 막아 같은 조건을 만들지 못했다. 자세한 내용: [analysis/live/README.md 의 "길을 보정한 비교"](analysis/live/README.md#길을-보정한-비교)
-
-- **실제 녹화, 처음 정한 길의 손끝 앞 통과:** 부위별 기준이 균일보다 0.9 / 1.5 / 1.2 cm 더 멀리 지나갔다(편 팔 / 굽힌 손 / 팔꿈치, seed 3개 중앙값).
-- **실제 녹화, 팔 옆 접근:** 0.2 / 0.5 / 0.4 cm 로 거의 같다. 팔 옆 방향은 움직이는 질량이 작아 부위별 기준에서도 구역이 얇기 때문이며, 뜻한 대로의 결과다.
-- **정지 장면 V2 정면(앞으로 뻗은 팔의 손끝 앞):** 균일 5.9 cm 대 부위별 10.7 cm(seed 3개 평균, 통과 구간 규칙).
-- **아래팔 옆 장면:** 이전 식은 12.1 cm 를 두었지만 부위별 기준은 6.5 cm(균일 5.6)로, 가벼운 방향에서 불필요한 우회를 줄였다.
+- **실제 녹화, 처음 정한 길의 손끝 앞 통과:** 유효질량 회피가 균일 회피보다 0.9 / 1.5 / 1.2 cm 더 멀리 지나갔다(편 팔 / 굽힌 손 / 팔꿈치, seed 3개 중앙값).
+- **실제 녹화, 팔 옆 접근:** 0.2 / 0.5 / 0.4 cm 로 거의 같다. 팔 옆 방향은 움직이는 질량이 작아 유효질량 회피에서도 구역이 얇기 때문이며, 뜻한 대로의 결과다.
+- **정지 장면, 앞으로 뻗은 팔의 손끝 앞:** 균일 회피 5.9 cm 대 유효질량 회피 10.7 cm(seed 3개 평균, 경로 양 끝 10 cm 를 뺀 구간에서 잼).
+- **아래팔 옆 장면:** 유효질량 회피의 이전 판(이전 식)은 12.1 cm 를 두었지만 지금의 유효질량 회피는 6.5 cm(균일 회피 5.6)로, 가벼운 방향에서 불필요한 우회를 줄였다.
 
 ## 5. 한계와 주의
 
-1. **실제 녹화 비교의 길은 녹화 뒤에 정했다.** 보정한 길도 마찬가지다. 가상 로봇의 받침 위치를 동작마다 옮겼다. 길 보정 비교는 자세가 유지되는 3~4초 구간에서만 쟀고, 굽힌 손 동작은 조건을 만들지 못했다. 녹화된 사람은 로봇에 반응하지 않고, 비교 영상의 Isaac 화면은 실행 기록으로 다시 그린 것이다. 실시간 실행 당시에는 화면이 실제의 약 0.6배로 흘렀다.
-2. **빠른 손 + 지연은 미해결.** 손이 1.0 m/s 로 움직이고 지연 100 ms 가 겹치면, 제안이 균일보다 낫다는 것이 확인되지 않았다(이전 식 결과).
-3. **가로지르기 0.5 m/s 에서 부위별 기준의 이점이 없다.** 아래팔 쪽에서 다가오는 장면이라 구역이 균일과 비슷하다(최소 간격 0.2~1.2 대 0.0~1.2 cm).
+1. **실제 녹화 비교의 길은 녹화 뒤에 정했다.** 보정한 길도 마찬가지다. 가상 로봇 베이스의 위치를 동작마다 옮겼다. 길 보정 비교는 자세가 유지되는 3~4초 구간에서만 쟀고, 굽힌 손 동작은 조건을 만들지 못했다. 녹화된 사람은 로봇에 반응하지 않고, 비교 영상의 Isaac 화면은 실행 기록으로 다시 그린 것이다. 실시간 실행 당시에는 화면이 실제의 약 0.6배로 흘렀다.
+2. **빠른 손 + 지연은 미해결.** 손이 1.0 m/s 로 움직이고 지연 100 ms 가 겹치면, 유효질량 회피가 균일 회피보다 낫다는 것이 확인되지 않았다(이전 식 결과).
+3. **가로지르기 0.5 m/s 에서 유효질량 회피의 이점이 없다.** 아래팔 쪽에서 다가오는 장면이라 구역이 균일 회피와 비슷하다(최소 간격 0.2~1.2 대 0.0~1.2 cm).
 4. **카메라 결함 결과는 이전 식, 대부분 seed 1개, 합성 잡음 기준이다.**
 5. **속도 상한 0.5 m/s 는 설계값이며 규격 적합 주장이 아니다.** 충돌력 측정과 규격 검증은 범위 밖이다.
 6. **실물 로봇 결과는 아직 없다.** 사람 한 명의 녹화 한 번이다.
@@ -162,7 +170,7 @@ flowchart LR
 | `analysis/` | 결과 분석 문서, 그림·영상 사본 |
 | `analysis/live/` | 실제 Kinect 녹화 비교 글, 그림, 세 화면 영상 |
 | `goal1/live/live3m/` | 녹화 live3m 의 비교 결과(표 json, 그림, 영상). `corrected/` 는 길 보정 비교의 보고서와 요약. 원본 컬러 프레임과 사람 자세 자료는 미포함 |
-| `goal1/part_regen/` | 부위별 기준으로 바꾼 식의 재실행 요약과 그림 |
+| `goal1/part_regen/` | 기준 질량을 부위별로 바꾼 식의 재실행 요약과 그림 |
 | `goal1/public_draft/` | 이번 공개 갱신의 처리표, 바뀐 숫자 목록, 점검 기록 |
 | `goal1/overnight2/` | 실물 연결 준비 기록(계산 시간, 60 → 1000 Hz 잇기 모의 시험, 안전 장치, 표면 점 유효질량) |
 | `goal1/step1_2_report.md`, `goal1/step1_3_report.md` | 단계별 작업 기록 (작성 당시 원문 유지) |
