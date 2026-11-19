@@ -55,6 +55,14 @@
 !/goal1/live/*/compare_tip/*.mp4
 !/goal1/live/*/compare_tip/*.json
 !/goal1/live/*/compare_tip/*.yml
+# corrected: path-corrected comparison (report, summary, figure only; no cal/, explore/, npz, static_motion2.json, clips are copied to analysis/live/media)
+!/goal1/live/*/corrected/
+/goal1/live/*/corrected/*
+!/goal1/live/*/corrected/REPORT.md
+!/goal1/live/*/corrected/summary.json
+!/goal1/live/*/corrected/summary.md
+!/goal1/live/*/corrected/final.json
+!/goal1/live/*/corrected/fig_corrected.png
 !/goal1/live/*/compare_tip_low/
 /goal1/live/*/compare_tip_low/*
 !/goal1/live/*/compare_tip_low/REPORT.md
