@@ -1,6 +1,6 @@
 > **English summary.** Human-avoidance MPC for a Franka FR3 in which the avoidance zone around each body part changes shape with the directional effective mass of the human (body shape, posture, collision direction), compared against uniform avoidance under the same settings.
 > Pipeline: Azure Kinect + real-time SMPL → per-segment directional effective mass → reduced mass μ → GPU MPPI cost → FR3 in Isaac Sim 4.5.
-> The zone rule now compares μ with a per-body-part reference mass (ISO/TS 15066 body-region masses). Results: simulation with replayed human data (static arms, moving hand, hand-over, crossing, synthetic camera faults) and a real Azure Kinect recording of three arm motions replayed at real time. With a static human shape the two methods differ clearly (fingertip-front gap about 6 cm vs about 11 cm). In the virtual-environment test with a live RGB-D camera the difference was small, 0.9-1.5 cm, because the approach direction could not be controlled while watching only the screen. A controlled comparison is planned in the hardware experiment. The real FR3 is not tested yet. Analyses: [analysis/README.md](analysis/README.md), [analysis/live/README.md](analysis/live/README.md). The repository does not run on its own: Isaac Sim, cuRobo, the SMPL model and the ROS 2 human-dynamics package are not included.
+> The zone rule now compares μ with a per-body-part reference mass (ISO/TS 15066 body-region masses). Results: simulation with replayed human data (static arms, moving hand, hand-over, crossing, synthetic camera faults) and a real Azure Kinect recording of three arm motions replayed at real time. With a static human shape the two methods differ clearly (fingertip-front gap about 6 cm vs about 11 cm). On motions recorded with a live RGB-D camera, the first robot path did not match the approach direction and the difference was 0.9-1.5 cm. After the path was corrected on the same recording so that the robot passes in front of the fingertip along its pointing direction, the difference grew to 7.7 cm (uniform 5.8 cm, per-part 13.5 cm; elbow 3.2 cm, 5.6 vs 8.8 cm). The path was set after the recording, so a comparison in which the person sets posture and direction is planned in the hardware experiment. The real FR3 is not tested yet. Analyses: [analysis/README.md](analysis/README.md), [analysis/live/README.md](analysis/live/README.md). The repository does not run on its own: Isaac Sim, cuRobo, the SMPL model and the ROS 2 human-dynamics package are not included.
 
 # effmass-mpc: 유효질량으로 회피 구역을 바꾸는 사람 회피 MPC
 
@@ -11,7 +11,7 @@
 *실제 Kinect 로 녹화한 편 팔을 제 속도로 다시 틀고, 로봇이 손끝 앞을 지나가게 했다. 왼쪽 균일 회피(6.5 cm 고정), 오른쪽 부위별 기준(k_gain 0.10). 반투명 몸 = SMPL 메시, 팔 둘레 = 회피 구역, seed 0. 부위별 기준의 구역이 손끝 앞으로 더 두껍지만, 이 실행의 손끝 최소 간격 차이는 0.5 cm(6.4 대 6.9 cm)다. 컬러 영상과 함께 본 원본: [analysis/live/media/front_motion1.mp4](analysis/live/media/front_motion1.mp4)*
 
 > ### [실제 Kinect 녹화로 본 손·팔꿈치 회피 → analysis/live/README.md](analysis/live/README.md)
-> 손끝 앞을 지날 때는 부위별 기준이 조금 더 멀리 지나가고(+0.9~1.5 cm), 팔 옆으로 다가올 때는 두 방식이 거의 같다(+0.2~0.5 cm). 정지 장면보다 차이가 작은 이유(접근 방향을 통제하지 못함)와 계획, 구역 모양 그림, 세 화면 영상(컬러·균일·부위별)을 함께 실었다.
+> 같은 녹화에서 로봇의 길을 보정하자 부위별 기준이 균일보다 편 팔 손끝에서 7.7 cm, 팔꿈치에서 3.2 cm 더 멀리 지나갔다. 처음 정한 길에서는 손끝 앞 +0.9~1.5 cm, 팔 옆 +0.2~0.5 cm 였다. 차이가 작았던 이유, 길 보정 비교, 구역 모양 그림, 세 화면 영상(컬러·균일·부위별)이 있다.
 >
 > ### [시뮬레이션 결과 분석 전체 → analysis/README.md](analysis/README.md)
 > 자세·방향별 구역, 정지한 팔 9개 장면, 움직이는 손, 건네기·가로지르기, 빠른 손과 움직임 예측, 카메라 지연·떨림·누락. 일부 그림·영상은 이전 식 결과이며, 각 항목에 표시했다.
@@ -76,7 +76,7 @@ MPPI 비용은 rollout 의 각 시점에서 (로봇 구, 사람 형상) 쌍마�
 | R1 | 움직이는 손 재생 | 완료 |
 | 시험 | 자세 7개·방향별 구역, 정지 장면 9개, 협업 동작, 인지 불완전성(합성) | 완료 (이전 식) |
 | 부위별 기준 | 구역 식의 기준을 부위별 ISO 질량으로 변경, 정지·움직이는 손·협업 일부 재실행 | 완료 |
-| R2 | 실시간 Kinect + 가상 Franka (실시간 실행, 녹화, 제 속도 다시 틀기 비교) | 완료 (손·팔꿈치 세 동작) |
+| R2 | 실시간 Kinect + 가상 Franka (실시간 실행, 녹화, 제 속도 다시 틀기 비교, 길을 보정한 비교) | 완료 (손·팔꿈치 세 동작. 길 보정 비교는 편 팔 손끝·팔꿈치) |
 | R3 | 실물 연결 준비: 계산 시간, 60 → 1000 Hz 잇기, 안전 장치 | 진행 중 |
 | G2 | 실물 FR3 적용 | 예정 |
 
@@ -84,22 +84,33 @@ MPPI 비용은 rollout 의 각 시점에서 (로봇 구, 사람 형상) 쌍마�
 
 ## 4. 결과 요약
 
-정지한 사람 형상에서는 두 방식의 차이가 분명했다(손끝 정면 간격 약 6 cm 대 약 11 cm). 실시간 RGB-D 카메라를 연결한 가상환경 실험에서는 화면만 보고 접근 방향을 통제하기 어려워 차이가 0.9~1.5 cm로 작게 나왔다. 통제된 비교는 실제 하드웨어 실험에서 진행할 계획이다.
+![같은 녹화(편 팔 손끝)를 두 방식에 다시 튼 장면](analysis/live/media/corrected_motion1.gif)
 
-- **실제 녹화, 손끝 앞 통과:** 부위별 기준이 균일보다 0.9 / 1.5 / 1.2 cm 더 멀리 지나갔다(편 팔 / 굽힌 손 / 팔꿈치, seed 3개 중앙값).
+*같은 녹화(편 팔 손끝)를 두 방식에 다시 튼 장면. 왼쪽부터 컬러 영상, 균일 방식, 부위별 기준 방식. 로봇의 길은 녹화 뒤에 정했다.*
+
+| 동작 | 균일 | 부위별 기준 | 차이 |
+|---|---|---|---|
+| 편 팔 손끝 | 5.8 cm | 13.5 cm | +7.7 cm |
+| 팔꿈치 | 5.6 cm | 8.8 cm | +3.2 cm |
+
+정지한 사람 형상에서는 두 방식의 차이가 분명했다(손끝 정면 간격 약 6 cm 대 약 11 cm). 실시간 RGB-D 카메라로 녹화한 동작에서는, 처음 정한 길로는 접근 방향이 맞지 않아 차이가 0.9~1.5 cm였다. 같은 녹화에서 로봇이 손끝이 가리키는 방향의 앞을 지나가도록 길을 보정하자 차이가 7.7 cm(균일 5.8 cm, 부위별 기준 13.5 cm)로 커졌다. 길은 녹화 뒤에 정한 것이므로, 사람이 직접 자세와 방향을 맞추는 비교는 실제 하드웨어 실험에서 진행할 계획이다.
+
+표의 값은 가장 가까웠을 때의 간격이다(방식마다 6회의 중앙값). 굽힌 손 동작은 반대쪽 손이 길을 막아 같은 조건을 만들지 못했다. 자세한 내용: [analysis/live/README.md 의 "길을 보정한 비교"](analysis/live/README.md#길을-보정한-비교)
+
+- **실제 녹화, 처음 정한 길의 손끝 앞 통과:** 부위별 기준이 균일보다 0.9 / 1.5 / 1.2 cm 더 멀리 지나갔다(편 팔 / 굽힌 손 / 팔꿈치, seed 3개 중앙값).
 - **실제 녹화, 팔 옆 접근:** 0.2 / 0.5 / 0.4 cm 로 거의 같다. 팔 옆 방향은 움직이는 질량이 작아 부위별 기준에서도 구역이 얇기 때문이며, 뜻한 대로의 결과다.
 - **정지 장면 V2 정면(앞으로 뻗은 팔의 손끝 앞):** 균일 5.9 cm 대 부위별 10.7 cm(seed 3개 평균, 통과 구간 규칙).
 - **아래팔 옆 장면:** 이전 식은 12.1 cm 를 두었지만 부위별 기준은 6.5 cm(균일 5.6)로, 가벼운 방향에서 불필요한 우회를 줄였다.
 
 ## 5. 한계와 주의
 
-1. **실제 녹화 비교의 길은 녹화 뒤에 정했다.** 손이 닿도록 가상 로봇의 받침 위치를 동작마다 옮겼다. 녹화된 사람은 로봇에 반응하지 않고, 비교 영상의 Isaac 화면은 실행 기록으로 다시 그린 것이다. 실시간 실행 당시에는 화면이 실제의 약 0.6배로 흘렀다.
+1. **실제 녹화 비교의 길은 녹화 뒤에 정했다.** 보정한 길도 마찬가지다. 가상 로봇의 받침 위치를 동작마다 옮겼다. 길 보정 비교는 자세가 유지되는 3~4초 구간에서만 쟀고, 굽힌 손 동작은 조건을 만들지 못했다. 녹화된 사람은 로봇에 반응하지 않고, 비교 영상의 Isaac 화면은 실행 기록으로 다시 그린 것이다. 실시간 실행 당시에는 화면이 실제의 약 0.6배로 흘렀다.
 2. **빠른 손 + 지연은 미해결.** 손이 1.0 m/s 로 움직이고 지연 100 ms 가 겹치면, 제안이 균일보다 낫다는 것이 확인되지 않았다(이전 식 결과).
 3. **가로지르기 0.5 m/s 에서 부위별 기준의 이점이 없다.** 아래팔 쪽에서 다가오는 장면이라 구역이 균일과 비슷하다(최소 간격 0.2~1.2 대 0.0~1.2 cm).
 4. **카메라 결함 결과는 이전 식, 대부분 seed 1개, 합성 잡음 기준이다.**
 5. **속도 상한 0.5 m/s 는 설계값이며 규격 적합 주장이 아니다.** 충돌력 측정과 규격 검증은 범위 밖이다.
 6. **실물 로봇 결과는 아직 없다.** 사람 한 명의 녹화 한 번이다.
-7. **구역이 두꺼워도 실제 간격은 그보다 작을 수 있다.** 로봇은 구역이 얇은 쪽(비스듬한 쪽, 위쪽)으로 비켜 지나간다. 실제 녹화의 손끝 동작에서도 가장 가까운 방향이 대부분 손 위쪽이어서 차이가 정지 장면보다 작았다.
+7. **구역이 두꺼워도 실제 간격은 그보다 작을 수 있다.** 로봇은 구역이 얇은 쪽(비스듬한 쪽, 위쪽)으로 비켜 지나간다. 실제 녹화의 손끝 동작에서도 처음 정한 길에서는 가장 가까운 방향이 대부분 손 위쪽이어서 차이가 정지 장면보다 작았다.
 8. **구역 그림과 두께는 로봇을 4.6 kg 의 점으로 놓고 계산했다.**
 
 ## 6. 시스템 구성
@@ -150,7 +161,7 @@ flowchart LR
 | `goal1/r1/*.png`, `goal1/overnight/` | R1 그림, 이후 시험의 그림과 작업 기록 (`REPORT.md`, `DECISIONS.md`) |
 | `analysis/` | 결과 분석 문서, 그림·영상 사본 |
 | `analysis/live/` | 실제 Kinect 녹화 비교 글, 그림, 세 화면 영상 |
-| `goal1/live/live3m/` | 녹화 live3m 의 비교 결과(표 json, 그림, 영상). 원본 컬러 프레임과 사람 자세 자료는 미포함 |
+| `goal1/live/live3m/` | 녹화 live3m 의 비교 결과(표 json, 그림, 영상). `corrected/` 는 길 보정 비교의 보고서와 요약. 원본 컬러 프레임과 사람 자세 자료는 미포함 |
 | `goal1/part_regen/` | 부위별 기준으로 바꾼 식의 재실행 요약과 그림 |
 | `goal1/public_draft/` | 이번 공개 갱신의 처리표, 바뀐 숫자 목록, 점검 기록 |
 | `goal1/overnight2/` | 실물 연결 준비 기록(계산 시간, 60 → 1000 Hz 잇기 모의 시험, 안전 장치, 표면 점 유효질량) |
