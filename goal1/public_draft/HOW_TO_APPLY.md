@@ -1,5 +1,7 @@
 # 초안 적용 방법 (사용자가 "푸시 진행" 전에 할 일)
 
+> **적용 완료 (2026-11-19).** 아래 순서로 README.md, analysis/, analysis/live/ 에 반영했다. README_draft.md 는 최종본(README.md)을 가리키게 바꿨고, analysis_live/README.md 는 analysis/live/README.md 와 같게 맞췄다.
+
 공개 저장소의 README 와 analysis/ 는 이번 작업에서 바꾸지 않았다. 아래 순서로 옮기면 된다.
 
 1. `goal1/public_draft/analysis_live/` 를 `analysis/live/` 로 복사한다(README.md, figures/, media/).

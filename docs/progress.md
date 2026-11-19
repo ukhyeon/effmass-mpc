@@ -61,3 +61,21 @@
 - 후속: 등속 예측은 떨리는 골격에서 해롭다(균일 침투 62 스텝). 속도 필터(EMA 0.2)를 붙이면 해결되고, 지연 100 ms + 떨림 2 cm 에서 정지보다 간격이 크다. 1.0 m/s 에서 올라간 사람 근처 속도 p99(0.54~0.63 m/s)는 속도 상한 반경 0.5 m 로 0.467~0.478 m/s 가 된다. 이 조합(Kinect 후보)은 깨끗한 데이터와 협업 동작에서도 손해가 없었다 (seed 2개).
 - WP6 튜닝: 속도 상한 가중치 1e6 후보(tuned_t2a.yml)는 must 기준을 모두 지켰지만 개선 폭이 seed 차이보다 작아 규칙상 개선 아님. 채택하지 않음.
 - 근거: `goal1/logs/meff_isaac/on_wp*_summary.json`, `on_wp*_runs.json`, `on_wp*_passes.json`, 그림 `goal1/overnight/*.png`.
+
+## 부위별 기준 2026-11-18 (완료, 상세 `goal1/part_regen/REPORT.md`)
+
+- 변경: 구역 식의 기준 질량을 모든 부위 공통 μ_ref 0.53 kg(이전 식)에서 부위별 μ_iso = 1 / (1/m_iso + 1/m_r) 로 바꿈(m_iso = ISO/TS 15066 부위 기준 질량). 위의 V2·R1·Overnight 수치는 이전 식 결과다.
+- 확인: k_gain 0 의 제안 = 균일(관절 명령 비트 단위 일치), GPU 커널 = CPU 기준 계산(두께 오차 1.9e-8 m).
+- 수치 (새 간격 규칙: 로봇 구 전체와 사람 형상 전체, 경로 양 끝 10 cm 제외, seed 3개): V2 정면 균일 5.9 / 이전 식 11.7 / 제안 10.7 cm. 아래팔 옆(P6) 5.6 / 12.1 / 6.5 cm. 가로지르기 0.5 m/s 0.0~1.2 / 3.8~6.7 / 0.2~1.2 cm(제안의 이점 없음). 구역 두께: 손은 그대로, 아래팔 최대 11.3~13.0 cm, 몸통 6.5~6.7 cm.
+- 근거: `goal1/part_regen/summary_*.json`, 바뀐 숫자 목록 `goal1/public_draft/changed_numbers.md`.
+
+## R2 실시간 Kinect + 가상 Franka (손·팔꿈치 세 동작 완료, 상세 `analysis/live/README.md`)
+
+- 확인: 녹화 live3m(세 동작)을 제 속도로 다시 틀어 균일 대 부위별 기준 비교, seed 3개. 팔 옆 접근(녹화 당시 길)과 손끝·팔꿈치 앞 통과(녹화 뒤 정한 길).
+- 수치: 손끝 앞 통과 +0.9 / +1.5 / +1.2 cm, 팔 옆 접근 +0.2 / +0.5 / +0.4 cm. 정지 장면(V2 정면 약 6 대 약 11 cm)보다 차이가 작은 것은 녹화 때 접근 방향을 통제하지 못해서다(팔이 아래로 14~15도 기울어 로봇이 손 위쪽에서 먼저 가까워짐). 길을 6 cm 낮춘 시험의 팔꿈치 앞 +4.0 cm 는 탐색 결과다.
+- 근거: `goal1/live/live3m/compare/`, `compare_tip/`, `compare_tip_low/`, `zone_figs/`.
+
+## R3 실물 연결 준비 (진행 중, 상세 `goal1/overnight2/REPORT.md`)
+
+- 계산 시간: sensing 을 켜면 16.7 ms 를 넘긴 스텝 4.2 % (끄면 0 %). 60 → 1000 Hz 잇기 모의 시험: 5차 보간 + 2주기 버퍼가 속도·저크·토크 변화율 한계 안(가속도만 최대 1.12배). 안전 장치(기본 끔, 끄면 비트 단위 동일): 사람 근처 감속(물러나기 허용), 추적 놓침 정지.
+- 근거: `goal1/overnight2/solve_timing.json`, `bridge_summary.json`, `safety_eval.json`, `surface_meff.json`.
