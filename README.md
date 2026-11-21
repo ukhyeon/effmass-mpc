@@ -61,20 +61,9 @@
 
 ## 3. 시스템 구성
 
-<!-- 아키텍처 그림(영어판)이 준비되면 아래 Mermaid 를 그 그림으로 바꾼다. -->
+![시스템 구성: 메인 PC(사람 인식, MPC) → 게이트웨이 → 제어 PC(ros2_control 브리지) → Franka FR3](analysis/field/figures/system_architecture.png)
 
-```mermaid
-flowchart LR
-    K[Human perception<br/>Kinect + body model] --> H[사람 동역학 노드<br/>분절별 Λ_h⁻¹, 캡슐 형상]
-    R[FR3 동역학 모델<br/>numpy] --> RR[로봇 구별 Λ_r⁻¹]
-    H -->|ROS 2| C
-    RR --> C
-    subgraph GPU["GPU"]
-      C[유효질량 비용 채널<br/>u, μ, η, 이격 구역, 위험 필드] --> M[NVIDIA GPU MPC 라이브러리<br/>MPPI]
-    end
-    M -->|관절 위치 명령| I[Isaac Sim<br/>FR3]
-    I -->|관절 상태| M
-```
+*실물 구성. 메인 PC 에서 사람 인식과 MPC 가 GPU 를 나눠 쓰고(NVIDIA MPS), 관절 목표가 게이트웨이와 ros2_control 브리지를 거쳐 FR3 로 간다. 시뮬에서는 Isaac Sim 의 FR3 가 제어 PC 와 로봇 자리를 대신한다.*
 
 ## 4. 실행 환경
 
