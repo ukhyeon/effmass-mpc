@@ -1,5 +1,5 @@
 > **English summary.** Human-avoidance MPC (GPU MPPI, NVIDIA GPU MPC library) for a Franka FR3 in Isaac Sim. Two methods use the same MPC and the same cost (a clearance zone plus a risk field) and differ only in how thick the clearance zone is: **uniform avoidance** (the same in every direction) and **effective-mass avoidance** (thicker where the human's directional effective mass is large).
-> **Result.** Head-on, where the human's effective mass is large (e.g., in front of an extended fingertip), effective-mass avoidance keeps much more distance and starts avoiding earlier; from the side or above, the two methods stay close.
+> **Result.** Head-on fingertip (simulation, median of 6 runs, uniform → effective-mass): min clearance 8.1 → 15.5 cm, avoidance onset 13.5 → 19.1 cm. Head-on, where the human's effective mass is large, effective-mass avoidance keeps much more distance and starts avoiding earlier; from the side or above, the two methods stay close.
 > These are simulation results; the real-robot comparison is in effmass-mpc-franka. This repository does not run on its own (see 4).
 
 # effmass-mpc: 유효질량으로 이격 구역을 바꾸는 사람 회피 MPC
@@ -7,7 +7,7 @@
 ![같은 녹화를 두 방식에 다시 튼 장면: 왼쪽 균일 회피, 오른쪽 유효질량 회피, 둘 다 위험 필드](analysis/field/media/field_motion1.gif)
 
 *같은 녹화, 같은 seed, 같은 시각에 로봇이 편 팔의 손끝 정면을 지나간다. 왼쪽 균일 회피, 오른쪽 유효질량 회피.*
-**정면 손끝에서 회피 시작 거리 13.5 → 19.1 cm** (균일 → 유효질량, 로봇이 사람 비용 없는 길에서 벗어나기 시작할 때의 간격). 가장 가까운 간격은 아래 표.
+**정면 손끝: 최소 간격 8.1 → 15.5 cm, 회피 시작 거리 13.5 → 19.1 cm** (균일 → 유효질량, 6번 실행 중앙값). 회피 시작 거리는 로봇이 사람 비용 없는 길에서 벗어나기 시작할 때의 간격이다.
 
 ## 1. 핵심 결과
 
@@ -16,7 +16,7 @@
 | 편 팔 손끝 (실제 녹화) | 정면 | 8.1 | 15.5 | +7.4 |
 | 팔꿈치 (실제 녹화) | 정면 | 7.8 | 11.3 | +3.5 |
 | 손 위·팔 옆 (정지 자세 7장면) | 옆·위 | 4.5 – 10.3 | 8.5 – 11.9 | −0.3 ~ +4.0 |
-| 실물 조건(d_base 0.10 m), 손끝 / 팔꿈치 | 정면 | 10.7 / 10.6 | 21.1 / 14.7 | +10.4 / +4.1 |
+| 편 팔 손끝 / 팔꿈치, 실물 조건(d_base 0.10 m) | 정면 | 10.7 / 10.6 | 21.1 / 14.7 | +10.4 / +4.1 |
 
 가장 가까운 간격(cm)의 중앙값이다. 실제 녹화는 방식마다 6회(seed 3개 × 출발 2곳), 정지 자세는 장면마다 3회이고, 두 방식 모두 같은 위험 필드를 썼다.
 
@@ -53,7 +53,7 @@
 
 | 매개변수 | 값 | 뜻 |
 |---|---|---|
-| d_base | 0.065 m | 기본 두께. 균일 회피의 두께와 같다 |
+| d_base | 0.065 m (시뮬), 0.10 m (실물 조건) | 기본 두께. 균일 회피의 두께와 같다 |
 | k_gain | 0.10 m | 질량 이득. **k_gain = 0 이면 균일 회피** |
 | η_max | 0.25 m | 두께 상한 |
 | W | 100 | 위험 필드 높이 (구역 비용 가중치 w = 1e5 와 같은 단위), 두 방식에 같음 |
