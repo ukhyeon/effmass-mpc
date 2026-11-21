@@ -40,16 +40,27 @@
 
 *같은 편 팔에서 두 방식의 이격 구역 단면. 손끝 정면의 두께는 크게 다르고, 위쪽은 거의 같다.*
 
+```math
+\mu = \frac{1}{u^\top \Lambda_h^{-1} u + u^\top \Lambda_r^{-1} u}
 ```
-μ = 1 / (uᵀ Λ_h⁻¹ u + uᵀ Λ_r⁻¹ u)
-η = clamp( d_base + k_gain · max( sqrt(μ / μ_iso) − 1, 0 ),  d_base,  η_max )
-비용 = w · c_zone(d, η) + W · c_field(d, η),   c_field = 1 (d < η),  (1 − (d − η)/η)² (η ≤ d < 2η),  0 (d ≥ 2η)
+
+```math
+\eta = \operatorname{clamp}\left(d_{\text{base}} + k_{\text{gain}} \max\left(\sqrt{\mu / \mu_{\text{iso}}} - 1,\ 0\right),\ d_{\text{base}},\ \eta_{\max}\right)
+```
+
+```math
+J = \max_{\text{pairs}} \Big[\, w\, c_{\text{zone}}(d, \eta) + W\, c_{\text{field}}(d, \eta) \,\Big]
+```
+
+```math
+c_{\text{zone}} = \begin{cases} \eta/2 - d & d < 0 \\ (\eta - d)^2 / (2\eta) & 0 \le d < \eta \\ 0 & d \ge \eta \end{cases} \qquad c_{\text{field}} = \begin{cases} 1 & d < \eta \\ \left(1 - \dfrac{d - \eta}{\eta}\right)^2 & \eta \le d < 2\eta \\ 0 & d \ge 2\eta \end{cases}
 ```
 
 - u: 로봇 구에서 사람 형상의 가장 가까운 점을 향하는 방향
 - Λ_h⁻¹, Λ_r⁻¹: 사람 분절과 로봇 구 위치의 작업공간 역관성
 - μ: 방향 u 의 환산질량. μ_iso: 같은 식에 그 부위의 ISO/TS 15066 기준 질량을 넣은 값
-- d: 로봇 구와 사람 형상 사이의 간격. η: 이격 구역 두께. c_zone: 구역 안(d < η)에서만 커지는 비용
+- d: 로봇 구와 사람 형상 사이의 간격. η: 이격 구역 두께. c_zone: 이격 구역 비용, c_field: 위험 필드
+- J: rollout 각 시점의 사람 비용. (로봇 구, 사람 형상) 쌍마다 계산해 가장 큰 값을 쓴다
 
 | 매개변수 | 값 | 뜻 |
 |---|---|---|
