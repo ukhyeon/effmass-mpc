@@ -45,7 +45,7 @@
 ```
 
 ```math
-\eta = \operatorname{clamp}\left(d_{\text{base}} + k_{\text{gain}} \max\left(\sqrt{\mu / \mu_{\text{iso}}} - 1,\ 0\right),\ d_{\text{base}},\ \eta_{\max}\right)
+\eta = \mathrm{clamp}\left(d_{\text{base}} + k_{\text{gain}} \max\left(\sqrt{\mu / \mu_{\text{iso}}} - 1,\ 0\right),\ d_{\text{base}},\ \eta_{\max}\right)
 ```
 
 ```math
