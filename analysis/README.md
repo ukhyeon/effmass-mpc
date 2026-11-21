@@ -58,7 +58,7 @@
 
 **조건.** 앞으로 뻗은 오른팔 정지 자세, 로봇은 질량 4.6 kg 의 점으로 계산, 팔 표면 법선 방향 두께. 구역 계산이며 MPC 실행이 아니다.
 
-자세가 달라 값이 다르다: 여기 20.0 cm 는 앞으로 뻗은 정지 자세이고, [README.md 2절](../README.md#2-핵심-아이디어) 의 16.7 cm 는 녹화된 편 팔이다.
+자세가 달라 값이 다르다: 여기 20.0 cm 는 앞으로 뻗은 정지 자세이고, [field/README.md 방향별 구역 두께](field/README.md#방향별-구역-두께-readme-에서-옮김) 의 16.7 cm 는 녹화된 편 팔이다.
 
 **근거.** `goal1/logs/meff_isaac/v2_thickness.json`, `goal1/public_draft/analysis_remake/figures/elbow_angle_zone.json`(제안의 손끝 앞), `goal1/logs/meff_isaac/v1_zone.json`(8번 4항의 균일 16.5 cm)
 
