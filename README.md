@@ -1,6 +1,6 @@
 > **English summary.** Human-avoidance MPC (GPU MPPI, NVIDIA GPU MPC library) for a Franka FR3 in Isaac Sim. Two methods use the same MPC and the same cost (a clearance zone plus a risk field) and differ only in how thick the clearance zone is: **uniform avoidance** (the same in every direction) and **effective-mass avoidance** (thicker where the human's directional effective mass is large).
 > **Result.** Head-on fingertip (simulation, median of 6 runs, uniform → effective-mass): min clearance 8.1 → 15.5 cm, avoidance onset 13.5 → 19.1 cm. Head-on, where the human's effective mass is large, effective-mass avoidance keeps much more distance and starts avoiding earlier; from the side or above, the two methods stay close.
-> These are simulation results; the real-robot comparison is in effmass-mpc-franka. This repository does not run on its own (see 4).
+> These are simulation results; the real-robot setup is in [effmass-mpc-franka](https://github.com/ukhyeon/effmass-mpc-franka). This repository does not run on its own (see 4).
 
 # effmass-mpc: 유효질량으로 이격 구역을 바꾸는 사람 회피 MPC
 
@@ -109,7 +109,7 @@ media/                         이전 대표 GIF
 
 ## 6. 한계
 
-1. 시뮬레이션 비교다. 실물 비교는 effmass-mpc-franka 에서 다룬다.
+1. 시뮬레이션 비교다. 실물 비교는 [effmass-mpc-franka](https://github.com/ukhyeon/effmass-mpc-franka) 에서 다룬다.
 2. 정지 자세와 녹화 한 번(사람 한 명)의 자세 범위에서 얻은 결과다.
 3. 속도 상한은 설계값이며 표준 준수 주장이 아니다.
 4. 목표가 위험 필드 안에 있으면 로봇이 목표 직전에 멈출 수 있다.
@@ -118,7 +118,7 @@ media/                         이전 대표 GIF
 
 ## 7. 관련 저장소와 참고문헌
 
-- effmass-mpc-franka: 실물 Franka FR3 구성과 실물 비교 (준비 중)
+- [effmass-mpc-franka](https://github.com/ukhyeon/effmass-mpc-franka): 실물 Franka FR3 구성(메인 PC 코드, 실시간 데모)
 - [human-robot-safety-system](https://github.com/ukhyeon/human-robot-safety-system): 석사 연구. SMPL 기반 개인별·방향별 사람 유효질량을 실시간으로 추정해 Indy7 의 충돌 위험 평가와 속도 조절에 적용했다. 이 저장소의 사람 유효질량 계산은 여기서 이어진다.
 - [franka-depth-mppi](https://github.com/ukhyeon/franka-depth-mppi): Isaac Sim Franka 의 MPPI 에 손 근접 비용을 더하고, 가정한 손 유효질량에 따라 활성 거리를 바꿔 비교했다. 비용 채널 구조는 여기서 이어진다.
 
